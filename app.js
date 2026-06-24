@@ -35,15 +35,29 @@
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function typeMeta(t) { return D.types[t] || D.types.Article; }
   function rec(id) { for (var i = 0; i < D.records.length; i++) if (D.records[i].id === id) return D.records[i]; return null; }
+  var OPENSTAX_CH = {
+    'soc-intro': 'https://openstax.org/books/introduction-sociology-3e/pages/1-introduction',
+    'soc-research': 'https://openstax.org/books/introduction-sociology-3e/pages/2-introduction',
+    'soc-socialization': 'https://openstax.org/books/introduction-sociology-3e/pages/5-introduction',
+    'soc-stratification': 'https://openstax.org/books/introduction-sociology-3e/pages/9-introduction',
+    'soc-family': 'https://openstax.org/books/introduction-sociology-3e/pages/14-introduction',
+    'anth-culture': 'https://openstax.org/books/introduction-anthropology/pages/3-introduction',
+    'psy-intro': 'https://openstax.org/books/psychology-2e/pages/1-introduction',
+    'psy-social': 'https://openstax.org/books/psychology-2e/pages/12-introduction'
+  };
+  // Only free, openly accessible readings get a public link. Copyrighted or
+  // library readings (access 'verified' or 'library') are reached through
+  // Blackboard or the Seneca Library, never linked or hosted here (copyright).
   function readUrl(r) {
-    if (r.url) return r.url;
-    if (r.doi) return 'https://doi.org/' + r.doi;
-    if (r.access === 'openstax') {
-      if (r.authors.indexOf('Sociology') >= 0) return 'https://openstax.org/details/books/introduction-sociology-3e';
-      if (r.authors.indexOf('Anthropology') >= 0) return 'https://openstax.org/details/books/introduction-anthropology';
-      if (r.authors.indexOf('Psychology') >= 0) return 'https://openstax.org/details/books/psychology-2e';
-    }
+    if (r.access === 'openstax') return OPENSTAX_CH[r.id] || 'https://openstax.org/';
+    if (r.access === 'open') return r.url || (r.doi ? 'https://doi.org/' + r.doi : null);
     return null;
+  }
+  function accessNote(r) {
+    if (r.access === 'openstax') return 'Free and open on OpenStax. Opens in a new tab.';
+    if (r.access === 'open') return 'Open access. Opens in a new tab.';
+    if (r.access === 'library') return 'A licensed reading. Read it through the Seneca Library, and in this week\'s Readings folder on Blackboard.';
+    return 'Posted in this week\'s Readings folder on Blackboard.';
   }
   function eyeLabel(r) { return r.eye === 'indigenous' ? 'Indigenous-scholar reading' : 'Western reading'; }
   function weekTitle(n) { return (D.weeks && D.weeks[n]) ? D.weeks[n] : ''; }
@@ -318,6 +332,7 @@
       + '<aside class="soc-rail" style="position:sticky;top:84px;display:flex;flex-direction:column;gap:14px">'
       + '<div style="background:#fff;border:1px solid #DEE3EA;border-radius:14px;padding:18px;box-shadow:0 1px 2px rgba(21,23,28,.04)">'
       + '<button onclick="SOC.read(\'' + r.id + '\')" aria-label="' + (hasLink ? 'Open the reading in a new tab' : 'Find this reading on Blackboard') + '" style="width:100%;background:var(--red);color:#fff;border:none;border-radius:9px;padding:13px;font-size:1rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:9px">' + (hasLink ? 'Open the reading' : 'Find this on Blackboard') + '<span style="display:flex">' + ic('external', 16) + '</span></button>'
+      + '<div style="font-size:.75rem;line-height:1.4;color:#6B7280;margin:-2px 0 9px;text-align:center">' + esc(accessNote(r)) + '</div>'
       + '<button onclick="SOC.compare(\'' + r.id + '\')" style="width:100%;display:inline-flex;align-items:center;justify-content:center;gap:7px;border-radius:9px;padding:11px;font-size:.9375rem;font-weight:600;border:1px solid ' + (inC ? '#bcd0f2' : '#DEE3EA') + ';background:' + (inC ? '#E7EEFB' : '#fff') + ';color:' + (inC ? '#1552D8' : '#15171C') + '">' + ic('columns', 16) + (inC ? 'In tray' : 'Compare') + '</button>'
       + '</div>'
       + '<div style="background:#fff;border:1px solid #DEE3EA;border-radius:14px;padding:6px 18px;box-shadow:0 1px 2px rgba(21,23,28,.04)">' + facts + '</div>'
@@ -422,7 +437,7 @@
     clearCompare: function () { state.compareIds = []; state.showSynthesis = false; render(); },
     synthesize: function () { state.showSynthesis = true; render(); },
     hideSynthesis: function () { state.showSynthesis = false; render(); },
-    read: function (id) { var r = rec(id); var u = r && readUrl(r); if (u) { window.open(u, '_blank', 'noopener'); } else { flash('Find this reading on Blackboard or in the OpenStax book.'); } },
+    read: function (id) { var r = rec(id); var u = r && readUrl(r); if (u) { window.open(u, '_blank', 'noopener'); } else { flash('Find this in this week\'s Readings folder on Blackboard.'); } },
     openSaved: function () { state.screen = 'library'; state.activeTypes = []; state.activeWeek = null; state.search = ''; state.savedView = state.saved.length > 0; flash(state.saved.length ? 'Your saved shelf.' : 'Nothing saved yet. Tap the bookmark on any reading.'); topScroll(); },
   };
 
