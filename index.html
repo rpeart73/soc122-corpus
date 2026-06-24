@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOC122 Corpus: the course source library</title>
+<meta name="description" content="The reading room for SOC122 Introduction to the Social Sciences at Seneca Polytechnic. Search, compare, and follow how the course's readings connect. A companion to Blackboard.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2A4A; --red:#DA291C; --red-dark:#961A13; --amber:#F2A900; --page:#F7F8FA; --surface:#fff;
+    --surface-alt:#FBFCFD; --soft:#EEF1F5; --border:#DEE3EA; --border-hover:#C9D1DC;
+    --ink:#15171C; --ink-dim:#474C57; --ink-faint:#6B7280; --focus:#1552D8;
+    --sans:'IBM Plex Sans',ui-sans-serif,system-ui,'Segoe UI',Arial,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,'Cascadia Code',Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--page);color:var(--ink);-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer}
+  input{font-family:inherit}
+  ::selection{background:#FCEFD2}
+  *:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:4px}
+  a{color:#0b4fc0}
+  .mono{font-family:var(--mono)}
+  .skip{position:absolute;left:-999px;top:0;background:var(--ink);color:#fff;padding:10px 16px;z-index:200;border-radius:0 0 8px 0}
+  .skip:focus{left:0}
+  .vh{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  .soc-weekstrip{display:none}
+  @keyframes riseUp{from{transform:translateY(8px);opacity:.4}to{transform:translateY(0);opacity:1}}
+  .rise{animation:riseUp .26s ease both}
+  .scrollarea::-webkit-scrollbar{width:10px;height:10px}
+  .scrollarea::-webkit-scrollbar-thumb{background:var(--border);border-radius:8px;border:3px solid var(--page)}
+  .hshelf::-webkit-scrollbar{height:9px}
+  .hshelf::-webkit-scrollbar-thumb{background:var(--border);border-radius:8px}
+  /* hover states (prototype used a custom style-hover; here as classes) */
+  .card{transition:box-shadow .15s ease,border-color .15s ease}
+  .card:hover{box-shadow:0 6px 18px rgba(27,42,74,.12);border-color:var(--border-hover)}
+  .idxrow:hover{background:var(--surface-alt)}
+  .relrow{transition:box-shadow .15s ease,border-color .15s ease}
+  .relrow:hover{border-color:var(--border-hover);box-shadow:0 3px 10px rgba(27,42,74,.08)}
+  .mapsrc:hover{background:var(--page)}
+  .addtile:hover{border-color:var(--navy)!important;color:var(--navy)!important}
+  .pickchip:hover{border-color:var(--navy)!important}
+  .removebtn:hover{color:var(--red)!important}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+  @media (max-width:760px){
+    .soc-sidebar{display:none!important}
+    .soc-detailgrid{grid-template-columns:1fr!important}
+    .soc-rail{position:static!important}
+    .soc-pickbox{max-height:none!important}
+    .soc-weekstrip{display:flex!important}
+  }
+  @media (max-width:480px){
+    .soc-cardgrid{grid-template-columns:1fr!important}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#soc-main">Skip to the library</a>
+<div id="app"></div>
+<div id="soc-live" role="status" aria-live="polite" class="skip"></div>
+<script src="./data/corpus-data.js?v=14"></script>
+<script src="./app.js?v=14"></script>
+</body>
+</html>
