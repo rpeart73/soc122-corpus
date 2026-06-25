@@ -39,8 +39,14 @@
   .idxrow:hover{background:var(--surface-alt)}
   .relrow{transition:box-shadow .15s ease,border-color .15s ease}
   .relrow:hover{border-color:var(--border-hover);box-shadow:0 3px 10px rgba(27,42,74,.08)}
-  .flipcard{transition:box-shadow .15s ease,border-color .15s ease}
-  .flipcard:hover{border-color:var(--border-hover);box-shadow:0 6px 18px rgba(27,42,74,.12)}
+  .flip{perspective:1200px;height:214px;border:none;background:none;padding:0;display:block;width:100%;text-align:left;cursor:pointer}
+  .flip-inner{position:relative;display:block;width:100%;height:100%;transition:transform .55s cubic-bezier(.2,.7,.2,1);transform-style:preserve-3d}
+  .flip.flipped .flip-inner{transform:rotateY(180deg)}
+  .flip-face{position:absolute;inset:0;display:flex;flex-direction:column;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid var(--border);border-radius:14px;padding:17px 18px;overflow:auto;box-shadow:0 1px 2px rgba(21,23,28,.04)}
+  .flip-front{background:#fff}
+  .flip-back{background:#1B2A4A;color:#fff;transform:rotateY(180deg)}
+  .flip:hover .flip-front{border-color:var(--border-hover);box-shadow:0 6px 18px rgba(27,42,74,.12)}
+  @media (prefers-reduced-motion:reduce){.flip-inner{transition:none}}
   .mapsrc:hover{background:var(--page)}
   .addtile:hover{border-color:var(--navy)!important;color:var(--navy)!important}
   .pickchip:hover{border-color:var(--navy)!important}
@@ -62,7 +68,7 @@
 <a class="skip" href="#soc-main">Skip to the library</a>
 <div id="app"></div>
 <div id="soc-live" role="status" aria-live="polite" class="skip"></div>
-<script src="./data/corpus-data.js?v=17"></script>
-<script src="./app.js?v=17"></script>
+<script src="./data/corpus-data.js?v=18"></script>
+<script src="./app.js?v=18"></script>
 </body>
 </html>

@@ -433,19 +433,22 @@
   }
 
   function card(r) {
-    var tm = typeMeta(r.type);
-    return '<button class="flipcard" data-on="0" onclick="SOC.flip(this)" aria-label="Self-check card: ' + esc(r.title) + '. Activate to reveal the core idea." style="position:relative;text-align:left;background:#fff;border:1px solid #DEE3EA;border-radius:14px;padding:0;overflow:hidden;box-shadow:0 1px 2px rgba(21,23,28,.04);display:block">'
-      + '<span class="flipfront" style="display:flex;flex-direction:column;min-height:190px;padding:18px 19px">'
-      + '<span style="display:flex;align-items:center;gap:8px;margin-bottom:12px">' + eyePill(r) + '<span class="mono" style="font-size:.6875rem;color:#8a909c;margin-left:auto">WEEK ' + r.week + '</span></span>'
-      + '<span class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:' + tm.color + ';margin-bottom:6px">RECALL</span>'
-      + '<span style="font-size:1.0625rem;font-weight:600;line-height:1.3;color:#15171C">' + esc(r.title) + '</span>'
-      + '<span style="font-size:.8125rem;color:#474C57;margin-top:6px">' + esc(r.authors) + '</span>'
-      + '<span style="margin-top:auto;padding-top:14px;font-size:.8125rem;color:#1552D8;font-weight:600">Reveal the core idea &rarr;</span></span>'
-      + '<span class="flipback" style="display:none;flex-direction:column;min-height:190px;padding:18px 19px;background:#1B2A4A;color:#fff">'
+    var tm = typeMeta(r.type), topic = weekTitle(r.week);
+    return '<button class="flip" onclick="SOC.flip(this)" aria-label="Self-check for the Week ' + r.week + ' reading by ' + esc(r.authors) + '. Activate to reveal the core idea.">'
+      + '<span class="flip-inner">'
+      + '<span class="flip-face flip-front">'
+      + '<span style="display:flex;align-items:center;gap:8px;margin-bottom:11px">' + eyePill(r) + '<span class="mono" style="font-size:.6875rem;color:#8a909c;margin-left:auto">WEEK ' + r.week + '</span></span>'
+      + '<span class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:' + tm.color + ';margin-bottom:6px">RECALL THE CORE IDEA</span>'
+      + '<span style="font-size:1.0625rem;font-weight:600;line-height:1.3;color:#15171C">' + esc(topic) + '</span>'
+      + '<span style="font-size:.8125rem;color:#474C57;margin-top:5px">' + esc(r.authors) + '</span>'
+      + '<span style="margin-top:auto;padding-top:12px;font-size:.8125rem;color:#1552D8;font-weight:600">Tap to reveal &rarr;</span>'
+      + '</span>'
+      + '<span class="flip-face flip-back">'
       + '<span class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:#F2A900;margin-bottom:8px">THE CORE IDEA</span>'
-      + '<span style="font-size:1rem;line-height:1.5;font-weight:500">' + esc(r.coreIdea) + '</span>'
-      + '<span style="margin-top:auto;padding-top:14px;font-size:.8125rem;color:rgba(255,255,255,.7)">&larr; Back to the prompt</span></span>'
-      + '</button>';
+      + '<span style="font-size:.9375rem;line-height:1.5;font-weight:500">' + esc(r.coreIdea) + '</span>'
+      + '<span style="margin-top:auto;padding-top:10px;font-size:.75rem;color:rgba(255,255,255,.66)">from ' + esc(r.title) + '</span>'
+      + '</span>'
+      + '</span></button>';
   }
 
   function cardsScreen() {
@@ -513,7 +516,7 @@
     read: function (id) { var r = rec(id); var u = r && readUrl(r); if (u) { window.open(u, '_blank', 'noopener'); } else { flash('Find this in this week\'s Readings folder on Blackboard.'); } },
     openSaved: function () { state.screen = 'library'; state.activeTypes = []; state.activeWeek = null; state.search = ''; state.savedView = state.saved.length > 0; flash(state.saved.length ? 'Your saved shelf.' : 'Nothing saved yet. Tap the bookmark on any reading.'); topScroll(); },
     cardWeek: function (v) { state.cardWeek = (v === '' ? null : parseInt(v, 10)); render(); },
-    flip: function (el) { var c = el && (el.classList && el.classList.contains('flipcard') ? el : (el.closest ? el.closest('.flipcard') : null)); if (!c) return; var on = c.getAttribute('data-on') === '1'; c.setAttribute('data-on', on ? '0' : '1'); var f = c.querySelector('.flipfront'), b = c.querySelector('.flipback'); if (f) f.style.display = on ? 'flex' : 'none'; if (b) b.style.display = on ? 'none' : 'flex'; },
+    flip: function (el) { var c = el && (el.classList && el.classList.contains('flip') ? el : (el.closest ? el.closest('.flip') : null)); if (c) c.classList.toggle('flipped'); },
   };
 
   render();
