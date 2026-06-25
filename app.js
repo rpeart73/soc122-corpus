@@ -28,6 +28,7 @@
     showSynthesis: false,
     libScroll: 0,
     toast: null,
+    cardWeek: null,
   };
   var refocusSearch = false, focusTarget = null, toastTimer = null;
 
@@ -210,7 +211,7 @@
   }
   function sidebar() {
     var s = state;
-    var navDefs = [['library', 'Library', 'grid'], ['compare', 'Compare', 'columns']];
+    var navDefs = [['library', 'Library', 'grid'], ['glossary', 'Glossary & Thinkers', 'book'], ['cards', 'Self-check', 'clipboard'], ['compare', 'Compare', 'columns']];
     var nav = navDefs.map(function (d) {
       var key = d[0], active = (key === 'library' && (s.screen === 'library' || s.screen === 'detail')) || s.screen === key;
       var badge = '';
@@ -392,10 +393,82 @@
     return html + '</div>';
   }
 
+  /* ---------- glossary & thinkers + self-check (shared learning tools) ---------- */
+  var GLOSS = [
+    { term: 'Social science', def: 'The study of human life, behaviour, and society through systematic observation and evidence.' },
+    { term: 'The sociological imagination', def: 'Seeing private troubles as connected to larger public patterns and history (C. Wright Mills).' },
+    { term: 'Sociology', def: 'Looks at how groups, institutions, and social patterns shape the lives of individuals.' },
+    { term: 'Anthropology', def: 'Studies human culture and what it means to be human across societies and across time.' },
+    { term: 'Psychology', def: 'Studies the mind and behaviour: how people think, feel, learn, develop, and act.' },
+    { term: 'Research methods', def: 'The systematic ways social scientists gather and weigh evidence, from surveys and experiments to fieldwork.' },
+    { term: 'The family', def: 'A core social institution: how kinship and households are organized, and how they change over time.' },
+    { term: 'Two-Eyed Seeing (Etuaptmumk)', def: 'Mi\'kmaw Elders Albert and Murdena Marshall\'s idea of learning to see with the strengths of Indigenous knowledge in one eye and Western science in the other, and using both together.' },
+    { term: 'Indigenous knowledge', def: 'Knowledge grounded in the lived relationships, languages, lands, and stories of Indigenous peoples, carried and renewed across generations.' },
+  ];
+
+  function glossaryScreen() {
+    var thinkers = D.records.filter(function (r) { return r.authors.indexOf('OpenStax') < 0; })
+      .sort(function (a, b) { return a.week - b.week; });
+    var keyHTML = GLOSS.map(function (g) {
+      return '<div style="padding:13px 0;border-bottom:1px solid #EEF1F5"><div style="font-size:.9375rem;font-weight:600;color:#15171C;margin-bottom:3px">' + esc(g.term) + '</div><div style="font-size:.875rem;line-height:1.5;color:#474C57">' + esc(g.def) + '</div></div>';
+    }).join('');
+    var thinkHTML = thinkers.map(function (r) {
+      var tm = typeMeta(r.type);
+      return '<button onclick="SOC.open(\'' + r.id + '\')" class="relrow" style="display:flex;align-items:flex-start;gap:13px;text-align:left;background:#fff;border:1px solid #DEE3EA;border-radius:12px;padding:14px 15px;width:100%">'
+        + '<span style="display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;background:' + tm.soft + ';color:' + tm.color + ';flex:none;margin-top:2px">' + ic('eye', 16) + '</span>'
+        + '<span style="flex:1;min-width:0"><span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">' + eyePill(r) + '<span class="mono" style="font-size:.6875rem;color:#8a909c">Week ' + r.week + '</span></span>'
+        + '<span style="display:block;font-size:.9375rem;font-weight:600;color:#15171C">' + esc(r.authors) + '</span>'
+        + '<span style="display:block;font-size:.8125rem;color:#474C57;margin:2px 0 6px">' + esc(r.title) + '</span>'
+        + '<span style="display:block;font-size:.875rem;line-height:1.5;color:#15171C">' + esc(r.coreIdea) + '</span></span>'
+        + '<span style="display:flex;color:#C9D1DC;flex:none;margin-top:2px">' + ic('chevron', 18) + '</span></button>';
+    }).join('');
+    return '<div class="rise">'
+      + '<div class="mono" style="font-size:.75rem;letter-spacing:.06em;color:#8a909c;margin-bottom:8px">REFERENCE</div>'
+      + '<h1 style="font-size:1.75rem;font-weight:600;margin:0 0 8px">Glossary and Thinkers</h1>'
+      + '<p style="font-size:.9375rem;color:#474C57;margin:0 0 22px;max-width:70ch">The course\'s key ideas in plain words, and the scholars behind the readings. Built on the Two-Eyed Seeing frame: Indigenous and Western knowledge held side by side.</p>'
+      + '<div class="soc-detailgrid" style="display:grid;grid-template-columns:1fr 320px;gap:26px;align-items:start">'
+      + '<div><div class="mono" style="font-size:.75rem;letter-spacing:.04em;color:#8a909c;margin-bottom:10px">THINKERS IN THE CORPUS</div><div style="display:flex;flex-direction:column;gap:10px">' + thinkHTML + '</div></div>'
+      + '<aside class="soc-rail" style="position:sticky;top:84px"><div style="background:#fff;border:1px solid #DEE3EA;border-radius:14px;padding:8px 18px 16px;box-shadow:0 1px 2px rgba(21,23,28,.04)"><div class="mono" style="font-size:.75rem;letter-spacing:.04em;color:#8a909c;margin:12px 0 2px">KEY IDEAS</div>' + keyHTML + '</div></aside>'
+      + '</div></div>';
+  }
+
+  function card(r) {
+    var tm = typeMeta(r.type);
+    return '<button class="flipcard" data-on="0" onclick="SOC.flip(this)" aria-label="Self-check card: ' + esc(r.title) + '. Activate to reveal the core idea." style="position:relative;text-align:left;background:#fff;border:1px solid #DEE3EA;border-radius:14px;padding:0;overflow:hidden;box-shadow:0 1px 2px rgba(21,23,28,.04);display:block">'
+      + '<span class="flipfront" style="display:flex;flex-direction:column;min-height:190px;padding:18px 19px">'
+      + '<span style="display:flex;align-items:center;gap:8px;margin-bottom:12px">' + eyePill(r) + '<span class="mono" style="font-size:.6875rem;color:#8a909c;margin-left:auto">WEEK ' + r.week + '</span></span>'
+      + '<span class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:' + tm.color + ';margin-bottom:6px">RECALL</span>'
+      + '<span style="font-size:1.0625rem;font-weight:600;line-height:1.3;color:#15171C">' + esc(r.title) + '</span>'
+      + '<span style="font-size:.8125rem;color:#474C57;margin-top:6px">' + esc(r.authors) + '</span>'
+      + '<span style="margin-top:auto;padding-top:14px;font-size:.8125rem;color:#1552D8;font-weight:600">Reveal the core idea &rarr;</span></span>'
+      + '<span class="flipback" style="display:none;flex-direction:column;min-height:190px;padding:18px 19px;background:#1B2A4A;color:#fff">'
+      + '<span class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:#F2A900;margin-bottom:8px">THE CORE IDEA</span>'
+      + '<span style="font-size:1rem;line-height:1.5;font-weight:500">' + esc(r.coreIdea) + '</span>'
+      + '<span style="margin-top:auto;padding-top:14px;font-size:.8125rem;color:rgba(255,255,255,.7)">&larr; Back to the prompt</span></span>'
+      + '</button>';
+  }
+
+  function cardsScreen() {
+    var weeks = weeksWithReadings();
+    var sel = state.cardWeek;
+    var list = D.records.filter(function (r) { return sel == null || r.week === sel; })
+      .sort(function (a, b) { return a.week - b.week || (a.eye === b.eye ? 0 : a.eye === 'western' ? -1 : 1); });
+    var opts = '<option value="">All weeks</option>' + weeks.map(function (w) { return '<option value="' + w + '"' + (sel === w ? ' selected' : '') + '>Week ' + w + ': ' + esc(weekTitle(w)) + '</option>'; }).join('');
+    return '<div class="rise">'
+      + '<div class="mono" style="font-size:.75rem;letter-spacing:.06em;color:#8a909c;margin-bottom:8px">SELF-CHECK</div>'
+      + '<h1 style="font-size:1.75rem;font-weight:600;margin:0 0 8px">Recall the core ideas</h1>'
+      + '<p style="font-size:.9375rem;color:#474C57;margin:0 0 18px;max-width:70ch">Read the prompt, put the reading\'s core idea in your own words, then reveal it to check yourself. Private study, never a test.</p>'
+      + '<label for="soc-cardweek" style="font-size:.8125rem;font-weight:600;color:#474C57;display:block;margin-bottom:6px">Show cards for</label>'
+      + '<select id="soc-cardweek" onchange="SOC.cardWeek(this.value)" style="max-width:360px;padding:9px 12px;border:1px solid #DEE3EA;border-radius:9px;background:#fff;font-size:.9375rem;color:#15171C;margin-bottom:20px">' + opts + '</select>'
+      + '<div class="soc-cardgrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px">' + list.map(card).join('') + '</div></div>';
+  }
+
   /* ---------- render ---------- */
   function body() {
     if (state.screen === 'detail') return detail();
     if (state.screen === 'compare') return compare();
+    if (state.screen === 'glossary') return glossaryScreen();
+    if (state.screen === 'cards') return cardsScreen();
     return library();
   }
   function render() {
@@ -439,6 +512,8 @@
     hideSynthesis: function () { state.showSynthesis = false; render(); },
     read: function (id) { var r = rec(id); var u = r && readUrl(r); if (u) { window.open(u, '_blank', 'noopener'); } else { flash('Find this in this week\'s Readings folder on Blackboard.'); } },
     openSaved: function () { state.screen = 'library'; state.activeTypes = []; state.activeWeek = null; state.search = ''; state.savedView = state.saved.length > 0; flash(state.saved.length ? 'Your saved shelf.' : 'Nothing saved yet. Tap the bookmark on any reading.'); topScroll(); },
+    cardWeek: function (v) { state.cardWeek = (v === '' ? null : parseInt(v, 10)); render(); },
+    flip: function (el) { var c = el && (el.classList && el.classList.contains('flipcard') ? el : (el.closest ? el.closest('.flipcard') : null)); if (!c) return; var on = c.getAttribute('data-on') === '1'; c.setAttribute('data-on', on ? '0' : '1'); var f = c.querySelector('.flipfront'), b = c.querySelector('.flipback'); if (f) f.style.display = on ? 'flex' : 'none'; if (b) b.style.display = on ? 'none' : 'flex'; },
   };
 
   render();
