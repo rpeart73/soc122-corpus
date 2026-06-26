@@ -12,7 +12,7 @@
 
   var SKEY = 'soc122corpus.v2';
   function load() { try { var o = JSON.parse(localStorage.getItem(SKEY) || '{}'); return o && typeof o === 'object' ? o : {}; } catch (e) { return {}; } }
-  function persist() { try { localStorage.setItem(SKEY, JSON.stringify({ saved: state.saved, layout: state.layout, introOpen: state.introOpen, cmpNotes: state.cmpNotes, rcNotes: state.rcNotes })); } catch (e) {} }
+  function persist() { try { localStorage.setItem(SKEY, JSON.stringify({ saved: state.saved, layout: state.layout, introOpen: state.introOpen, cmpNotes: state.cmpNotes, rcNotes: state.rcNotes, mapNotes: state.mapNotes, mapLayer: state.mapLayer, mapRegion: state.mapRegion })); } catch (e) {} }
   var saved0 = load();
 
   var state = {
@@ -41,6 +41,9 @@
     cardWeek: null,
     glossWeek: 'all',
     glossSearch: '',
+    mapLayer: saved0.mapLayer || 'admin',
+    mapRegion: saved0.mapRegion || 'mikmaki-lawrence',
+    mapNotes: (saved0.mapNotes && typeof saved0.mapNotes === 'object') ? saved0.mapNotes : {},
   };
   var refocusSearch = false, focusTarget = null, toastTimer = null;
 
@@ -219,6 +222,7 @@
   function sidebar() {
     var s = state;
     var navDefs = [['library', 'Home', 'grid'], ['readings', 'Library of Readings', 'gallery'], ['compare', 'Compare Reading Concepts', 'columns'], ['reading', 'Build Your Reading Comprehension', 'book'], ['glossary', 'Glossary & Thinkers', 'book'], ['cards', 'Self-check', 'clipboard']];
+    if (D.course && D.course.frame) navDefs.push(['map', 'Personal Cartography', 'globe']);
     var btns = navDefs.map(function (d) {
       var key = d[0], active = (key === 'library' && (s.screen === 'library' || s.screen === 'detail')) || s.screen === key;
       var badge = '';
@@ -853,6 +857,99 @@
     if (code === 'BFS218') return bfsStudio(sel);
     return '';
   }
+
+  var MAP_CAVEAT = 'This layer is a teaching aid, not a legal or definitive boundary. Regions are anchored in the self-identified nations of the Indigenous scholars assigned this term. For authoritative representations of territories and treaties, consult the Nations themselves and sources such as Native-Land.ca.';
+  var MAP_REGIONS = [
+    { id: 'mikmaki-lawrence', region: "Mi'kma'ki (Atlantic)", admin: 'NS / NB / PEI / NL', nation: "Mi'kmaw", scholar: 'Bonita Lawrence', records: ['lawrence2003'], concept: 'regulation of Native identity; social structure', x: 82, y: 38, check: "Lawrence's account of identity regulation: law turns belonging into a bureaucratic category with gendered and racial effects." },
+    { id: 'mikmaki-learning', region: "Mi'kma'ki (Atlantic)", admin: 'NS', nation: "Mi'kmaw", scholar: 'Marie Battiste; Albert Marshall', records: ['battiste', 'amarshall'], concept: 'learning spirit; Two-Eyed Seeing (Etuaptmumk)', x: 90, y: 50, check: "Battiste and Marshall's account of learning spirit and Two-Eyed Seeing as a whole-person, two-knowledge practice." },
+    { id: 'mikmaki-palmater', region: "Mi'kma'ki (Atlantic)", admin: 'NB', nation: "Mi'kmaw, Eel River Bar", scholar: 'Pamela Palmater', records: ['palmater'], concept: 'poverty produced by law and policy', x: 84, y: 63, check: "Palmater's structural claim that poverty is produced by law and policy, not by culture or individual failure." },
+    { id: 'blackfoot', region: 'Niitsitapi / Blackfoot', admin: 'southern Alberta', nation: 'Blackfoot, Kainai', scholar: 'Leroy Little Bear', records: ['littlebear'], concept: 'worldview difference at the root', x: 31, y: 60, check: "Little Bear's worldview claim: colonial mapping can hide the deeper clash between imposed Western categories and Indigenous worldviews." },
+    { id: 'redriver', region: 'Red River / Metis homeland', admin: 'Manitoba / prairies', nation: 'Red River Metis; Cree-Metis; Metis', scholar: 'Zoe Todd; Kim Anderson; Janet Smylie', records: ['todd2016', 'anderson2019', 'smylie'], concept: 'place and ontology; kinship as work; centring Indigenous knowledge', x: 47, y: 54, check: 'Todd, Anderson, and Smylie keep place, kinship, and Indigenous health tied to relationships and knowledge control.' },
+    { id: 'cree', region: 'Cree territory', admin: 'Sturgeon Lake / prairies-north', nation: 'Cree', scholar: 'Willie Ermine', records: ['ermine'], concept: 'ethical space', x: 49, y: 36, check: "Ermine's ethical space: the meeting place has to be negotiated, not governed by one side's rules." },
+    { id: 'anishinaabe', region: 'Anishinaabe', admin: 'Great Lakes', nation: 'Anishinaabe', scholar: 'Amy Bombay', records: ['bombay2014'], concept: 'historical trauma across generations', x: 61, y: 65, check: "Bombay and colleagues' account of historical trauma and community connection across generations." },
+    { id: 'aaniiih', region: 'Aaniiih', admin: 'Montana / medicine-line', nation: 'Aaniiih', scholar: 'Joseph P. Gone', records: ['gone2023'], concept: 'trauma as postcolonial, not individual', x: 36, y: 75, check: "Gone's warning that trauma and health inequities are postcolonial and community-defined, not only individual symptoms." }
+  ];
+  function mapActive() {
+    return firstWhere(MAP_REGIONS, function (m) { return m.id === state.mapRegion; }) || MAP_REGIONS[0];
+  }
+  function mapRecords(m) {
+    return (m.records || []).map(rec).filter(Boolean);
+  }
+  function mapCheck(m) {
+    return {
+      q: 'What is lost if you read this place only through the administrative label?',
+      options: [m.check, 'Nothing important; the administrative label already contains the course concept.', 'Only the spelling of the place name changes.'],
+      answer: 0,
+      why: 'The administrative label can help you locate the anchor, but it does not carry the course concept by itself. The reading is what brings ' + m.concept + ' into view.'
+    };
+  }
+  function mapLayerTitle(m) {
+    return state.mapLayer === 'admin' ? m.admin : m.region;
+  }
+  function mapLayerMeta(m) {
+    return state.mapLayer === 'admin' ? 'Administrative naming' : (m.scholar + ' (' + m.nation + ')');
+  }
+  function mapPoint(m) {
+    var on = state.mapRegion === m.id;
+    var label = mapLayerTitle(m), meta = mapLayerMeta(m);
+    return '<button onclick="SOC.mapPick(\'' + m.id + '\')" aria-pressed="' + (on ? 'true' : 'false') + '" title="' + esc(m.region + ' / ' + m.admin) + '" style="position:absolute;left:' + m.x + '%;top:' + m.y + '%;transform:translate(-50%,-50%);width:138px;min-height:54px;display:flex;flex-direction:column;justify-content:center;gap:3px;text-align:center;border:2px solid ' + (on ? 'var(--red)' : '#DEE3EA') + ';background:' + (on ? '#F6E3E1' : '#fff') + ';color:#15171C;border-radius:10px;padding:7px 8px;box-shadow:0 4px 12px rgba(21,23,28,.10);font-size:.75rem;font-weight:700;line-height:1.18;white-space:normal;z-index:' + (on ? '4' : '2') + '"><span>' + esc(label) + '</span><span style="font-size:.62rem;font-weight:600;color:#6b7280;line-height:1.2">' + esc(meta) + '</span></button>';
+  }
+  function mapVisual() {
+    var adminOn = state.mapLayer === 'admin', indOn = state.mapLayer === 'indigenous';
+    var layerBtns = '<div style="display:flex;gap:4px;background:#EEF1F5;border-radius:9px;padding:4px;align-self:flex-start" role="group" aria-label="Map layer">'
+      + '<button onclick="SOC.mapLayer(\'admin\')" aria-pressed="' + adminOn + '" style="' + segStyle(adminOn) + '">' + ic('grid', 15) + '<span>Administrative</span></button>'
+      + '<button onclick="SOC.mapLayer(\'indigenous\')" aria-pressed="' + indOn + '" style="' + segStyle(indOn) + '">' + ic('eye', 15) + '<span>Indigenous scholar anchors</span></button></div>';
+    return '<section style="background:#fff;border:1px solid #DEE3EA;border-radius:14px;padding:16px 18px;box-shadow:0 1px 2px rgba(21,23,28,.04)">'
+      + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px"><div><div class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:#8a909c;margin-bottom:4px">LAYER TOGGLE</div><h2 style="font-size:1.125rem;margin:0;color:#15171C">One land, two naming systems</h2></div>' + layerBtns + '</div>'
+      + '<div style="overflow:auto;border:1px solid #DEE3EA;border-radius:14px;background:#EEF1F5">'
+      + '<div role="img" aria-label="Teaching map of Canada using approximate reading anchors, not territory boundaries." style="position:relative;min-width:720px;min-height:430px;background:linear-gradient(180deg,#F7FBFF,#EEF1F5);overflow:hidden">'
+      + '<div style="position:absolute;left:4%;right:4%;top:20%;bottom:18%;border-radius:46% 42% 38% 40%;background:#fff;border:1px solid #D6DEE9;box-shadow:inset 0 0 0 1px rgba(255,255,255,.8)"></div>'
+      + '<div class="mono" style="position:absolute;left:20px;top:16px;font-size:.65rem;letter-spacing:.06em;color:#8a909c">PACIFIC</div>'
+      + '<div class="mono" style="position:absolute;right:20px;top:16px;font-size:.65rem;letter-spacing:.06em;color:#8a909c">ATLANTIC</div>'
+      + '<div class="mono" style="position:absolute;left:22px;bottom:17px;font-size:.65rem;letter-spacing:.06em;color:#8a909c">GENERAL READING ANCHORS ONLY</div>'
+      + MAP_REGIONS.map(mapPoint).join('')
+      + '</div></div>'
+      + '<p style="font-size:.78rem;line-height:1.5;color:#6b7280;margin:10px 0 0">The visual marks general reading anchors only. It does not draw, define, or replace territory or treaty boundaries.</p>'
+      + '</section>';
+  }
+  function mapNoteBox(k, label, prompt) {
+    return '<label style="display:block;background:#fff;border:1px solid #DEE3EA;border-radius:12px;padding:13px 15px;margin-bottom:12px"><span class="mono" style="display:block;font-size:.6875rem;letter-spacing:.05em;color:#8a909c;margin-bottom:6px">' + esc(label) + '</span><span style="display:block;font-size:.875rem;line-height:1.45;color:#15171C;margin-bottom:8px">' + esc(prompt) + '</span><textarea oninput="SOC.mapNote(\'' + k + '\',this.value)" style="width:100%;min-height:82px;font:inherit;font-size:.9rem;line-height:1.5;padding:10px 12px;border:1px solid #DEE3EA;border-radius:8px;color:#15171C;background:#fff;resize:vertical">' + esc(state.mapNotes[k] || '') + '</textarea></label>';
+  }
+  function mapReadingRows(m) {
+    return mapRecords(m).map(function (r) {
+      return '<div style="background:#fff;border:1px solid #DEE3EA;border-radius:10px;padding:12px 14px;margin-bottom:9px"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px">' + eyePill(r) + weekTag(r) + '<span class="mono" style="font-size:.6875rem;color:#8a909c">' + esc(String(r.year)) + '</span></div><div style="font-size:.95rem;font-weight:700;color:#15171C;line-height:1.25">' + esc(r.title) + '</div><div style="font-size:.8125rem;color:#474C57;margin:3px 0 7px">' + esc(r.authors) + '</div><p style="font-size:.84rem;line-height:1.5;color:#474C57;margin:0">' + esc(r.coreIdea) + '</p><button onclick="SOC.read(\'' + r.id + '\')" style="margin-top:9px;background:none;border:none;color:#1552D8;font-size:.8125rem;font-weight:700;padding:0">' + readLabel(r) + ' &#8599;</button></div>';
+    }).join('');
+  }
+  function mapDetail() {
+    var m = mapActive();
+    return '<section id="map-detail" style="background:#fff;border:1px solid #DEE3EA;border-radius:14px;padding:16px 18px;box-shadow:0 1px 2px rgba(21,23,28,.04)">'
+      + '<div class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:var(--red);font-weight:600;margin-bottom:6px">SELECTED ANCHOR</div>'
+      + '<h2 style="font-size:1.25rem;line-height:1.25;margin:0 0 6px;color:#15171C">' + esc(m.region) + '</h2>'
+      + '<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px"><span style="font-size:.75rem;font-weight:700;background:#EEF1F5;color:#15171C;border-radius:999px;padding:5px 9px">Administrative: ' + esc(m.admin) + '</span><span style="font-size:.75rem;font-weight:700;background:#E4F0E9;color:#1f4d38;border-radius:999px;padding:5px 9px">' + esc(m.nation) + '</span></div>'
+      + '<div style="font-size:.875rem;line-height:1.55;color:#474C57;margin-bottom:11px"><strong>Scholar anchor:</strong> ' + esc(m.scholar) + '<br><strong>Concept:</strong> ' + esc(m.concept) + '</div>'
+      + mapReadingRows(m)
+      + studioCheck('SOC122|map|' + m.id, mapCheck(m))
+      + '<div style="margin-top:14px"><button onclick="SOC.saveMap()" style="background:var(--red);border:none;color:#fff;border-radius:9px;padding:9px 16px;font-size:.875rem;font-weight:600;cursor:pointer">Save to Personal Cartography (.docx)</button></div>'
+      + '</section>';
+  }
+  function mapFallbackTable() {
+    var rows = MAP_REGIONS.map(function (m) {
+      return '<tr><td style="padding:10px 12px;border-top:1px solid #EEF1F5">' + esc(m.region) + '</td><td style="padding:10px 12px;border-top:1px solid #EEF1F5">' + esc(m.admin) + '</td><td style="padding:10px 12px;border-top:1px solid #EEF1F5">' + esc(m.scholar + ' (' + m.nation + ')') + '</td><td style="padding:10px 12px;border-top:1px solid #EEF1F5">' + esc(m.concept) + '</td><td style="padding:10px 12px;border-top:1px solid #EEF1F5"><button onclick="SOC.mapPick(\'' + m.id + '\')" style="background:#fff;border:1px solid #DEE3EA;color:#15171C;border-radius:8px;padding:6px 10px;font-size:.8125rem;font-weight:700">Choose</button></td></tr>';
+    }).join('');
+    return '<section style="background:#fff;border:1px solid #DEE3EA;border-radius:14px;margin-top:18px;overflow:hidden;box-shadow:0 1px 2px rgba(21,23,28,.04)"><div style="padding:14px 16px;border-bottom:1px solid #EEF1F5"><div class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:#8a909c;margin-bottom:4px">ACCESSIBLE TABLE</div><h2 style="font-size:1.0625rem;margin:0;color:#15171C">Same anchors without the visual</h2></div><div style="overflow:auto"><table style="width:100%;min-width:820px;border-collapse:collapse;font-size:.84rem;color:#15171C"><thead><tr style="text-align:left;background:#F7F8FA"><th style="padding:10px 12px">Indigenous layer</th><th style="padding:10px 12px">Administrative layer</th><th style="padding:10px 12px">Scholar anchor</th><th style="padding:10px 12px">Concept</th><th style="padding:10px 12px">Action</th></tr></thead><tbody>' + rows + '</tbody></table></div></section>';
+  }
+  function mapScreen() {
+    return '<div class="rise">'
+      + '<div class="mono" style="font-size:.75rem;letter-spacing:.06em;color:var(--red);font-weight:600;margin-bottom:8px">PERSONAL CARTOGRAPHY</div>'
+      + '<h1 style="font-size:1.75rem;line-height:1.2;font-weight:600;margin:0 0 8px;color:#15171C">Map the reading, then map your responsibility.</h1>'
+      + '<p style="font-size:.9375rem;line-height:1.55;color:#474C57;margin:0 0 14px;max-width:78ch">Switch between administrative naming and Indigenous scholar anchors. Choose a region, open the reading, answer the quick check, and save your notes into the Personal Cartography file.</p>'
+      + '<div style="display:flex;align-items:flex-start;gap:10px;background:#FCEFD2;border:1px solid #E6C878;border-radius:12px;padding:12px 15px;margin:0 0 18px;color:#59410B;font-size:.85rem;line-height:1.5"><span style="display:flex;flex:none;color:#8F5E0F;margin-top:1px">' + ic('layers', 16) + '</span><span>' + esc(MAP_CAVEAT) + '</span></div>'
+      + '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;align-items:start">'
+      + '<aside>' + mapNoteBox('predict', 'PREDICT', 'Before toggling, name one thing you expect the administrative map to leave out.') + mapNoteBox('apply', 'APPLY', 'After choosing an anchor, what changes when you read this place through the scholar and concept, not only through the administrative label?') + '</aside>'
+      + '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;align-items:start">' + mapVisual() + mapDetail() + '</div></div>'
+      + mapFallbackTable()
+      + '</div>';
+  }
   function cardsScreen() {
     var weeks = weeksWithReadings();
     var sel = state.cardWeek;
@@ -879,6 +976,7 @@
     if (state.screen === 'reading') return homeBar() + readingComp();
     if (state.screen === 'glossary') return homeBar() + glossaryScreen();
     if (state.screen === 'cards') return homeBar() + cardsScreen();
+    if (state.screen === 'map' && D.course && D.course.frame) return homeBar() + mapScreen();
     return library();
   }
   function render() {
@@ -1011,6 +1109,40 @@
       } else { flash('Self-Check Studio save is for the course sites.'); return; }
       if (sel !== undefined && sel !== null) sections.push({ h: 'Quick check', t: 'Q: ' + checkQ + '\nYour answer was ' + (sel === 0 ? 'the grounded one. Correct.' : 'not the grounded one. Look again at what the reading actually claims.') });
       senecaDoc(cc || 'Course', 'Self-Check Studio', sub, sections, (cc || 'Course') + '_self_check_studio');
+    },
+    mapLayer: function (layer) {
+      var m = document.getElementById('soc-main'), top = m ? m.scrollTop : 0;
+      state.mapLayer = layer === 'indigenous' ? 'indigenous' : 'admin';
+      persist();
+      render();
+      var m2 = document.getElementById('soc-main'); if (m2) m2.scrollTop = top;
+    },
+    mapPick: function (id) {
+      state.mapRegion = id;
+      persist();
+      focusTarget = 'map-detail';
+      render();
+    },
+    mapNote: function (k, v) {
+      state.mapNotes[k] = v;
+      persist();
+    },
+    saveMap: function () {
+      var m = mapActive(), rs = mapRecords(m), key = 'SOC122|map|' + m.id, check = mapCheck(m), sel = state.mcSel[key];
+      var quick = 'Not answered yet.';
+      if (sel !== undefined && sel !== null) {
+        quick = 'Q: ' + check.q + '\nYour answer: ' + (check.options[sel] || '') + '\n' + (sel === check.answer ? 'Correct.' : 'Not quite. The grounded answer is: ' + (check.options[check.answer] || '') + '.') + '\n' + check.why;
+      }
+      var readings = rs.map(function (r) { return 'Week ' + r.week + ': ' + r.title + ' by ' + r.authors + ' (' + r.year + ')\n' + r.coreIdea; }).join('\n\n');
+      var sections = [
+        { h: 'Caveat', t: MAP_CAVEAT },
+        { h: 'Prediction before toggling', t: (state.mapNotes.predict || '').trim() },
+        { h: 'Selected anchor', t: 'Indigenous layer: ' + m.region + '\nAdministrative layer: ' + m.admin + '\nScholar anchor: ' + m.scholar + ' (' + m.nation + ')\nConcept: ' + m.concept },
+        { h: 'Readings connected to this anchor', t: readings },
+        { h: 'Quick check', t: quick },
+        { h: 'Personal Cartography application', t: (state.mapNotes.apply || '').trim() }
+      ];
+      senecaDoc('SOC122', 'Personal Cartography Workspace', ['SOC122 Introduction to the Social Sciences', 'Selected anchor: ' + m.region], sections, 'SOC122_personal_cartography_workspace');
     },
     read: function (id) { var r = rec(id); var u = r && readUrl(r); if (u) { window.open(u, '_blank', 'noopener'); } else { state.screen = 'detail'; state.detailId = id; focusTarget = 'soc-main'; render(); topScroll(); } },
     openSaved: function () { state.screen = 'library'; state.activeTypes = []; state.activeWeek = null; state.search = ''; state.savedView = state.saved.length > 0; flash(state.saved.length ? 'Your saved shelf.' : 'Nothing saved yet. Tap the bookmark on any reading.'); topScroll(); },
