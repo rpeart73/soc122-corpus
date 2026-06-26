@@ -483,7 +483,8 @@
           var mark = (done && isCor) ? ' &#10003;' : ((done && isSel) ? ' &#10007;' : '');
           return '<button onclick="SOC.mcPick(\'' + mkey + '\',' + oi + ')" style="display:block;width:100%;text-align:left;border:1px solid ' + bd + ';background:' + bg + ';color:' + col + ';border-radius:8px;padding:9px 12px;margin-bottom:7px;font-size:.9rem;font-weight:500">' + esc(o) + mark + '</button>';
         }).join('');
-        var why = done ? '<p style="margin:3px 0 0;font-size:.82rem;color:#474C57">' + (sel === m.answer ? 'Correct. ' : 'Not quite. ') + esc(m.why || '') + '</p>' : '';
+        var ok = (sel === m.answer);
+        var why = done ? '<div style="margin:9px 0 0;padding:10px 13px;border-radius:9px;background:' + (ok ? '#E9EFE7' : '#FBE9E7') + ';border:1px solid ' + (ok ? '#9CC4A8' : '#E5A9A2') + '"><span style="display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.9rem;color:' + (ok ? '#2c6b3f' : '#b23121') + '">' + (ok ? ic('check', 15, 2.4) + 'Correct' : ic('x', 15, 2.4) + 'Not quite') + '</span><div style="margin-top:4px;font-size:.85rem;line-height:1.5;color:#474C57">' + esc(m.why || '') + '</div></div>' : '';
         return '<div style="background:#fff;border:1px solid #DEE3EA;border-radius:12px;padding:15px 17px;margin-bottom:11px"><p style="margin:0 0 9px;font-size:.95rem;font-weight:600;color:#15171C">' + (mi + 1) + '. ' + esc(m.q) + '</p>' + opts + why + '</div>';
       }).join('');
       var score = answered
@@ -647,13 +648,23 @@
 
   /* ---------- actions ---------- */
   function flash(msg) { clearTimeout(toastTimer); var lr = document.getElementById('soc-live'); if (lr) { lr.textContent = ''; setTimeout(function () { lr.textContent = msg; }, 30); } state.toast = msg; render(); toastTimer = setTimeout(function () { state.toast = null; render(); }, 2200); }
-  function senecaDoc(course, title, sub, body, fn) {
-    var html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>' + esc(title) + '</title><style>'
-      + '@page{margin:1in} body{font-family:"IBM Plex Sans",Calibri,Arial,sans-serif;color:#15171C;font-size:11pt;line-height:1.5}'
-      + '.eyebrow{color:#DA291C;font-weight:bold;letter-spacing:1pt;font-size:9pt;margin:0} h1{color:#DA291C;font-size:18pt;margin:2pt 0 2pt} .sub{color:#474C57;margin:0 0 12pt;font-size:10pt;border-bottom:1pt solid #DEE3EA;padding-bottom:8pt}'
-      + '</style></head><body><p class="eyebrow">SENECA POLYTECHNIC &middot; ' + esc(course) + '</p><h1>' + esc(title) + '</h1><p class="sub">' + sub + '</p>' + body + '</body></html>';
-    var blob = new Blob(['﻿' + html], { type: 'application/msword' });
-    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = fn + '.doc';
+  /* ---- real .docx (OOXML, dependency-free) ---- */
+  function dxEsc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]; }); }
+  function dxRun(text, opt) { opt = opt || {}; var rpr = '<w:rPr>'; if (opt.bold) rpr += '<w:b/>'; if (opt.color) rpr += '<w:color w:val="' + opt.color + '"/>'; if (opt.size) rpr += '<w:sz w:val="' + opt.size + '"/><w:szCs w:val="' + opt.size + '"/>'; rpr += '<w:rFonts w:ascii="IBM Plex Sans" w:hAnsi="IBM Plex Sans" w:cs="IBM Plex Sans"/></w:rPr>'; var parts = String(text == null ? '' : text).split('\n'), t = ''; for (var i = 0; i < parts.length; i++) { if (i > 0) t += '<w:br/>'; t += '<w:t xml:space="preserve">' + dxEsc(parts[i]) + '</w:t>'; } return '<w:r>' + rpr + t + '</w:r>'; }
+  function dxPara(runsXml, opt) { opt = opt || {}; var ppr = '<w:pPr><w:spacing w:before="' + (opt.before || 0) + '" w:after="' + (opt.after || 120) + '"/>'; if (opt.border) ppr += '<w:pBdr><w:bottom w:val="single" w:sz="6" w:space="6" w:color="DEE3EA"/></w:pBdr>'; ppr += '</w:pPr>'; return '<w:p>' + ppr + runsXml + '</w:p>'; }
+  function dxDoc(course, title, subLines, sections) { var body = ''; body += dxPara(dxRun('SENECA POLYTECHNIC · ' + course, { bold: true, color: 'DA291C', size: 18 }), { after: 40 }); body += dxPara(dxRun(title, { bold: true, color: 'DA291C', size: 36 }), { after: 60 }); (subLines || []).forEach(function (line, i) { body += dxPara(dxRun(line, { color: '474C57', size: 20 }), { after: (i === subLines.length - 1 ? 160 : 40), border: (i === subLines.length - 1) }); }); (sections || []).forEach(function (sec) { body += dxPara(dxRun(sec.h, { bold: true, color: 'DA291C', size: 22 }), { before: 160, after: 30 }); var t = (sec.t && String(sec.t).trim()) ? sec.t : '(not written yet)'; body += dxPara(dxRun(t, { color: '15171C', size: 22 }), { after: 80 }); }); return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>' + body + '<w:sectPr><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="720" w:footer="720" w:gutter="0"/></w:sectPr></w:body></w:document>'; }
+  var DX_CT = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>';
+  var DX_RELS = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>';
+  var dxCrcT = null;
+  function dxCrc(bytes) { if (!dxCrcT) { dxCrcT = []; for (var n = 0; n < 256; n++) { var c = n; for (var k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1); dxCrcT[n] = c >>> 0; } } var crc = 0xFFFFFFFF; for (var i = 0; i < bytes.length; i++) crc = (crc >>> 8) ^ dxCrcT[(crc ^ bytes[i]) & 0xFF]; return (crc ^ 0xFFFFFFFF) >>> 0; }
+  function dxCat(arrs) { var len = 0, i; for (i = 0; i < arrs.length; i++) len += arrs[i].length; var out = new Uint8Array(len), off = 0; for (i = 0; i < arrs.length; i++) { out.set(arrs[i], off); off += arrs[i].length; } return out; }
+  function dxU16(n) { return new Uint8Array([n & 255, (n >> 8) & 255]); }
+  function dxU32(n) { return new Uint8Array([n & 255, (n >>> 8) & 255, (n >>> 16) & 255, (n >>> 24) & 255]); }
+  function dxZip(files) { var enc = new TextEncoder(); var chunks = [], central = [], offset = 0; files.forEach(function (f) { var nameB = enc.encode(f.name); var data = (f.data instanceof Uint8Array) ? f.data : enc.encode(f.data); var crc = dxCrc(data), size = data.length; var lfh = dxCat([dxU32(0x04034b50), dxU16(20), dxU16(0), dxU16(0), dxU16(0), dxU16(0), dxU32(crc), dxU32(size), dxU32(size), dxU16(nameB.length), dxU16(0), nameB, data]); chunks.push(lfh); central.push(dxCat([dxU32(0x02014b50), dxU16(20), dxU16(20), dxU16(0), dxU16(0), dxU16(0), dxU16(0), dxU32(crc), dxU32(size), dxU32(size), dxU16(nameB.length), dxU16(0), dxU16(0), dxU16(0), dxU16(0), dxU32(0), dxU32(offset), nameB])); offset += lfh.length; }); var centralB = dxCat(central); var eocd = dxCat([dxU32(0x06054b50), dxU16(0), dxU16(0), dxU16(files.length), dxU16(files.length), dxU32(centralB.length), dxU32(offset), dxU16(0)]); return dxCat([dxCat(chunks), centralB, eocd]); }
+  function senecaDoc(course, title, subLines, sections, fn) {
+    var bytes = dxZip([{ name: '[Content_Types].xml', data: DX_CT }, { name: '_rels/.rels', data: DX_RELS }, { name: 'word/document.xml', data: dxDoc(course, title, subLines, sections) }]);
+    var blob = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = fn + '.docx';
     document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);
     flash('Saved to your device (Seneca template).');
   }
@@ -682,9 +693,10 @@
     mcPick: function (k, i) { var m = document.getElementById('soc-main'); var top = m ? m.scrollTop : 0; state.mcSel[k] = i; render(); var m2 = document.getElementById('soc-main'); if (m2) m2.scrollTop = top; },
     saveReadingNotes: function () {
       var r = state.rcReading && rec(state.rcReading); if (!r) { flash('Pick a reading first.'); return; }
+      var cc = (D.course && D.course.code) || 'Course';
       var L = (LENSES[state.lens] || LENSES.thematic).label, qs = RC_QUESTIONS[state.lens] || RC_QUESTIONS.thematic;
-      var body = qs.map(function (q, i) { var a = (state.rcNotes[r.id + '|' + state.lens + '|' + i] || '').trim(); return '<p style="margin:14pt 0 2pt;font-weight:bold;color:#DA291C">' + esc(q) + '</p><p style="margin:0">' + (a ? esc(a).replace(/\n/g, '<br>') : '<i>(not written yet)</i>') + '</p>'; }).join('');
-      senecaDoc('SOC122', 'Build Your Reading Comprehension', 'Reading: ' + esc(r.title) + ' by ' + esc(r.authors) + '<br>Lens: ' + esc(L), body, 'SOC122_reading_comprehension');
+      var sections = qs.map(function (q, i) { return { h: q, t: (state.rcNotes[r.id + '|' + state.lens + '|' + i] || '').trim() }; });
+      senecaDoc(cc, 'Build Your Reading Comprehension', ['Reading: ' + r.title + ' by ' + r.authors, 'Lens: ' + L], sections, cc + '_reading_comprehension');
     },
     read: function (id) { var r = rec(id); var u = r && readUrl(r); if (u) { window.open(u, '_blank', 'noopener'); } else { state.screen = 'detail'; state.detailId = id; focusTarget = 'soc-main'; render(); topScroll(); } },
     openSaved: function () { state.screen = 'library'; state.activeTypes = []; state.activeWeek = null; state.search = ''; state.savedView = state.saved.length > 0; flash(state.saved.length ? 'Your saved shelf.' : 'Nothing saved yet. Tap the bookmark on any reading.'); topScroll(); },
