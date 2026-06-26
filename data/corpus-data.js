@@ -363,7 +363,9 @@ window.SOC122 = {
    "related": [
     "ermine",
     "soc-research"
-   ]
+   ],
+   "url": "https://openstax.org/books/introduction-sociology-3e/pages/1-introduction",
+   "fulltext": true
   },
   {
    "id": "soc-research",
@@ -385,7 +387,9 @@ window.SOC122 = {
    "related": [
     "reid2021",
     "littlebear"
-   ]
+   ],
+   "url": "https://openstax.org/books/introduction-sociology-3e/pages/2-introduction",
+   "fulltext": true
   },
   {
    "id": "anth-culture",
@@ -407,7 +411,9 @@ window.SOC122 = {
    "related": [
     "todd2016",
     "ermine"
-   ]
+   ],
+   "url": "https://openstax.org/books/introduction-anthropology/pages/3-introduction",
+   "fulltext": true
   },
   {
    "id": "soc-socialization",
@@ -429,7 +435,9 @@ window.SOC122 = {
    "related": [
     "lawrence2003",
     "soc-stratification"
-   ]
+   ],
+   "url": "https://openstax.org/books/introduction-sociology-3e/pages/5-introduction",
+   "fulltext": true
   },
   {
    "id": "soc-stratification",
@@ -451,7 +459,9 @@ window.SOC122 = {
    "related": [
     "palmater",
     "soc-socialization"
-   ]
+   ],
+   "url": "https://openstax.org/books/introduction-sociology-3e/pages/9-introduction",
+   "fulltext": true
   },
   {
    "id": "psy-intro",
@@ -473,7 +483,9 @@ window.SOC122 = {
    "related": [
     "gone2023",
     "psy-social"
-   ]
+   ],
+   "url": "https://openstax.org/books/psychology-2e/pages/1-introduction",
+   "fulltext": true
   },
   {
    "id": "psy-social",
@@ -495,7 +507,9 @@ window.SOC122 = {
    "related": [
     "bombay2014",
     "psy-intro"
-   ]
+   ],
+   "url": "https://openstax.org/books/psychology-2e/pages/12-introduction",
+   "fulltext": true
   },
   {
    "id": "soc-family",
@@ -518,7 +532,9 @@ window.SOC122 = {
    "related": [
     "anderson2019",
     "soc-socialization"
-   ]
+   ],
+   "url": "https://openstax.org/books/introduction-sociology-3e/pages/14-introduction",
+   "fulltext": true
   },
   {
    "id": "reid2021",
@@ -543,7 +559,9 @@ window.SOC122 = {
     "soc-research",
     "amarshall",
     "littlebear"
-   ]
+   ],
+   "url": "https://www.cclmportal.ca/sites/default/files/2024-02/Fish%20and%20Fisheries%20-%202020%20-%20Reid%20-%20Two%E2%80%90Eyed%20Seeing%20%20%20An%20Indigenous%20framework%20to%20transform%20fisheries%20research%20and%20management.pdf",
+   "fulltext": true
   },
   {
    "id": "martin2012",
@@ -566,7 +584,9 @@ window.SOC122 = {
    "related": [
     "brunette2022",
     "littlebear"
-   ]
+   ],
+   "url": "https://cjnr.archive.mcgill.ca/article/view/2348/2342",
+   "fulltext": true
   },
   {
    "id": "brunette2022",
@@ -591,7 +611,9 @@ window.SOC122 = {
    "related": [
     "martin2012",
     "ermine"
-   ]
+   ],
+   "url": "https://ojs.lib.uwo.ca/index.php/iipj/article/download/14109/12144/38513",
+   "fulltext": true
   },
   {
    "id": "todd2016",
@@ -615,7 +637,9 @@ window.SOC122 = {
    "related": [
     "anth-culture",
     "ermine"
-   ]
+   ],
+   "url": "https://doi.org/10.1111/johs.12124",
+   "fulltext": false
   },
   {
    "id": "lawrence2003",
@@ -638,7 +662,9 @@ window.SOC122 = {
    "related": [
     "soc-socialization",
     "brunette2022"
-   ]
+   ],
+   "url": "https://doi.org/10.1111/j.1527-2001.2003.tb00799.x",
+   "fulltext": false
   },
   {
    "id": "gone2023",
@@ -662,7 +688,8 @@ window.SOC122 = {
    "related": [
     "psy-intro",
     "psy-social"
-   ]
+   ],
+   "fulltext": true
   },
   {
    "id": "anderson2019",
@@ -685,7 +712,9 @@ window.SOC122 = {
    "doi": "10.1017/hyp.2019.10",
    "related": [
     "soc-family"
-   ]
+   ],
+   "url": "https://doi.org/10.1017/hyp.2019.10",
+   "fulltext": false
   },
   {
    "id": "bombay2014",
@@ -710,7 +739,8 @@ window.SOC122 = {
     "psy-social",
     "gone2023"
    ],
-   "url": "https://europepmc.org/articles/PMC4232330"
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4232330/",
+   "fulltext": true
   },
   {
    "id": "ermine",
@@ -730,12 +760,13 @@ window.SOC122 = {
    "week": 1,
    "abstract": "Willie Ermine (Cree) argues that when two societies with different worldviews meet, an ethical space opens in the gap between them, a charged area where the deeper assumptions, interests, and ways of knowing on each side can be named rather than left hidden. He shows how the dominant culture's claim to universal authority silences Indigenous thought, and proposes ethics and agreed-upon rules of engagement as the ground for honest cross-cultural and cross-legal dialogue. For a student, ethical space is a way to engage across knowledge systems without one side's rules simply overriding the other.",
    "coreIdea": "Honest engagement across knowledge systems requires an ethical space, agreed rules built from both sides, rather than one worldview imposing its rules on the other.",
-   "url": "https://tspace.library.utoronto.ca/bitstream/1807/17129/1/ILJ-6.1-Ermine.pdf",
+   "url": "https://utoronto.scholaris.ca/bitstream/1807/17129/1/ILJ-6.1-Ermine.pdf",
    "related": [
     "battiste",
     "soc-intro",
     "amarshall"
-   ]
+   ],
+   "fulltext": true
   },
   {
    "id": "battiste",
@@ -759,7 +790,8 @@ window.SOC122 = {
     "ermine",
     "brunette2022",
     "soc-intro"
-   ]
+   ],
+   "fulltext": true
   },
   {
    "id": "amarshall",
@@ -784,7 +816,8 @@ window.SOC122 = {
     "littlebear",
     "reid2021",
     "martin2012"
-   ]
+   ],
+   "fulltext": true
   },
   {
    "id": "littlebear",
@@ -804,12 +837,13 @@ window.SOC122 = {
    "week": 2,
    "abstract": "Leroy Little Bear (Blackfoot) argues that colonialism tries to hold a single social order in place by force and law, suppressing the many ways people interpret the world, and that Indigenous and Eurocentric worldviews differ at their philosophical roots. He contrasts an Indigenous worldview of constant flux, wholeness, relationship, and renewal, where all things are animate and time simply is, with a Eurocentric worldview that is linear, singular, static, and objective. The collision of these worldviews, he writes, left a jagged, fragmented consciousness among colonized peoples that still shapes daily life.",
    "coreIdea": "Indigenous and Eurocentric worldviews differ at the root, and colonialism's forced collision of them left a jagged, fragmented consciousness that persists today.",
-   "url": "https://www.learnalberta.ca/content/aswt/worldviews/",
+   "url": "https://jackmanlaw.utoronto.ca/sites/default/files/assets/files/2025/hewitt-leroy_little_bear_on_jagged_worldviews.pdf",
    "related": [
     "amarshall",
     "ermine",
     "todd2016"
-   ]
+   ],
+   "fulltext": true
   },
   {
    "id": "smylie",
@@ -834,7 +868,9 @@ window.SOC122 = {
     "brunette2022",
     "bombay2014",
     "psy-social"
-   ]
+   ],
+   "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1559421/",
+   "fulltext": true
   },
   {
    "id": "palmater",
@@ -854,12 +890,13 @@ window.SOC122 = {
    "week": 9,
    "abstract": "Pamela Palmater (Mi'kmaw) argues that chronic, sometimes fatal poverty in First Nations is not a cultural failing but the engineered result of Canada's colonial legal order, where federal policy is caught between an old aim of assimilation and a newer language of self-governance while the Indian Act remains unchanged. Drawing on the deaths and lives behind a coroner-style review and the history of dispossession, she shows how peoples once among the wealthiest in the world were made the most impoverished, because federal laws presume control over First Nations life yet fail their fiscal and constitutional responsibilities. For a student, this is a direct case of inequality produced and maintained by social structure.",
    "coreIdea": "First Nations poverty is engineered by Canada's colonial legal order, not by culture, and the same laws that created it keep it in place.",
-   "url": "https://crsp.journals.yorku.ca/index.php/crsp/article/view/35220",
+   "url": "https://crsp.journals.yorku.ca/index.php/crsp/article/download/35220/32057/38111",
    "related": [
     "soc-stratification",
     "lawrence2003",
     "gone2023"
-   ]
+   ],
+   "fulltext": true
   }
  ],
  "pendingIndigenousPairings": [],
