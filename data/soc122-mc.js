@@ -29,27 +29,47 @@ window.SOC122_MC = {
    ],
    "answer": 2,
    "why": "The chapter frames sociology as a perspective that makes ordinary life examinable, not just content to recall."
+  },
+  {
+   "q": "The chapter names early thinkers who helped build the discipline. Which list fits?",
+   "options": [
+    "Comte, Durkheim, Marx, and Weber",
+    "Newton, Darwin, and Einstein",
+    "Plato, Aristotle, and Socrates only"
+   ],
+   "answer": 0,
+   "why": "The chapter sketches the growth of sociology through Comte, Durkheim, Marx, and Weber."
+  },
+  {
+   "q": "Saying private troubles are also public, patterned questions means that",
+   "options": [
+    "personal problems should always stay private",
+    "what feels like a personal issue often follows a wider social pattern worth studying",
+    "individuals are never responsible for their own choices"
+   ],
+   "answer": 1,
+   "why": "The sociological imagination treats a private experience as tied to social structure, so it shows up as a broader pattern."
   }
  ],
  "soc-research": [
   {
    "q": "In the chapter, a hypothesis is",
    "options": [
-    "a proven fact about society",
     "a testable proposition that research is designed to evaluate",
-    "an opinion that cannot be checked"
+    "an opinion that cannot be checked",
+    "a proven fact about society"
    ],
-   "answer": 1,
+   "answer": 0,
    "why": "OpenStax defines a hypothesis as a testable proposition, the starting point for designed research."
   },
   {
    "q": "Reliability in a study refers to",
    "options": [
+    "how many people the researcher knows personally",
     "how likely the results are to be reproduced if the study is repeated",
-    "whether the topic is interesting",
-    "how many people the researcher knows personally"
+    "whether the topic is interesting"
    ],
-   "answer": 0,
+   "answer": 1,
    "why": "The chapter defines reliability as the likelihood that results would replicate if the study were reproduced."
   },
   {
@@ -61,6 +81,26 @@ window.SOC122_MC = {
    ],
    "answer": 2,
    "why": "The chapter classifies surveys with many participants as quantitative and participant observation and interviews as qualitative."
+  },
+  {
+   "q": "According to the chapter, validity refers to whether a study",
+   "options": [
+    "actually measures what it intends to measure",
+    "would give the same results if repeated",
+    "uses the largest possible sample"
+   ],
+   "answer": 0,
+   "why": "The chapter defines validity as measuring what you intend to measure, distinct from reliability."
+  },
+  {
+   "q": "Where does the chapter place research ethics?",
+   "options": [
+    "Outside the work of social science entirely",
+    "At the centre of the research process, not at its margins",
+    "As an optional step for large studies only"
+   ],
+   "answer": 1,
+   "why": "The chapter places research ethics at the centre of designing and conducting research rather than at the margin."
   }
  ],
  "anth-culture": [
@@ -93,70 +133,130 @@ window.SOC122_MC = {
    ],
    "answer": 2,
    "why": "The chapter frames culture in levels that must be understood as an integrated, holistic system."
+  },
+  {
+   "q": "Which trait of an element of human life signals to anthropologists that it is cultural?",
+   "options": [
+    "It is learned and shared by a group",
+    "It is the same across all of humanity",
+    "It is inherited biologically at birth"
+   ],
+   "answer": 0,
+   "why": "The chapter states that when an aspect of life is learned and shared, anthropologists know it is cultural."
+  },
+  {
+   "q": "The chapter's core discipline of perception asks a student to",
+   "options": [
+    "treat one culture as the standard for all others",
+    "describe human difference rather than grade it",
+    "rank cultures from most to least advanced"
+   ],
+   "answer": 1,
+   "why": "The chapter frames the anthropological stance as describing difference on its own terms, not grading it."
   }
  ],
  "soc-socialization": [
   {
    "q": "Why does the chapter discuss feral children?",
    "options": [
+    "To show that core human traits are learned through social contact, not simply inborn",
     "To show that language is purely genetic",
-    "To prove that families do not matter",
-    "To show that core human traits are learned through social contact, not simply inborn"
+    "To prove that families do not matter"
    ],
-   "answer": 2,
+   "answer": 0,
    "why": "Feral children, raised without contact, illustrate that the self and language develop through socialization."
   },
   {
    "q": "Socialization is best described as",
    "options": [
+    "a purely biological process of physical growth",
     "the lifelong process of learning a society's norms, roles, and self through interaction",
-    "a one-time event that ends in childhood",
-    "a purely biological process of physical growth"
+    "a one-time event that ends in childhood"
    ],
-   "answer": 0,
+   "answer": 1,
    "why": "The chapter presents socialization as a lifelong, relational process across the life course."
   },
   {
    "q": "The chapter identifies the family as",
    "options": [
+    "the only agent of socialization a person ever has",
     "irrelevant to who a person becomes",
-    "the first agent of socialization",
-    "the only agent of socialization a person ever has"
+    "the first agent of socialization"
+   ],
+   "answer": 2,
+   "why": "OpenStax names the family as the first agent of socialization, with others following."
+  },
+  {
+   "q": "The chapter describes the timing of socialization as",
+   "options": [
+    "a lifelong process that continues across the life course",
+    "finished by the start of adulthood",
+    "a single childhood milestone"
+   ],
+   "answer": 0,
+   "why": "The chapter presents socialization as a lifelong process carried across the life course by various agents."
+  },
+  {
+   "q": "Through socialization, a person takes on a society's",
+   "options": [
+    "genetic makeup",
+    "norms, roles, and a sense of self",
+    "physical height and eye colour"
    ],
    "answer": 1,
-   "why": "OpenStax names the family as the first agent of socialization, with others following."
+   "why": "The chapter says people learn a society's norms, roles, and a sense of self through interaction."
   }
  ],
  "soc-stratification": [
   {
    "q": "The chapter's central claim about inequality is that it is",
    "options": [
-    "random and impossible to explain",
     "produced and reproduced by social structures",
-    "caused entirely by individual laziness"
+    "caused entirely by individual laziness",
+    "random and impossible to explain"
    ],
-   "answer": 1,
+   "answer": 0,
    "why": "OpenStax presents stratification as systematically produced and reproduced, not random."
   },
   {
    "q": "How does a class system differ from a caste system?",
    "options": [
+    "A caste system is based purely on individual achievement",
     "A class system allows some mobility through achievement; a caste system fixes standing by ascribed status",
-    "A class system has no inequality at all",
-    "A caste system is based purely on individual achievement"
+    "A class system has no inequality at all"
    ],
-   "answer": 0,
+   "answer": 1,
    "why": "The chapter contrasts class systems (social plus achieved factors, some mobility) with caste systems (ascribed, fixed status)."
   },
   {
    "q": "The Davis-Moore thesis argued that stratification is",
    "options": [
+    "always equal across all societies",
     "a recent invention of the internet age",
-    "functional, rewarding more important roles, a claim later criticized by Tumin",
-    "always equal across all societies"
+    "functional, rewarding more important roles, a claim later criticized by Tumin"
+   ],
+   "answer": 2,
+   "why": "Davis and Moore argued stratification is functional; the chapter notes Tumin's criticism of that view."
+  },
+  {
+   "q": "In a caste system, a person's standing is determined by",
+   "options": [
+    "ascribed status fixed at birth",
+    "the results of a national election",
+    "individual achievement over a lifetime"
+   ],
+   "answer": 0,
+   "why": "The chapter defines caste systems as fixing standing by ascribed status rather than achievement."
+  },
+  {
+   "q": "Saying inequality is built and maintained, not earned by those placed within it, means that",
+   "options": [
+    "people deserve exactly the rank they hold",
+    "social structures create and sustain the layers of advantage",
+    "stratification disappears on its own over time"
    ],
    "answer": 1,
-   "why": "Davis and Moore argued stratification is functional; the chapter notes Tumin's criticism of that view."
+   "why": "The chapter argues stratification is produced and reproduced by social structures, not earned by individuals."
   }
  ],
  "psy-intro": [
@@ -189,49 +289,89 @@ window.SOC122_MC = {
    ],
    "answer": 2,
    "why": "OpenStax frames psychology as a scientific study of the individual drawing on several complementary approaches."
+  },
+  {
+   "q": "Which list reflects the major approaches the chapter surveys?",
+   "options": [
+    "Biological, cognitive, and sociocultural",
+    "Mineral, chemical, and geological",
+    "Only behaviourist"
+   ],
+   "answer": 0,
+   "why": "The chapter surveys approaches from biological to cognitive to sociocultural."
+  },
+  {
+   "q": "The chapter suggests psychology is strongest when it",
+   "options": [
+    "studies the individual in isolation from all context",
+    "keeps the social and biological context in view",
+    "claims to explain every person with certainty"
+   ],
+   "answer": 1,
+   "why": "The chapter says psychology focuses on the individual but is strongest when it keeps social and biological context in view."
   }
  ],
  "psy-social": [
   {
    "q": "The fundamental attribution error is the tendency to",
    "options": [
-    "overestimate the situation and ignore personality",
     "overestimate personality and underestimate the situation when explaining others' behaviour",
-    "explain behaviour only through brain chemistry"
+    "explain behaviour only through brain chemistry",
+    "overestimate the situation and ignore personality"
    ],
-   "answer": 1,
+   "answer": 0,
    "why": "The chapter defines the fundamental attribution error as overemphasizing internal traits and underestimating situational causes."
   },
   {
    "q": "Social psychology, as the chapter defines it, studies",
    "options": [
+    "the geology of social spaces",
     "how people affect one another and the power of the situation",
-    "the chemistry of the brain in isolation",
-    "the geology of social spaces"
+    "the chemistry of the brain in isolation"
    ],
-   "answer": 0,
+   "answer": 1,
    "why": "OpenStax defines social psychology as how people affect one another, stressing the power of the situation."
   },
   {
    "q": "The chapter's view of identity and belonging is that they are",
    "options": [
+    "irrelevant to psychology",
     "fixed at birth and never change",
-    "made between people in social context",
-    "irrelevant to psychology"
+    "made between people in social context"
+   ],
+   "answer": 2,
+   "why": "The chapter locates identity and belonging in social context, formed between people."
+  },
+  {
+   "q": "A recurring emphasis running through the chapter is",
+   "options": [
+    "the power of the situation in shaping behaviour",
+    "the chemistry of the brain in isolation",
+    "the physical layout of buildings"
+   ],
+   "answer": 0,
+   "why": "The chapter repeatedly emphasizes the power of the situation in shaping thoughts, feelings, and behaviour."
+  },
+  {
+   "q": "When committing the fundamental attribution error about someone else, a person tends to",
+   "options": [
+    "explain the behaviour through brain chemistry",
+    "lean on personality and overlook the situation",
+    "credit the situation and ignore personality"
    ],
    "answer": 1,
-   "why": "The chapter locates identity and belonging in social context, formed between people."
+   "why": "The chapter describes overestimating dispositional causes and underestimating situational ones when explaining others."
   }
  ],
  "soc-family": [
   {
    "q": "The chapter argues that the family is",
    "options": [
-    "one fixed, natural form found everywhere",
     "both a structure and a set of relationships, and both change over time",
-    "only a legal contract with no social meaning"
+    "only a legal contract with no social meaning",
+    "one fixed, natural form found everywhere"
    ],
-   "answer": 1,
+   "answer": 0,
    "why": "OpenStax frames family as structure and relationship together, both changing with social change."
   },
   {
@@ -247,76 +387,136 @@ window.SOC122_MC = {
   {
    "q": "Within socialization, the chapter treats the family as",
    "options": [
-    "the first agent of socialization",
     "an agent that has no influence on children",
-    "the last institution a person encounters"
+    "the last institution a person encounters",
+    "the first agent of socialization"
+   ],
+   "answer": 2,
+   "why": "OpenStax identifies the family as the first agent of socialization."
+  },
+  {
+   "q": "The chapter's main point about a natural family form is that",
+   "options": [
+    "there is no single natural family form to measure others against",
+    "the nuclear household is the one correct form",
+    "only legally married couples count as a family"
    ],
    "answer": 0,
-   "why": "OpenStax identifies the family as the first agent of socialization."
+   "why": "The chapter concludes there is no single natural family form against which to measure others."
+  },
+  {
+   "q": "Which marriage arrangements does the chapter note across cultures?",
+   "options": [
+    "No marriage in any society",
+    "Monogamy and polygamy",
+    "Only lifelong monogamy"
+   ],
+   "answer": 1,
+   "why": "The chapter covers arrangements such as monogamy and polygamy and the place of kinship."
   }
  ],
  "reid2021": [
   {
    "q": "Reid and colleagues argue that words like integrate and incorporate are often",
    "options": [
-    "the ideal way to combine knowledge systems",
     "euphemisms for assimilating Indigenous knowledge into Western science",
-    "terms only used in physics"
+    "terms only used in physics",
+    "the ideal way to combine knowledge systems"
    ],
-   "answer": 1,
+   "answer": 0,
    "why": "The authors warn that integrating or incorporating too often means assimilation rather than coexistence."
   },
   {
    "q": "What do the authors say sets Two-Eyed Seeing apart from similar frameworks?",
    "options": [
+    "Its focus only on historical record-keeping",
     "Its explicit action imperative, that knowledge carries a responsibility to act",
-    "Its rejection of all Western science",
-    "Its focus only on historical record-keeping"
+    "Its rejection of all Western science"
    ],
-   "answer": 0,
+   "answer": 1,
    "why": "They highlight the action imperative: knowledge transforms the holder, who must act on it."
   },
   {
    "q": "Their alternative to assimilation is an ethic of",
    "options": [
+    "ignoring Indigenous communities",
     "one knowledge system overriding the other",
-    "knowledge coexistence and complementarity",
-    "ignoring Indigenous communities"
+    "knowledge coexistence and complementarity"
+   ],
+   "answer": 2,
+   "why": "The paper builds an ethic of knowledge coexistence and complementarity through Two-Eyed Seeing."
+  },
+  {
+   "q": "Reid and colleagues ground their argument in case studies drawn from",
+   "options": [
+    "Canadian fisheries",
+    "European factories",
+    "urban transit systems"
+   ],
+   "answer": 0,
+   "why": "They trace the action imperative of Two-Eyed Seeing through three Canadian fisheries case studies."
+  },
+  {
+   "q": "For these authors, what changes when whose knowledge counts genuinely shifts?",
+   "options": [
+    "nothing of substance, only the wording",
+    "the research and management themselves are transformed",
+    "only the names of the researchers"
    ],
    "answer": 1,
-   "why": "The paper builds an ethic of knowledge coexistence and complementarity through Two-Eyed Seeing."
+   "why": "They argue that centring Indigenous knowledge as co-equal transforms the research and management themselves."
   }
  ],
  "martin2012": [
   {
    "q": "What does Martin identify as the heart of Two-Eyed Seeing?",
    "options": [
-    "Ranking Western science above Indigenous knowledge",
     "Pairing both worldviews with equal consideration so neither dominates",
-    "Replacing Western science entirely"
+    "Replacing Western science entirely",
+    "Ranking Western science above Indigenous knowledge"
    ],
-   "answer": 1,
+   "answer": 0,
    "why": "Martin stresses giving equal consideration to both worldviews so one does not dominate or undermine the other."
   },
   {
    "q": "Martin's critique of positivism is that it has",
    "options": [
+    "no relevance to health research",
     "historically dismissed Indigenous ways of knowing as unscientific",
-    "always treated Indigenous knowledge as central",
-    "no relevance to health research"
+    "always treated Indigenous knowledge as central"
    ],
-   "answer": 0,
+   "answer": 1,
    "why": "She critiques positivism for historically undermining and dismissing Indigenous knowledge as unscientific."
   },
   {
    "q": "According to Martin, holding both worldviews together can",
    "options": [
+    "only confirm what Western science already knows",
     "leave research questions unchanged",
-    "reshape the very questions researchers ask",
-    "only confirm what Western science already knows"
+    "reshape the very questions researchers ask"
+   ],
+   "answer": 2,
+   "why": "Martin argues balanced consideration of both worldviews reshapes the questions asked in health research."
+  },
+  {
+   "q": "Martin's account belongs most directly to which field of study?",
+   "options": [
+    "Indigenous health research",
+    "astronomy",
+    "corporate accounting"
+   ],
+   "answer": 0,
+   "why": "Martin applies Two-Eyed Seeing to reshape the questions researchers ask about Indigenous health."
+  },
+  {
+   "q": "Martin treats respectful pairing of the two worldviews as",
+   "options": [
+    "a checklist for blending data sets",
+    "the heart of the work itself",
+    "a step that can be skipped once data is gathered"
    ],
    "answer": 1,
-   "why": "Martin argues balanced consideration of both worldviews reshapes the questions asked in health research."
+   "why": "Martin presents respectful pairing as the heart of the work, not a checklist for blending data."
   }
  ],
  "brunette2022": [
@@ -343,12 +543,32 @@ window.SOC122_MC = {
   {
    "q": "What do the authors ultimately call for?",
    "options": [
+    "Leaving the curriculum exactly as it is",
     "Returning to a purely Eurocentric curriculum",
-    "Structural revision that centres Indigenous knowledges and ensures Indigenous leadership and autonomy",
-    "Leaving the curriculum exactly as it is"
+    "Structural revision that centres Indigenous knowledges and ensures Indigenous leadership and autonomy"
+   ],
+   "answer": 2,
+   "why": "They call for structural revision centring Indigenous Peoples and knowledges with Indigenous leadership and autonomy."
+  },
+  {
+   "q": "By what standard do the authors judge each approach they map?",
+   "options": [
+    "how far it actually challenges the colonial and Eurocentric structure of the institution",
+    "how popular it is with the public",
+    "how cheap it is to put in place"
+   ],
+   "answer": 0,
+   "why": "They judge each approach by how far it challenges the colonial and Eurocentric structure of the institution."
+  },
+  {
+   "q": "The reading implies that what counts as legitimate knowledge in a classroom is",
+   "options": [
+    "fixed by nature and unchangeable",
+    "an institutional decision that can be remade",
+    "set entirely by individual students"
    ],
    "answer": 1,
-   "why": "They call for structural revision centring Indigenous Peoples and knowledges with Indigenous leadership and autonomy."
+   "why": "The authors frame legitimate classroom knowledge as an institutional decision that can be remade."
   }
  ],
  "todd2016": [
@@ -375,44 +595,84 @@ window.SOC122_MC = {
   {
    "q": "Todd's proposed remedy centres on",
    "options": [
+    "keeping Indigenous thought out of the academy",
     "abandoning anthropology entirely",
-    "citational practice and acknowledging Indigenous thinkers and legal orders",
-    "keeping Indigenous thought out of the academy"
+    "citational practice and acknowledging Indigenous thinkers and legal orders"
+   ],
+   "answer": 2,
+   "why": "She insists on citing and remaining accountable to the Indigenous people and scholars whose work informs the field."
+  },
+  {
+   "q": "The Inuit concept Todd points to as an example is",
+   "options": [
+    "Sila",
+    "gravity",
+    "the scientific method"
+   ],
+   "answer": 0,
+   "why": "Todd notes Latour's framing echoed Inuit concepts such as Sila that she had been taught."
+  },
+  {
+   "q": "Todd's remedy of citational practice is meant to keep scholarship",
+   "options": [
+    "focused only on European theorists",
+    "accountable to the Indigenous thinkers it draws on",
+    "free of any references"
    ],
    "answer": 1,
-   "why": "She insists on citing and remaining accountable to the Indigenous people and scholars whose work informs the field."
+   "why": "She argues honest scholarship must credit and stay accountable to the Indigenous thinkers it draws on."
   }
  ],
  "lawrence2003": [
   {
    "q": "Lawrence argues that regulating Native identity has been",
    "options": [
-    "a minor administrative detail",
     "central to the colonization process in Canada and the United States",
-    "a purely Indigenous invention"
+    "a purely Indigenous invention",
+    "a minor administrative detail"
    ],
-   "answer": 1,
+   "answer": 0,
    "why": "She states the regulation of Native identity has been central to colonization in both countries."
   },
   {
    "q": "She draws on Foucault to treat the Indian Act as",
    "options": [
+    "an ancient Indigenous law",
     "a discourse that produces ways of thinking that feel natural",
-    "a fair and neutral set of rules",
-    "an ancient Indigenous law"
+    "a fair and neutral set of rules"
    ],
-   "answer": 0,
+   "answer": 1,
    "why": "Lawrence frames the Indian Act as a Foucauldian discourse that naturalizes a way of seeing Native identity."
   },
   {
    "q": "These regulatory systems, she argues, displaced",
    "options": [
+    "modern census methods",
     "European systems of government",
-    "traditional Indigenous ways of identifying the self in relation to land and community",
-    "modern census methods"
+    "traditional Indigenous ways of identifying the self in relation to land and community"
+   ],
+   "answer": 2,
+   "why": "She argues the systems forcibly supplanted traditional Indigenous ways of belonging tied to land and community."
+  },
+  {
+   "q": "According to Lawrence, deciding who legally counts as Indian also controls",
+   "options": [
+    "access to land and belonging",
+    "the national weather forecast",
+    "the price of consumer goods"
+   ],
+   "answer": 0,
+   "why": "She argues that legally deciding who counts as Indian also controls access to land and belonging."
+  },
+  {
+   "q": "Lawrence notes that these identity regulations were built around",
+   "options": [
+    "geography alone",
+    "gender and race",
+    "age and height"
    ],
    "answer": 1,
-   "why": "She argues the systems forcibly supplanted traditional Indigenous ways of belonging tied to land and community."
+   "why": "She shows the regulatory discourse was built around gender and race."
   }
  ],
  "gone2023": [
@@ -439,23 +699,43 @@ window.SOC122_MC = {
   {
    "q": "The reframing leads Gone to call for",
    "options": [
+    "abandoning all mental health care",
     "more individual medication only",
-    "reconciliation, redress, and structural reform",
-    "abandoning all mental health care"
+    "reconciliation, redress, and structural reform"
+   ],
+   "answer": 2,
+   "why": "Gone calls for advances in reconciliation, redress, repair, and structural reform."
+  },
+  {
+   "q": "Gone recasts community mental health problems as",
+   "options": [
+    "postcolonial pathologies tied to colonial dispossession",
+    "matters of individual willpower",
+    "purely genetic conditions"
+   ],
+   "answer": 0,
+   "why": "Gone recasts these problems as postcolonial pathologies rooted in the legacies of colonial dispossession."
+  },
+  {
+   "q": "Gone's framing is significant because it shows Indigenous communities",
+   "options": [
+    "accepting an outside clinical frame without change",
+    "reworking what mental health means on their own terms",
+    "rejecting the idea of mental health entirely"
    ],
    "answer": 1,
-   "why": "Gone calls for advances in reconciliation, redress, repair, and structural reform."
+   "why": "He presents Indigenous communities reworking what mental health means on their own terms."
   }
  ],
  "anderson2019": [
   {
    "q": "How does Anderson reframe kinship?",
    "options": [
-    "As a fixed list of biological relatives",
     "As ongoing work and responsibility that sustains belonging",
-    "As a legal status granted by the government"
+    "As a legal status granted by the government",
+    "As a fixed list of biological relatives"
    ],
-   "answer": 1,
+   "answer": 0,
    "why": "Anderson treats kinship as active labour and obligation, not a fixed roster of relatives."
   },
   {
@@ -471,76 +751,136 @@ window.SOC122_MC = {
   {
    "q": "Compared with viewing family only as a structure, Anderson's account adds",
    "options": [
-    "the relationships and responsibilities that hold a family together",
     "a count of household types",
-    "a ranking of family forms"
+    "a ranking of family forms",
+    "the relationships and responsibilities that hold a family together"
+   ],
+   "answer": 2,
+   "why": "Anderson holds family as relationship and responsibility, the lived work beyond structural categories."
+  },
+  {
+   "q": "Anderson writes about family from which vantage point?",
+   "options": [
+    "from the inside, through the daily care and responsibility a person carries",
+    "from government statistics on household types",
+    "from a ranking of family forms"
    ],
    "answer": 0,
-   "why": "Anderson holds family as relationship and responsibility, the lived work beyond structural categories."
+   "why": "Anderson offers a view of family from the inside, where standing comes from care and responsibility."
+  },
+  {
+   "q": "Which activities does Anderson read as Indigenous feminist practice?",
+   "options": [
+    "competitive sport",
+    "kinship, motherhood, and running a home",
+    "corporate management and finance"
+   ],
+   "answer": 1,
+   "why": "She reflects on kinship, motherhood, and the everyday work of running a home as Indigenous feminist practice."
   }
  ],
  "bombay2014": [
   {
    "q": "What does the research the authors review find about familial residential school history?",
    "options": [
-    "It has no measurable effect today",
     "It is linked to more frequent stressors and greater effects on well-being",
-    "It only affects the original students, not their descendants"
+    "It only affects the original students, not their descendants",
+    "It has no measurable effect today"
    ],
-   "answer": 1,
+   "answer": 0,
    "why": "The review links familial residential school history to more frequent stressors and greater effects on well-being."
   },
   {
    "q": "When residential school attendance spans several generations in a family, the effects appear to be",
    "options": [
+    "completely erased",
     "cumulative",
-    "weaker each generation",
-    "completely erased"
+    "weaker each generation"
    ],
-   "answer": 0,
+   "answer": 1,
    "why": "The authors report that attendance across several generations appears to have cumulative effects."
   },
   {
    "q": "These findings provide empirical support for the concept of",
    "options": [
+    "random chance",
     "individual choice",
-    "historical trauma",
-    "random chance"
+    "historical trauma"
+   ],
+   "answer": 2,
+   "why": "The paper presents its findings as empirical support for the concept of historical trauma."
+  },
+  {
+   "q": "The residential schools the authors study are described as institutions marked by",
+   "options": [
+    "neglect and abuse",
+    "generous funding and care",
+    "voluntary attendance and choice"
+   ],
+   "answer": 0,
+   "why": "The review describes residential schools as institutions marked by neglect and abuse."
+  },
+  {
+   "q": "Beyond documenting harm, the review notes a factor that protects well-being, namely",
+   "options": [
+    "avoiding all health services",
+    "connection to identity and community",
+    "moving away from family"
    ],
    "answer": 1,
-   "why": "The paper presents its findings as empirical support for the concept of historical trauma."
+   "why": "The reading notes that connection to identity and community protects well-being."
   }
  ],
  "ermine": [
   {
    "q": "Ermine says the ethical space forms",
    "options": [
-    "inside a single worldview",
     "in the gap between two societies with different worldviews poised to engage",
-    "only in a courtroom"
+    "only in a courtroom",
+    "inside a single worldview"
    ],
-   "answer": 1,
+   "answer": 0,
    "why": "Ermine defines ethical space as the area that opens between two societies with disparate worldviews."
   },
   {
    "q": "What does Ermine say usually stays hidden at a surface encounter between Indigenous and Western worlds?",
    "options": [
+    "the physical location",
     "the deeper assumptions, interests, and ways of knowing on each side",
-    "the names of the people present",
-    "the physical location"
+    "the names of the people present"
    ],
-   "answer": 0,
+   "answer": 1,
    "why": "He stresses that the deeper thoughts, interests, and assumptions remain enfolded and hidden at surface encounters."
   },
   {
    "q": "Ermine proposes that honest dialogue be grounded in",
    "options": [
+    "silence about differences",
     "the dominant culture's universal authority",
-    "ethics and agreed rules of engagement between communities",
-    "silence about differences"
+    "ethics and agreed rules of engagement between communities"
+   ],
+   "answer": 2,
+   "why": "He offers ethics and agreed rules of engagement as the basis for honest cross-cultural dialogue."
+  },
+  {
+   "q": "Ermine argues that the dominant culture's claim to universal authority tends to",
+   "options": [
+    "silence Indigenous thought",
+    "amplify Indigenous thought",
+    "have no effect on dialogue"
+   ],
+   "answer": 0,
+   "why": "He shows the dominant culture's claim to universal authority silences Indigenous thought."
+  },
+  {
+   "q": "For Ermine, the ground for honest cross-cultural and cross-legal dialogue is",
+   "options": [
+    "one side's rules overriding the other",
+    "ethics and agreed-upon rules of engagement",
+    "avoiding all contact between communities"
    ],
    "answer": 1,
-   "why": "He offers ethics and agreed rules of engagement as the basis for honest cross-cultural dialogue."
+   "why": "He proposes ethics and agreed-upon rules of engagement as the ground for honest dialogue."
   }
  ],
  "battiste": [
@@ -567,44 +907,84 @@ window.SOC122_MC = {
   {
    "q": "Battiste argues that schools should",
    "options": [
+    "teach only Eurocentric content",
     "ignore students' own knowledge",
-    "validate students' existing knowledge and ways of knowing",
-    "teach only Eurocentric content"
+    "validate students' existing knowledge and ways of knowing"
+   ],
+   "answer": 2,
+   "why": "She argues education should validate students' own knowledge rather than ignore it."
+  },
+  {
+   "q": "Battiste contrasts the holistic learning spirit with schooling that",
+   "options": [
+    "ignored or attacked Indigenous knowledge and eroded that spirit",
+    "always centred Indigenous knowledge",
+    "had no effect on Indigenous learners"
+   ],
+   "answer": 0,
+   "why": "She contrasts the learning spirit with schooling, including residential schools, that ignored or attacked Indigenous knowledge."
+  },
+  {
+   "q": "Battiste reframes learning as",
+   "options": [
+    "a race to finish content quickly",
+    "the formation of a whole person across a life",
+    "information passed on only in a classroom"
    ],
    "answer": 1,
-   "why": "She argues education should validate students' own knowledge rather than ignore it."
+   "why": "She reframes learning as the formation of a whole person across a life, not just school information."
   }
  ],
  "amarshall": [
   {
    "q": "In Marshall's words, Two-Eyed Seeing means using both eyes together",
    "options": [
-    "to prove one knowledge system is superior",
     "for the benefit of all",
-    "only when scientists agree"
+    "only when scientists agree",
+    "to prove one knowledge system is superior"
    ],
-   "answer": 1,
+   "answer": 0,
    "why": "Marshall defines it as using the strengths of both knowledges together for the benefit of all."
   },
   {
    "q": "Marshall insists that Two-Eyed Seeing is",
    "options": [
+    "a way to replace Indigenous knowledge with science",
     "an ongoing journey of co-learning, not a slogan to be trivialized",
-    "a finished method anyone can copy quickly",
-    "a way to replace Indigenous knowledge with science"
+    "a finished method anyone can copy quickly"
    ],
-   "answer": 0,
+   "answer": 1,
    "why": "He stresses it is an ongoing journey of co-learning and warns against it becoming trivialized jargon."
   },
   {
    "q": "Marshall represents each knowledge system as",
    "options": [
+    "a single shared worldview",
     "a partial view that needs the other to be valid",
-    "a whole, complete eye in its own right",
-    "a single shared worldview"
+    "a whole, complete eye in its own right"
+   ],
+   "answer": 2,
+   "why": "He represents each knowledge as a whole eye, distinct and complete, working together like binocular vision."
+  },
+  {
+   "q": "Marshall's relationship to the phrase Two-Eyed Seeing is that he",
+   "options": [
+    "coined the English phrase",
+    "first opposed the idea",
+    "translated it from a European language"
+   ],
+   "answer": 0,
+   "why": "The reading identifies Albert Marshall as the Elder who coined the English phrase Two-Eyed Seeing."
+  },
+  {
+   "q": "Marshall grounds Two-Eyed Seeing in responsibility and",
+   "options": [
+    "personal profit",
+    "the well-being of future generations",
+    "winning academic debates"
    ],
    "answer": 1,
-   "why": "He represents each knowledge as a whole eye, distinct and complete, working together like binocular vision."
+   "why": "He grounds the work in responsibility and the well-being of future generations."
   }
  ],
  "littlebear": [
@@ -631,44 +1011,84 @@ window.SOC122_MC = {
   {
    "q": "What does Little Bear mean by jagged worldviews?",
    "options": [
+    "A single pure Indigenous worldview untouched by contact",
     "A perfect blend of two cultures",
-    "A fragmented consciousness left by colonialism's collision of worldviews",
-    "A single pure Indigenous worldview untouched by contact"
+    "A fragmented consciousness left by colonialism's collision of worldviews"
+   ],
+   "answer": 2,
+   "why": "He argues colonialism left a fragmented, jagged consciousness, neither fully Indigenous nor fully Eurocentric."
+  },
+  {
+   "q": "Little Bear argues colonialism tries to hold a single social order in place by",
+   "options": [
+    "force and law that suppress other ways of interpreting the world",
+    "open invitation and free choice",
+    "ignoring people entirely"
+   ],
+   "answer": 0,
+   "why": "He argues colonialism uses force and law to hold one social order in place and suppress other interpretations."
+  },
+  {
+   "q": "In the Indigenous worldview Little Bear describes, how is time understood?",
+   "options": [
+    "as irrelevant to daily life",
+    "as something that simply is, within constant flux",
+    "as a strict straight line toward a single endpoint"
    ],
    "answer": 1,
-   "why": "He argues colonialism left a fragmented, jagged consciousness, neither fully Indigenous nor fully Eurocentric."
+   "why": "He describes an Indigenous worldview where all things are animate and time simply is, within constant flux."
   }
  ],
  "smylie": [
   {
    "q": "The opening Cree Elder's comment that there is no Cree word for health measurement is used to",
    "options": [
-    "prove Cree has a small vocabulary",
     "raise that measuring health is itself a culturally specific frame",
-    "argue against all health research"
+    "argue against all health research",
+    "prove Cree has a small vocabulary"
    ],
-   "answer": 1,
+   "answer": 0,
    "why": "The anecdote signals that health measurement is a Western frame that does not map onto Cree understanding."
   },
   {
    "q": "A key coverage problem they identify is",
    "options": [
+    "an excess of accurate data",
     "the lack of accurate, respectful identification of First Nations, Metis, and Inuit people in data sources",
-    "too many doctors in remote communities",
-    "an excess of accurate data"
+    "too many doctors in remote communities"
    ],
-   "answer": 0,
+   "answer": 1,
    "why": "They highlight the failure to accurately and consistently identify self-identified Indigenous people as a coverage challenge."
   },
   {
    "q": "Smylie and Anderson argue that closing health inequities requires",
    "options": [
+    "ending health data collection altogether",
     "outsiders collecting more statistics in the same way",
-    "data systems owned and shaped by Indigenous communities",
-    "ending health data collection altogether"
+    "data systems owned and shaped by Indigenous communities"
+   ],
+   "answer": 2,
+   "why": "They argue health data systems must be owned and shaped by Indigenous communities."
+  },
+  {
+   "q": "Beyond data coverage and quality, which challenges do Smylie and Anderson trace?",
+   "options": [
+    "jurisdiction, governance, and human-resource capacity",
+    "weather and climate alone",
+    "language translation only"
+   ],
+   "answer": 0,
+   "why": "They trace problems of coverage and quality, jurisdiction, governance, and human-resource capacity."
+  },
+  {
+   "q": "Smylie is noted in the reading as",
+   "options": [
+    "a software engineer",
+    "one of Canada's first Metis physicians",
+    "a foreign census official"
    ],
    "answer": 1,
-   "why": "They argue health data systems must be owned and shaped by Indigenous communities."
+   "why": "The reading describes Janet Smylie as one of Canada's first Metis physicians."
   }
  ],
  "palmater": [
@@ -701,6 +1121,26 @@ window.SOC122_MC = {
    ],
    "answer": 2,
    "why": "She argues policy hovers between assimilation and self-governance while the Indian Act has not been amended."
+  },
+  {
+   "q": "Palmater argues that the same laws that created First Nations poverty now",
+   "options": [
+    "keep it in place",
+    "have fully resolved it",
+    "are unrelated to it"
+   ],
+   "answer": 0,
+   "why": "She argues Canada's colonial legal order both created the poverty and keeps it in place."
+  },
+  {
+   "q": "Palmater says federal laws presume control over First Nations life yet",
+   "options": [
+    "fully meet every responsibility",
+    "fail their fiscal and constitutional responsibilities",
+    "have no legal force at all"
+   ],
+   "answer": 1,
+   "why": "She argues federal laws presume control over First Nations life while failing their fiscal and constitutional responsibilities."
   }
  ]
 };

@@ -415,28 +415,28 @@
   };
   var RC_GUIDANCE = {
     thematic: [
-      'A strong response states the single main idea in one sentence, in your own words, not a list of topics.',
-      'A strong response points to specific evidence or examples the author uses, not just that evidence exists.',
-      'A strong response gets past the surface topic to the author\'s actual claim about it, the point being argued.',
-      'A strong response names something specific that shifted, was added to, or was challenged in your understanding.'
+      ['States the single main idea in one clear sentence, in your own words.', 'Names the central claim the author argues, not just the topics covered.', 'Is specific enough that a reader could tell which reading it came from.'],
+      ['Points to specific evidence the author uses (a study, example, case, or text), not just that evidence exists.', 'Shows HOW that evidence supports the claim, not only that it is there.', 'Separates the author\'s strongest support from a minor or passing example.'],
+      ['Moves past the surface topic to the deeper claim the author makes about it.', 'Names what the author wants you to think or do differently.', 'Connects the reading to the wider course theme it speaks to.'],
+      ['Names something specific that shifted, was added to, or was challenged in your thinking.', 'Explains why that change matters, not just that it happened.', 'Is honest about what still feels unclear or unresolved.']
     ],
     stylistic: [
-      'A strong response names the tone in a word or two (for example plain, urgent, careful) and says where you felt it.',
-      'A strong response describes the structure (for example story then analysis) and links it to how the argument lands.',
-      'A strong response picks one specific word, image, or moment and says what effect it had on you as a reader.',
-      'A strong response describes the likely audience and what in the writing signals who it is for.'
+      ['Names the tone in a word or two (for example plain, urgent, careful, personal).', 'Points to a specific line or moment where you felt that tone.', 'Says what the tone does to you as a reader (draws you in, warns, reassures).'],
+      ['Describes the structure (for example story then analysis, problem then solution, a list of cases).', 'Links that structure to how the argument builds or lands.', 'Notes one place where the order of the ideas matters.'],
+      ['Picks one specific word, image, phrase, or moment, not a general impression.', 'Describes the effect it had on you as a reader.', 'Says why the author might have chosen it.'],
+      ['Names the likely audience (students, scholars, the public, a community).', 'Points to what in the writing signals who it is for (vocabulary, references, assumptions).', 'Considers who is not addressed.']
     ],
     contextual: [
-      'A strong response identifies the author and the position or background they are writing from.',
-      'A strong response ties the time, place, or community to a specific choice the author makes.',
-      'A strong response names whose perspective is centred and whose is absent, with a reason.',
-      'A strong response names the context a fair reader needs, not just that context matters.'
+      ['Identifies the author and the position or background they write from.', 'Notes how that position might shape what they notice or value.', 'Stays within what the reading or its context actually tells you, without guessing.'],
+      ['Ties the time, place, or community to a specific choice the author makes.', 'Shows how the same idea might read differently in another context.', 'Treats context as shaping the argument, not just decorating it.'],
+      ['Names whose perspective is centred in the reading.', 'Names a perspective that is absent or mentioned only in passing.', 'Gives a reason that absence matters for the argument.'],
+      ['Names the specific background a fair reader needs, not just that context matters.', 'Separates what the reading assumes you know from what it explains.', 'Considers how a reader without that background might misread it.']
     ],
     theoretical: [
-      'A strong response picks one clear lens (for example power, or whose knowledge counts) and says what it surfaces here.',
-      'A strong response names who benefits from the framing and who is disadvantaged or left out.',
-      'A strong response identifies an assumption the author treats as given that a critical reader should question.',
-      'A strong response contrasts the chosen lens with a different one and shows how the reading would look different.'
+      ['Picks one clear lens (for example power, gender, colonialism, whose knowledge counts).', 'Says what that lens makes visible in this specific reading.', 'Uses the lens to read the text, not just to label it.'],
+      ['Names who benefits from the way the reading frames the issue.', 'Names who is disadvantaged, ignored, or carries the cost.', 'Ties the benefit or harm to a specific part of the text.'],
+      ['Identifies an assumption the author treats as given.', 'Explains why a critical reader should question it.', 'Considers what changes if that assumption does not hold.'],
+      ['Names a second, different lens.', 'Shows how the reading would look different through it.', 'Says what each lens catches that the other misses.']
     ]
   };
   function rcChips() {
@@ -460,9 +460,10 @@
     var zones = qs.map(function (q, i) {
       var key = r.id + '|' + state.lens + '|' + i;
       var v = esc((state.rcNotes && state.rcNotes[key]) || '');
-      var coreBit = (i === 0 && r.coreIdea) ? ' For this reading, the central idea is: ' + esc(String(r.coreIdea).replace(/\s*\.?\s*$/, '')) + '.' : '';
+      var coreIdea = (i === 0 && r.coreIdea) ? esc(String(r.coreIdea).replace(/\s*\.?\s*$/, '')) + '.' : '';
+      var crit = guide[i] || [];
       var rev = state.revealed[key]
-        ? '<div style="margin-top:10px;background:#15171C;color:#fff;border-radius:9px;padding:11px 14px"><div class="mono" style="font-size:.66rem;letter-spacing:.04em;color:#9aa3b2;margin-bottom:4px">A STRONG RESPONSE</div><div style="font-size:.875rem;line-height:1.55;color:rgba(255,255,255,.93)">' + esc(guide[i] || '') + coreBit + '</div><button onclick="SOC.rcReveal(\'' + key + '\')" style="margin-top:9px;background:rgba(255,255,255,.14);border:none;color:#fff;border-radius:7px;padding:5px 11px;font-size:.78rem;font-weight:600">Hide</button></div>'
+        ? '<div style="margin-top:10px;background:#15171C;color:#fff;border-radius:10px;padding:13px 16px"><div class="mono" style="font-size:.66rem;letter-spacing:.05em;color:#9aa3b2;margin-bottom:8px">A STRONG RESPONSE COVERS</div><ul style="margin:0;padding-left:17px;font-size:.875rem;line-height:1.55;color:rgba(255,255,255,.93)">' + crit.map(function (c) { return '<li style="margin-bottom:5px">' + esc(c) + '</li>'; }).join('') + '</ul>' + (coreIdea ? '<div style="margin-top:11px;padding-top:10px;border-top:1px solid rgba(255,255,255,.16);font-size:.85rem;line-height:1.5;color:rgba(255,255,255,.9)"><span style="color:#F2A900;font-weight:600">From this reading: </span>the central idea is ' + coreIdea + '</div>' : '') + '<div style="margin-top:11px;font-size:.78rem;color:#9aa3b2">Compare your answer against this. There is no single right wording.</div><button onclick="SOC.rcReveal(\'' + key + '\')" style="margin-top:9px;background:rgba(255,255,255,.14);border:none;color:#fff;border-radius:7px;padding:5px 11px;font-size:.78rem;font-weight:600">Hide</button></div>'
         : '<button onclick="SOC.rcReveal(\'' + key + '\')" style="margin-top:10px;background:none;border:1px solid #DEE3EA;border-radius:8px;padding:7px 13px;font-size:.82rem;font-weight:600;color:#15171C">Reveal a strong response</button>';
       return '<div style="background:#fff;border:1px solid #DEE3EA;border-radius:12px;padding:15px 17px;margin-bottom:11px"><div style="display:flex;align-items:baseline;gap:10px;margin-bottom:7px"><span style="display:inline-flex;width:24px;height:24px;align-items:center;justify-content:center;background:#15171C;color:#fff;border-radius:50%;font-size:.8rem;font-weight:700;flex:none">' + (i + 1) + '</span><p style="margin:0;font-size:.95rem;color:#15171C">' + esc(q) + '</p></div><textarea oninput="SOC.rcNote(\'' + key + '\',this.value)" placeholder="Your answer" style="width:100%;min-height:68px;font:inherit;font-size:.9rem;line-height:1.5;padding:10px 12px;border:1px solid #DEE3EA;border-radius:8px;color:#15171C;background:#fff;resize:vertical">' + v + '</textarea>' + rev + '</div>';
     }).join('');
