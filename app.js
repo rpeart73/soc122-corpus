@@ -11,7 +11,7 @@
 
   var SKEY = 'soc122corpus.v2';
   function load() { try { var o = JSON.parse(localStorage.getItem(SKEY) || '{}'); return o && typeof o === 'object' ? o : {}; } catch (e) { return {}; } }
-  function persist() { try { localStorage.setItem(SKEY, JSON.stringify({ saved: state.saved, layout: state.layout, introOpen: state.introOpen, cmpNotes: state.cmpNotes, lens: state.lens, rcReading: state.rcReading, rcNotes: state.rcNotes })); } catch (e) {} }
+  function persist() { try { localStorage.setItem(SKEY, JSON.stringify({ saved: state.saved, layout: state.layout, introOpen: state.introOpen, cmpNotes: state.cmpNotes, lens: state.lens, rcNotes: state.rcNotes })); } catch (e) {} }
   var saved0 = load();
 
   var state = {
@@ -31,7 +31,7 @@
     cmpNotes: (saved0.cmpNotes && typeof saved0.cmpNotes === 'object') ? saved0.cmpNotes : {},
     showModel: false,
     exampleOpen: false,
-    rcReading: saved0.rcReading || null,
+    rcReading: null,
     rcNotes: (saved0.rcNotes && typeof saved0.rcNotes === 'object') ? saved0.rcNotes : {},
     revealed: {},
     mcSel: {},
@@ -658,7 +658,7 @@
     flash('Saved to your device (Seneca template).');
   }
   window.SOC = {
-    go: function (s) { if (s === 'library') { state.savedView = false; } state.screen = s; focusTarget = 'soc-main'; render(); topScroll(); },
+    go: function (s) { if (s === 'library') { state.savedView = false; } if (s === 'reading') { state.rcReading = null; } state.screen = s; focusTarget = 'soc-main'; render(); topScroll(); },
     back: function () { state.screen = 'library'; focusTarget = 'soc-main'; render(); var m = document.getElementById('soc-main'); if (m) m.scrollTop = state.libScroll || 0; },
     open: function (id) { var m = document.getElementById('soc-main'); if (m) state.libScroll = m.scrollTop; state.screen = 'detail'; state.detailId = id; focusTarget = 'soc-main'; render(); topScroll(); },
     layout: function (l) { state.layout = l; persist(); render(); },
