@@ -565,6 +565,7 @@ window.SOC122 = {
   },
   {
    "id": "martin2012",
+   "video": { "yt": "nC1OfXfUJ2A", "title": "Dr. Debbie Martin: Advancing How We Undertake Indigenous Health Research", "channel": "Dalhousie Medical Research", "scholar": "Debbie Martin" },
    "eye": "indigenous",
    "type": "Article",
    "access": "verified",
@@ -590,6 +591,7 @@ window.SOC122 = {
   },
   {
    "id": "brunette2022",
+   "video": { "yt": "kCmmRUhZL1s", "title": "Module 2 - Toward a Decolonizing Pedagogy", "channel": "westernuCTL (Western University Centre for Teaching and Learning)", "scholar": "Candace Brunette-Debassige" },
    "eye": "indigenous",
    "type": "Article",
    "access": "open",
@@ -617,6 +619,7 @@ window.SOC122 = {
   },
   {
    "id": "todd2016",
+   "video": { "yt": "hUhUdqGHWvs", "title": "Listening to Fish: Indigenous sovereignty and freshwater fish conservation in north/western Canada", "channel": "SFU Sociology & Anthropology", "scholar": "Zoe Todd" },
    "eye": "indigenous",
    "type": "Article",
    "access": "verified",
@@ -644,9 +647,10 @@ window.SOC122 = {
   },
   {
    "id": "lawrence2003",
+   "video": { "yt": "YR9FNgBFAKQ", "title": "Dr. Bonita Lawrence guest lectures on Indigenous-Black relations | University of King's College", "channel": "University of King's College", "scholar": "Bonita Lawrence" },
    "eye": "indigenous",
    "type": "Article",
-   "access": "verified",
+   "access": "open",
    "title": "Gender, Race, and the Regulation of Native Identity",
    "authors": "Bonita Lawrence",
    "year": 2003,
@@ -664,12 +668,12 @@ window.SOC122 = {
     "soc-socialization",
     "brunette2022"
    ],
-   "url": "https://seneca.primo.exlibrisgroup.com/discovery/search?vid=01SENC_INST:01SENC_NDE&tab=Everything&offset=0&lang=en&query=any%2Ccontains%2CGender%20Race%20and%20the%20Regulation%20of%20Native%20Identity%20Lawrence",
-   "fulltext": false,
-   "senecaLib": true
+   "url": "https://www.sfu.ca/~palys/Lawrence-2003-GenderRace&RegulationOfNativeIdentity.pdf",
+   "fulltext": true
   },
   {
    "id": "gone2023",
+   "video": { "yt": "yz_Mf9hITQw", "title": "Rethinking American Indian MH Services - Explorations in AlterNative Psy-ence w/ Joseph P. Gone, PhD", "channel": "American Psychological Association", "scholar": "Joseph P. Gone" },
    "eye": "indigenous",
    "type": "Article",
    "access": "open",
@@ -695,6 +699,7 @@ window.SOC122 = {
   },
   {
    "id": "anderson2019",
+   "video": { "yt": "_R9Sa_fxWqI", "title": "Indigenous Women's Speakers Series | featuring Kim Anderson & Jennifer Adese", "channel": "The Centre for Indigenous Knowledges and Languages", "scholar": "Kim Anderson" },
    "eye": "indigenous",
    "type": "Article",
    "access": "library",
@@ -721,6 +726,7 @@ window.SOC122 = {
   },
   {
    "id": "bombay2014",
+   "video": { "yt": "G9S23z9_EQs", "title": "SFU Psychology Indigenous Reconciliation Committee Invited Scholar Speaker Series: Dr. Amy Bombay", "channel": "SFU Psychology", "scholar": "Amy Bombay" },
    "eye": "indigenous",
    "type": "Article",
    "access": "open",
@@ -747,6 +753,7 @@ window.SOC122 = {
   },
   {
    "id": "ermine",
+   "video": { "yt": "ZUfXu3gfVJ8", "title": "Willie Ermine: Ethical Space in Action", "channel": "Different Knowings", "scholar": "Willie Ermine" },
    "eye": "indigenous",
    "type": "Article",
    "access": "open",
@@ -773,6 +780,7 @@ window.SOC122 = {
   },
   {
    "id": "battiste",
+   "video": { "yt": "OhjmM1r6QeE", "title": "Decolonizing Education: Nourishing Their Learning Spirits", "channel": "Sealaska Heritage Institute", "scholar": "Marie Battiste" },
    "eye": "indigenous",
    "type": "Article",
    "access": "open",
@@ -798,6 +806,7 @@ window.SOC122 = {
   },
   {
    "id": "amarshall",
+   "video": { "yt": "rUXkJweTWpY", "title": "The Gift of Two-Eyed Seeing: Elder Albert Marshall", "channel": "First Nations Education Administrators Association", "scholar": "Albert Marshall" },
    "eye": "indigenous",
    "type": "Statement",
    "access": "open",
@@ -824,6 +833,7 @@ window.SOC122 = {
   },
   {
    "id": "littlebear",
+   "video": { "yt": "o_txPA8CiA4", "title": "Big Thinking - Leroy Little Bear: Blackfoot metaphysics 'waiting in the wings'", "channel": "Federation HSS", "scholar": "Leroy Little Bear" },
    "eye": "indigenous",
    "type": "Chapter",
    "access": "verified",
@@ -850,6 +860,7 @@ window.SOC122 = {
   },
   {
    "id": "smylie",
+   "video": { "yt": "7_z3RvOhQMs", "title": "ON NEIHR Webinar Dr Janet Smylie", "channel": "Waakebiness Institute for Indigenous Health", "scholar": "Janet Smylie" },
    "eye": "indigenous",
    "type": "Article",
    "access": "open",
@@ -877,6 +888,7 @@ window.SOC122 = {
   },
   {
    "id": "palmater",
+   "video": { "yt": "E2AZEQm3Yi0", "title": "National Indigenous History Month Keynote with Dr. Pamela Palmater", "channel": "Dufferin County", "scholar": "Pamela Palmater" },
    "eye": "indigenous",
    "type": "Article",
    "access": "open",

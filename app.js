@@ -133,6 +133,8 @@
     type: ['M4 7V5h16v2', 'M9 19h6', 'M12 5v14'],
     eye: ['M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z', 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z'],
     unlock: ['M7 11V8a5 5 0 0 1 9.9-1', 'M5 11h14v10H5z'],
+    play: ['M7 5l11 7-11 7z'],
+    gallery: ['M3 5h18v14H3z', 'M3 16l5-5 4 4 3-3 6 6', 'M8.5 9.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2'],
   };
   function ic(name, size, w) {
     var paths = ICON[name] || ICON.file, s = size || 20;
@@ -215,7 +217,7 @@
   }
   function sidebar() {
     var s = state;
-    var navDefs = [['library', 'Home', 'grid'], ['compare', 'Compare', 'columns'], ['reading', 'Build Your Reading Comprehension', 'book'], ['glossary', 'Glossary & Thinkers', 'book'], ['cards', 'Self-check', 'clipboard']];
+    var navDefs = [['library', 'Home', 'grid'], ['readings', 'Library of Readings', 'gallery'], ['compare', 'Compare', 'columns'], ['reading', 'Build Your Reading Comprehension', 'book'], ['glossary', 'Glossary & Thinkers', 'book'], ['cards', 'Self-check', 'clipboard']];
     var btns = navDefs.map(function (d) {
       var key = d[0], active = (key === 'library' && (s.screen === 'library' || s.screen === 'detail')) || s.screen === key;
       var badge = '';
@@ -304,6 +306,107 @@
       }).join('') + '</div>';
     }
     return html + '</div>';
+  }
+
+  /* ---------- library of readings (immersive gallery) ---------- */
+  function topicLabel(k) {
+    var M = { twoeyed: 'Two-Eyed Seeing', facial: 'Facial Recognition', bias: 'Algorithmic Bias', policing: 'Policing', surveillance: 'Surveillance', policy: 'Law and Policy', resistance: 'Resistance and Design Justice', intersectionality: 'Intersectionality', reconciliation: 'Reconciliation', sociology: 'Sociology', anthropology: 'Anthropology', psychology: 'Psychology', family: 'Family and Kinship', stratification: 'Stratification', socialization: 'Socialization', culture: 'Culture', learning: 'Learning', memory: 'Memory and Recall', motivation: 'Motivation', cognition: 'Cognition', development: 'Development', behaviour: 'Behaviour', behavior: 'Behaviour', identity: 'Identity', education: 'Education', conditioning: 'Conditioning', emotion: 'Emotion' };
+    return M[k] || (String(k).charAt(0).toUpperCase() + String(k).slice(1));
+  }
+  function rgTopics() {
+    var seen = {}, out = [];
+    D.records.forEach(function (r) { (r.themes || []).forEach(function (t) { if (!seen[t]) { seen[t] = 1; out.push(t); } }); });
+    return out.sort(function (a, b) { return topicLabel(a).localeCompare(topicLabel(b)); });
+  }
+  function rgList() {
+    var w = state.galWeek, t = state.galTopic;
+    return D.records.filter(function (r) {
+      if (w != null && r.week !== w) return false;
+      if (t && (r.themes || []).indexOf(t) < 0) return false;
+      return true;
+    }).sort(function (a, b) { return (a.week - b.week) || a.title.localeCompare(b.title); });
+  }
+  function rgAccessBadge(r) {
+    var full = r.fulltext !== false;
+    var fg = full ? '#1f7a4d' : '#B7791F', bg = full ? '#E4F0E9' : '#FCEFD2';
+    return '<span style="display:inline-flex;align-items:center;gap:5px;font-size:.6875rem;font-weight:600;letter-spacing:.03em;color:' + fg + ';background:' + bg + ';padding:4px 9px;border-radius:999px">' + ic(full ? 'unlock' : 'book', 12) + (full ? 'Read online' : 'Seneca Library') + '</span>';
+  }
+  function rgVideoCover(r) {
+    var v = r.video;
+    return '<div class="rgvideo" style="position:relative;width:100%;aspect-ratio:16/9;background:#15171C;overflow:hidden">'
+      + '<button onclick="SOC.playVideo(this,\'' + v.yt + '\')" aria-label="Play a talk by ' + esc(v.scholar || r.authors) + '" style="position:absolute;inset:0;width:100%;height:100%;border:none;padding:0;cursor:pointer;background:none">'
+      + '<img src="https://i.ytimg.com/vi/' + v.yt + '/hqdefault.jpg" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;opacity:.84" />'
+      + '<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"><span style="display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:999px;background:rgba(218,41,28,.94);color:#fff;box-shadow:0 4px 16px rgba(0,0,0,.45)">' + ic('play', 24) + '</span></span>'
+      + '<span style="position:absolute;left:0;right:0;bottom:0;padding:22px 13px 10px;background:linear-gradient(transparent,rgba(0,0,0,.9));color:#fff;text-align:left">'
+      + '<span class="mono" style="display:block;font-size:.6rem;letter-spacing:.08em;color:#f3b0a8;font-weight:600;margin-bottom:2px">WATCH</span>'
+      + '<span style="display:block;font-size:.8125rem;font-weight:700;line-height:1.2">' + esc(v.scholar || r.authors) + '</span>'
+      + (v.title ? '<span style="display:block;font-size:.7rem;color:rgba(255,255,255,.8);line-height:1.3;margin-top:2px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">' + esc(v.title) + '</span>' : '')
+      + '</span>'
+      + '</button></div>';
+  }
+  function rgCard(r) {
+    var tm = typeMeta(r.type);
+    var topics = (r.themes || []).slice(0, 3).map(function (t) {
+      var on = state.galTopic === t;
+      return '<button onclick="SOC.galTopic(\'' + t + '\')" style="border:1px solid ' + (on ? '#DA291C' : '#DEE3EA') + ';background:' + (on ? '#F6E3E1' : '#F7F8FA') + ';color:' + (on ? '#DA291C' : '#474C57') + ';font-size:.6875rem;font-weight:600;padding:3px 9px;border-radius:999px;cursor:pointer">' + esc(topicLabel(t)) + '</button>';
+    }).join('');
+    return '<div class="rgcard" style="background:#fff;border:1px solid #DEE3EA;border-radius:16px;overflow:hidden;box-shadow:0 1px 3px rgba(21,23,28,.06);display:flex;flex-direction:column">'
+      + (r.video ? rgVideoCover(r) : '<div style="height:6px;background:' + tm.color + '"></div>')
+      + '<div style="padding:16px 17px 15px;flex:1;display:flex;flex-direction:column">'
+      + '<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:10px">'
+      + '<span style="display:inline-flex;align-items:center;gap:5px;background:' + tm.soft + ';color:' + tm.color + ';font-size:.6875rem;font-weight:600;padding:4px 9px;border-radius:999px">' + ic(tm.icon, 12) + esc(r.type) + '</span>'
+      + rgAccessBadge(r)
+      + '<span class="mono" style="font-size:.75rem;color:#8a909c;margin-left:auto">' + esc(String(r.year)) + '</span>'
+      + '</div>'
+      + '<h3 style="font-size:1.0625rem;line-height:1.3;font-weight:600;margin:0 0 4px;color:#15171C">' + esc(r.title) + '</h3>'
+      + '<div style="font-size:.8125rem;color:#474C57;margin-bottom:9px">' + esc(r.authors) + '</div>'
+      + '<p style="font-size:.84rem;line-height:1.5;color:#5a616e;margin:0 0 12px">' + esc(r.coreIdea || r.abstract) + '</p>'
+      + (topics ? '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:13px">' + topics + '</div>' : '')
+      + '<div style="margin-top:auto;display:flex;align-items:center;gap:9px">'
+      + '<button onclick="SOC.read(\'' + r.id + '\')" style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;background:var(--red);color:#fff;border:none;border-radius:10px;padding:11px;font-size:.875rem;font-weight:600;cursor:pointer">' + readLabel(r) + '<span style="display:flex">' + ic('external', 15) + '</span></button>'
+      + '<button onclick="SOC.open(\'' + r.id + '\')" title="Details" aria-label="Open details" style="display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:10px;border:1px solid #DEE3EA;background:#fff;color:#474C57;cursor:pointer;flex:none">' + ic('chevron', 18) + '</button>'
+      + '</div>'
+      + '<div style="margin-top:10px;display:flex;align-items:center;gap:7px">' + weekTag(r) + ((D.course && D.course.frame) ? eyePill(r) : '') + '</div>'
+      + '</div></div>';
+  }
+  function readingsGallery() {
+    var s = state, list = rgList();
+    var nFull = D.records.filter(function (r) { return r.fulltext !== false; }).length;
+    var nVid = D.records.filter(function (r) { return !!r.video; }).length;
+    var weeks = weeksWithReadings(), topics = rgTopics();
+    var stats = [['Readings', D.records.length], ['Read online', nFull]];
+    if (nVid) stats.push(['Scholar talks', nVid]);
+    var hero = '<section style="background:linear-gradient(135deg,#15171C,#2a1d2b 55%,#5a1f1c);border-radius:18px;padding:28px 30px;margin-bottom:18px;color:#fff;position:relative;overflow:hidden">'
+      + '<div class="mono" style="font-size:.72rem;letter-spacing:.08em;color:#f3b0a8;font-weight:600;margin-bottom:9px">LIBRARY OF READINGS</div>'
+      + '<h1 style="font-size:2rem;line-height:1.12;font-weight:600;margin:0 0 9px">Open every source online.</h1>'
+      + '<p style="font-size:1rem;line-height:1.55;color:rgba(255,255,255,.85);margin:0;max-width:62ch">Click any reading to open the full text in a new tab, watch the scholars speak, and filter the collection by week or by topic.</p>'
+      + '<div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">'
+      + stats.map(function (st) { return '<div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:10px 15px;text-align:center;min-width:82px"><div class="mono" style="font-size:1.5rem;font-weight:600;line-height:1;color:#fff">' + st[1] + '</div><div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.7);margin-top:5px">' + st[0] + '</div></div>'; }).join('')
+      + '</div></section>';
+    function pill(active, label, onclick, accent) {
+      accent = accent || '#DA291C';
+      return '<button onclick="' + onclick + '" aria-pressed="' + active + '" style="flex:none;border:1px solid ' + (active ? accent : '#DEE3EA') + ';background:' + (active ? accent : '#fff') + ';color:' + (active ? '#fff' : '#474C57') + ';font-size:.8125rem;font-weight:' + (active ? '600' : '500') + ';padding:7px 13px;border-radius:999px;white-space:nowrap;cursor:pointer">' + label + '</button>';
+    }
+    var weekRail = '<div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px">'
+      + pill(s.galWeek == null, 'All weeks', 'SOC.galWeek(null)')
+      + weeks.map(function (w) { return pill(s.galWeek === w, '<span class="mono" style="opacity:.7">W' + w + '</span> ' + esc(weekTitle(w)), 'SOC.galWeek(' + w + ')'); }).join('')
+      + '</div>';
+    var topicRail = '<div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px">'
+      + pill(s.galTopic == null, 'All topics', 'SOC.galTopic(null)', '#3a47a8')
+      + topics.map(function (t) { return pill(s.galTopic === t, esc(topicLabel(t)), 'SOC.galTopic(\'' + t + '\')', '#3a47a8'); }).join('')
+      + '</div>';
+    var anyFilter = (s.galWeek != null) || s.galTopic;
+    var filterBar = '<section style="background:#fff;border:1px solid #DEE3EA;border-radius:14px;padding:14px 16px;margin-bottom:16px;box-shadow:0 1px 2px rgba(21,23,28,.04);position:sticky;top:0;z-index:5">'
+      + '<div style="display:flex;align-items:center;gap:7px;margin-bottom:7px"><span style="display:flex;color:#8a909c">' + ic('calendar', 15) + '</span><span style="font-size:.7rem;font-weight:600;letter-spacing:.05em;color:#8a909c;text-transform:uppercase">By week</span></div>'
+      + weekRail
+      + '<div style="display:flex;align-items:center;gap:7px;margin:13px 0 7px"><span style="display:flex;color:#8a909c">' + ic('sparkle', 15) + '</span><span style="font-size:.7rem;font-weight:600;letter-spacing:.05em;color:#8a909c;text-transform:uppercase">By topic</span></div>'
+      + topicRail
+      + '<div style="display:flex;align-items:center;gap:11px;margin-top:13px;padding-top:12px;border-top:1px solid #EEF1F5"><span style="font-size:.8125rem;font-weight:500;color:#474C57">' + list.length + ' of ' + D.records.length + ' readings</span>' + (anyFilter ? '<button onclick="SOC.galClear()" style="background:none;border:none;color:var(--red);font-size:.8125rem;font-weight:600;cursor:pointer">Clear filters</button>' : '') + '</div>'
+      + '</section>';
+    var grid = list.length
+      ? '<div class="soc-cardgrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px">' + list.map(rgCard).join('') + '</div>'
+      : '<div style="text-align:center;padding:60px 20px;color:#474C57"><div style="font-size:1.0625rem;font-weight:600;color:#15171C;margin-bottom:10px">No readings match those filters.</div><button onclick="SOC.galClear()" style="background:var(--red);color:#fff;border:none;border-radius:9px;padding:10px 18px;font-size:.9375rem;font-weight:600;cursor:pointer">Clear filters</button></div>';
+    return '<div class="rise">' + hero + filterBar + grid + '</div>';
   }
 
   /* ---------- detail ---------- */
@@ -662,6 +765,7 @@
   }
   function body() {
     if (state.screen === 'detail') return homeBar() + detail();
+    if (state.screen === 'readings') return homeBar() + readingsGallery();
     if (state.screen === 'compare') return homeBar() + compare();
     if (state.screen === 'reading') return homeBar() + readingComp();
     if (state.screen === 'glossary') return homeBar() + glossaryScreen();
@@ -713,7 +817,11 @@
     flash('Saved to your device (Seneca template).');
   }
   window.SOC = {
-    go: function (s) { if (s === 'library') { state.savedView = false; } if (s === 'reading') { state.rcReading = null; state.lens = 'thematic'; } state.screen = s; focusTarget = 'soc-main'; render(); topScroll(); },
+    go: function (s) { if (s === 'library') { state.savedView = false; } if (s === 'reading') { state.rcReading = null; state.lens = 'thematic'; } if (s === 'readings') { state.galWeek = null; state.galTopic = null; } state.screen = s; focusTarget = 'soc-main'; render(); topScroll(); },
+    galWeek: function (w) { var m = document.getElementById('soc-main'); var y = m ? m.scrollTop : 0; state.galWeek = (state.galWeek === w) ? null : w; render(); var m2 = document.getElementById('soc-main'); if (m2) m2.scrollTop = y; },
+    galTopic: function (t) { var m = document.getElementById('soc-main'); var y = m ? m.scrollTop : 0; state.galTopic = (state.galTopic === t) ? null : t; render(); var m2 = document.getElementById('soc-main'); if (m2) m2.scrollTop = y; },
+    galClear: function () { state.galWeek = null; state.galTopic = null; render(); },
+    playVideo: function (el, id) { var box = el.closest ? el.closest('.rgvideo') : el.parentNode; if (box) { box.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0&modestbranding=1" title="Scholar talk" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>'; } },
     back: function () { state.screen = 'library'; focusTarget = 'soc-main'; render(); var m = document.getElementById('soc-main'); if (m) m.scrollTop = state.libScroll || 0; },
     open: function (id) { var m = document.getElementById('soc-main'); if (m) state.libScroll = m.scrollTop; state.screen = 'detail'; state.detailId = id; focusTarget = 'soc-main'; render(); topScroll(); },
     layout: function (l) { state.layout = l; persist(); render(); },
