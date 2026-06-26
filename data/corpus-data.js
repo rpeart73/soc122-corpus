@@ -344,6 +344,7 @@ window.SOC122 = {
  "records": [
   {
    "id": "soc-intro",
+   "assigned": "Assigned by section each week (see the weekly schedule)",
    "eye": "western",
    "type": "Chapter",
    "access": "openstax",
@@ -393,6 +394,7 @@ window.SOC122 = {
   },
   {
    "id": "anth-culture",
+   "assigned": "The Culture Concept (Anthro Ch3)",
    "eye": "western",
    "type": "Chapter",
    "access": "openstax",
@@ -465,6 +467,7 @@ window.SOC122 = {
   },
   {
    "id": "psy-intro",
+   "assigned": "Assigned by section each week (see the weekly schedule)",
    "eye": "western",
    "type": "Chapter",
    "access": "openstax",
@@ -538,6 +541,7 @@ window.SOC122 = {
   },
   {
    "id": "reid2021",
+   "assigned": "Two-Eyed Seeing (fisheries, pp.243-261)",
    "eye": "indigenous",
    "type": "Article",
    "access": "verified",
