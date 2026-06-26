@@ -6,6 +6,7 @@
 (function () {
   'use strict';
   var D = window.SOC122;
+  var MC = window.SOC122_MC || {};
   if (!D) { document.getElementById('app').textContent = 'Course data did not load.'; return; }
 
   var SKEY = 'soc122corpus.v2';
@@ -32,6 +33,8 @@
     exampleOpen: false,
     rcReading: saved0.rcReading || null,
     rcNotes: (saved0.rcNotes && typeof saved0.rcNotes === 'object') ? saved0.rcNotes : {},
+    revealed: {},
+    mcSel: {},
     libScroll: 0,
     toast: null,
     cardWeek: null,
@@ -410,6 +413,32 @@
     contextual: ['Who wrote this, and from what background or position?', 'How might the time, place, or community shape what the author says?', 'Whose perspective is centred here, and whose is missing?', 'What would someone need to know about the context to read this fairly?'],
     theoretical: ['Read this through one lens, for example power, or whose knowledge counts. What does that lens reveal?', 'Who benefits from the way this is framed, and who is left out?', 'What does the author assume that a critical reader should question?', 'What would change if you read it through a different lens?']
   };
+  var RC_GUIDANCE = {
+    thematic: [
+      'A strong response states the single main idea in one sentence, in your own words, not a list of topics.',
+      'A strong response points to specific evidence or examples the author uses, not just that evidence exists.',
+      'A strong response gets past the surface topic to the author\'s actual claim about it, the point being argued.',
+      'A strong response names something specific that shifted, was added to, or was challenged in your understanding.'
+    ],
+    stylistic: [
+      'A strong response names the tone in a word or two (for example plain, urgent, careful) and says where you felt it.',
+      'A strong response describes the structure (for example story then analysis) and links it to how the argument lands.',
+      'A strong response picks one specific word, image, or moment and says what effect it had on you as a reader.',
+      'A strong response describes the likely audience and what in the writing signals who it is for.'
+    ],
+    contextual: [
+      'A strong response identifies the author and the position or background they are writing from.',
+      'A strong response ties the time, place, or community to a specific choice the author makes.',
+      'A strong response names whose perspective is centred and whose is absent, with a reason.',
+      'A strong response names the context a fair reader needs, not just that context matters.'
+    ],
+    theoretical: [
+      'A strong response picks one clear lens (for example power, or whose knowledge counts) and says what it surfaces here.',
+      'A strong response names who benefits from the framing and who is disadvantaged or left out.',
+      'A strong response identifies an assumption the author treats as given that a critical reader should question.',
+      'A strong response contrasts the chosen lens with a different one and shows how the reading would look different.'
+    ]
+  };
   function rcChips() {
     return Object.keys(LENSES).map(function (k) {
       var on = state.lens === k;
@@ -427,16 +456,47 @@
     }
     var lens = LENSES[state.lens] || LENSES.thematic;
     var qs = RC_QUESTIONS[state.lens] || RC_QUESTIONS.thematic;
+    var guide = RC_GUIDANCE[state.lens] || RC_GUIDANCE.thematic;
     var zones = qs.map(function (q, i) {
       var key = r.id + '|' + state.lens + '|' + i;
       var v = esc((state.rcNotes && state.rcNotes[key]) || '');
-      return '<div style="background:#fff;border:1px solid #DEE3EA;border-radius:12px;padding:15px 17px;margin-bottom:11px"><div style="display:flex;align-items:baseline;gap:10px;margin-bottom:7px"><span style="display:inline-flex;width:24px;height:24px;align-items:center;justify-content:center;background:#15171C;color:#fff;border-radius:50%;font-size:.8rem;font-weight:700;flex:none">' + (i + 1) + '</span><p style="margin:0;font-size:.95rem;color:#15171C">' + esc(q) + '</p></div><textarea oninput="SOC.rcNote(\'' + key + '\',this.value)" placeholder="Your answer" style="width:100%;min-height:68px;font:inherit;font-size:.9rem;line-height:1.5;padding:10px 12px;border:1px solid #DEE3EA;border-radius:8px;color:#15171C;background:#fff;resize:vertical">' + v + '</textarea></div>';
+      var coreBit = (i === 0 && r.coreIdea) ? ' For this reading, the central idea is: ' + esc(String(r.coreIdea).replace(/\s*\.?\s*$/, '')) + '.' : '';
+      var rev = state.revealed[key]
+        ? '<div style="margin-top:10px;background:#15171C;color:#fff;border-radius:9px;padding:11px 14px"><div class="mono" style="font-size:.66rem;letter-spacing:.04em;color:#9aa3b2;margin-bottom:4px">A STRONG RESPONSE</div><div style="font-size:.875rem;line-height:1.55;color:rgba(255,255,255,.93)">' + esc(guide[i] || '') + coreBit + '</div><button onclick="SOC.rcReveal(\'' + key + '\')" style="margin-top:9px;background:rgba(255,255,255,.14);border:none;color:#fff;border-radius:7px;padding:5px 11px;font-size:.78rem;font-weight:600">Hide</button></div>'
+        : '<button onclick="SOC.rcReveal(\'' + key + '\')" style="margin-top:10px;background:none;border:1px solid #DEE3EA;border-radius:8px;padding:7px 13px;font-size:.82rem;font-weight:600;color:#15171C">Reveal a strong response</button>';
+      return '<div style="background:#fff;border:1px solid #DEE3EA;border-radius:12px;padding:15px 17px;margin-bottom:11px"><div style="display:flex;align-items:baseline;gap:10px;margin-bottom:7px"><span style="display:inline-flex;width:24px;height:24px;align-items:center;justify-content:center;background:#15171C;color:#fff;border-radius:50%;font-size:.8rem;font-weight:700;flex:none">' + (i + 1) + '</span><p style="margin:0;font-size:.95rem;color:#15171C">' + esc(q) + '</p></div><textarea oninput="SOC.rcNote(\'' + key + '\',this.value)" placeholder="Your answer" style="width:100%;min-height:68px;font:inherit;font-size:.9rem;line-height:1.5;padding:10px 12px;border:1px solid #DEE3EA;border-radius:8px;color:#15171C;background:#fff;resize:vertical">' + v + '</textarea>' + rev + '</div>';
     }).join('');
+    var mcItems = MC[r.id] || [];
+    var mcHtml = '';
+    if (mcItems.length) {
+      var answered = 0, correct = 0;
+      var rows = mcItems.map(function (m, mi) {
+        var mkey = r.id + '|mc|' + mi;
+        var sel = state.mcSel[mkey];
+        var done = (sel !== undefined && sel !== null);
+        if (done) { answered++; if (sel === m.answer) correct++; }
+        var opts = (m.options || []).map(function (o, oi) {
+          var isSel = (sel === oi), isCor = (oi === m.answer);
+          var bg = '#fff', bd = '#DEE3EA', col = '#15171C';
+          if (done && isCor) { bg = '#E9EFE7'; bd = '#50694C'; col = '#2c3b29'; }
+          else if (done && isSel) { bg = '#F6E3E1'; bd = '#DA291C'; col = '#8f1b12'; }
+          var mark = (done && isCor) ? ' &#10003;' : ((done && isSel) ? ' &#10007;' : '');
+          return '<button onclick="SOC.mcPick(\'' + mkey + '\',' + oi + ')" style="display:block;width:100%;text-align:left;border:1px solid ' + bd + ';background:' + bg + ';color:' + col + ';border-radius:8px;padding:9px 12px;margin-bottom:7px;font-size:.9rem;font-weight:500">' + esc(o) + mark + '</button>';
+        }).join('');
+        var why = done ? '<p style="margin:3px 0 0;font-size:.82rem;color:#474C57">' + (sel === m.answer ? 'Correct. ' : 'Not quite. ') + esc(m.why || '') + '</p>' : '';
+        return '<div style="background:#fff;border:1px solid #DEE3EA;border-radius:12px;padding:15px 17px;margin-bottom:11px"><p style="margin:0 0 9px;font-size:.95rem;font-weight:600;color:#15171C">' + (mi + 1) + '. ' + esc(m.q) + '</p>' + opts + why + '</div>';
+      }).join('');
+      var score = answered
+        ? '<div style="display:inline-block;background:#EEF1F5;border-radius:999px;padding:5px 13px;font-size:.85rem;font-weight:600;color:#15171C;margin-bottom:12px">Score: ' + correct + ' / ' + answered + ' answered' + (answered === mcItems.length ? '' : ' (' + mcItems.length + ' total)') + '</div>'
+        : '<p style="font-size:.82rem;color:#8a909c;margin:0 0 12px">Pick an answer to check it right away. You can change your choice.</p>';
+      mcHtml = '<div style="margin:24px 0 4px"><h2 style="font-size:1.15rem;margin:0 0 3px">Check your understanding</h2><p style="font-size:.85rem;color:#8a909c;margin:0 0 12px">Quick questions on this reading, with the answer right away.</p>' + score + rows + '</div>';
+    }
     return '<div class="rise"><div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px"><h1 style="font-size:1.5rem;margin:0">Build Your Reading Comprehension</h1><button onclick="SOC.rcClear()" style="margin-left:auto;background:none;border:none;color:var(--red);font-size:.875rem;font-weight:600">Choose a different reading</button></div>'
       + '<div style="background:#15171C;color:#fff;border-radius:12px;padding:15px 18px;margin:8px 0 16px"><div class="mono" style="font-size:.6875rem;letter-spacing:.04em;color:#9aa3b2;margin-bottom:3px">YOUR READING</div><div style="font-size:1.0625rem;font-weight:600">' + esc(r.title) + '</div><div style="font-size:.875rem;color:rgba(255,255,255,.85)">Week ' + r.week + ' · ' + esc(r.authors) + ' · ' + esc(r.year) + '</div><button onclick="SOC.read(\'' + r.id + '\')" style="margin-top:10px;background:rgba(255,255,255,.14);border:none;color:#fff;border-radius:7px;padding:7px 13px;font-size:.85rem;font-weight:600">Open the reading ↗</button></div>'
       + '<div style="font-size:.8125rem;font-weight:600;color:#15171C;margin-bottom:7px">Choose a lens (this changes the questions)</div><div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:6px">' + rcChips() + '</div><p style="font-size:.82rem;color:#8a909c;margin:0 0 16px">' + esc(lens.label) + ': ' + esc(lens.hint) + '.</p>'
       + zones
-      + '<button onclick="SOC.saveReadingNotes()" style="background:var(--red);border:none;color:#fff;border-radius:9px;padding:10px 18px;font-size:.9rem;font-weight:600;margin-top:4px">Save my notes</button></div>';
+      + mcHtml
+      + '<button onclick="SOC.saveReadingNotes()" style="background:var(--red);border:none;color:#fff;border-radius:9px;padding:10px 18px;font-size:.9rem;font-weight:600;margin-top:8px">Save my notes</button></div>';
   }
   function compare() {
     var recs = state.compareIds.map(rec).filter(Boolean);
@@ -618,13 +678,15 @@
     rcPick: function (id) { state.rcReading = id; persist(); render(); topScroll(); },
     rcClear: function () { state.rcReading = null; render(); topScroll(); },
     rcNote: function (k, v) { state.rcNotes[k] = v; persist(); },
+    rcReveal: function (k) { state.revealed[k] = !state.revealed[k]; render(); },
+    mcPick: function (k, i) { state.mcSel[k] = i; render(); },
     saveReadingNotes: function () {
       var r = state.rcReading && rec(state.rcReading); if (!r) { flash('Pick a reading first.'); return; }
       var L = (LENSES[state.lens] || LENSES.thematic).label, qs = RC_QUESTIONS[state.lens] || RC_QUESTIONS.thematic;
       var body = qs.map(function (q, i) { var a = (state.rcNotes[r.id + '|' + state.lens + '|' + i] || '').trim(); return '<p style="margin:14pt 0 2pt;font-weight:bold;color:#DA291C">' + esc(q) + '</p><p style="margin:0">' + (a ? esc(a).replace(/\n/g, '<br>') : '<i>(not written yet)</i>') + '</p>'; }).join('');
       senecaDoc('SOC122', 'Build Your Reading Comprehension', 'Reading: ' + esc(r.title) + ' by ' + esc(r.authors) + '<br>Lens: ' + esc(L), body, 'SOC122_reading_comprehension');
     },
-    read: function (id) { var r = rec(id); var u = r && readUrl(r); if (u) { window.open(u, '_blank', 'noopener'); } else { flash('Find this in this week\'s Readings folder on Blackboard.'); } },
+    read: function (id) { var r = rec(id); var u = r && readUrl(r); if (u) { window.open(u, '_blank', 'noopener'); } else { state.screen = 'detail'; state.detailId = id; focusTarget = 'soc-main'; render(); topScroll(); } },
     openSaved: function () { state.screen = 'library'; state.activeTypes = []; state.activeWeek = null; state.search = ''; state.savedView = state.saved.length > 0; flash(state.saved.length ? 'Your saved shelf.' : 'Nothing saved yet. Tap the bookmark on any reading.'); topScroll(); },
     cardWeek: function (v) { state.cardWeek = (v === '' ? null : parseInt(v, 10)); render(); },
     glossWeek: function (v) { state.glossWeek = v; var o = document.getElementById('soc-gout'); if (o) o.innerHTML = glossaryByWeek(v); },
