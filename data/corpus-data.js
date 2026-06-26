@@ -638,8 +638,9 @@ window.SOC122 = {
     "anth-culture",
     "ermine"
    ],
-   "url": "https://doi.org/10.1111/johs.12124",
-   "fulltext": false
+   "url": "https://seneca.primo.exlibrisgroup.com/discovery/search?vid=01SENC_INST:01SENC_NDE&tab=Everything&offset=0&lang=en&query=any%2Ccontains%2CAn%20Indigenous%20Feminist%27s%20Take%20on%20the%20Ontological%20Turn%20Todd",
+   "fulltext": false,
+   "senecaLib": true
   },
   {
    "id": "lawrence2003",
@@ -663,8 +664,9 @@ window.SOC122 = {
     "soc-socialization",
     "brunette2022"
    ],
-   "url": "https://doi.org/10.1111/j.1527-2001.2003.tb00799.x",
-   "fulltext": false
+   "url": "https://seneca.primo.exlibrisgroup.com/discovery/search?vid=01SENC_INST:01SENC_NDE&tab=Everything&offset=0&lang=en&query=any%2Ccontains%2CGender%20Race%20and%20the%20Regulation%20of%20Native%20Identity%20Lawrence",
+   "fulltext": false,
+   "senecaLib": true
   },
   {
    "id": "gone2023",
@@ -713,8 +715,9 @@ window.SOC122 = {
    "related": [
     "soc-family"
    ],
-   "url": "https://doi.org/10.1017/hyp.2019.10",
-   "fulltext": false
+   "url": "https://seneca.primo.exlibrisgroup.com/discovery/search?vid=01SENC_INST:01SENC_NDE&tab=Everything&offset=0&lang=en&query=any%2Ccontains%2COn%20Seasons%20of%20an%20Indigenous%20Feminism%20Kinship%20Anderson",
+   "fulltext": false,
+   "senecaLib": true
   },
   {
    "id": "bombay2014",

@@ -63,7 +63,7 @@
   function readUrl(r) {
     return r.url || (r.doi ? 'https://doi.org/' + r.doi : null);
   }
-  function readLabel(r) { return (r.fulltext === false) ? 'Find this in the library' : 'Open the reading'; }
+  function readLabel(r) { return (r.fulltext === false) ? 'Find it in the Seneca Library' : 'Open the reading'; }
   function accessNote(r) {
     if (r.access === 'openstax') return 'Free and open on OpenStax. Opens in a new tab.';
     if (r.access === 'open') return 'Open access. Opens in a new tab.';
