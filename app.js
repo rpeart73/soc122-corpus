@@ -552,12 +552,15 @@
   }
 
   /* ---------- render ---------- */
+  function homeBar() {
+    return '<button onclick="SOC.go(\'library\')" style="display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid #DEE3EA;border-radius:8px;padding:8px 14px;font-size:.875rem;font-weight:600;color:#15171C;margin-bottom:18px;cursor:pointer">&#8592; Return to Home</button>';
+  }
   function body() {
-    if (state.screen === 'detail') return detail();
-    if (state.screen === 'compare') return compare();
-    if (state.screen === 'reading') return readingComp();
-    if (state.screen === 'glossary') return glossaryScreen();
-    if (state.screen === 'cards') return cardsScreen();
+    if (state.screen === 'detail') return homeBar() + detail();
+    if (state.screen === 'compare') return homeBar() + compare();
+    if (state.screen === 'reading') return homeBar() + readingComp();
+    if (state.screen === 'glossary') return homeBar() + glossaryScreen();
+    if (state.screen === 'cards') return homeBar() + cardsScreen();
     return library();
   }
   function render() {
