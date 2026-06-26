@@ -335,7 +335,7 @@
     var v = r.video;
     return '<div class="rgvideo" style="position:relative;width:100%;aspect-ratio:16/9;background:#15171C;overflow:hidden">'
       + '<button onclick="SOC.playVideo(this,\'' + v.yt + '\')" aria-label="Play a talk by ' + esc(v.scholar || r.authors) + '" style="position:absolute;inset:0;width:100%;height:100%;border:none;padding:0;cursor:pointer;background:none">'
-      + '<img src="https://i.ytimg.com/vi/' + v.yt + '/hqdefault.jpg" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;opacity:.84" />'
+      + '<img src="https://i.ytimg.com/vi/' + v.yt + '/maxresdefault.jpg" onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/' + v.yt + '/hqdefault.jpg\'" alt="" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block" />'
       + '<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"><span style="display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:999px;background:rgba(218,41,28,.94);color:#fff;box-shadow:0 4px 16px rgba(0,0,0,.45)">' + ic('play', 24) + '</span></span>'
       + '<span style="position:absolute;left:0;right:0;bottom:0;padding:22px 13px 10px;background:linear-gradient(transparent,rgba(0,0,0,.9));color:#fff;text-align:left">'
       + '<span class="mono" style="display:block;font-size:.6rem;letter-spacing:.08em;color:#f3b0a8;font-weight:600;margin-bottom:2px">WATCH</span>'
@@ -376,13 +376,15 @@
     var weeks = weeksWithReadings(), topics = rgTopics();
     var stats = [['Readings', D.records.length], ['Read online', nFull]];
     if (nVid) stats.push(['Scholar talks', nVid]);
-    var hero = '<section style="background:linear-gradient(135deg,#15171C,#2a1d2b 55%,#5a1f1c);border-radius:18px;padding:28px 30px;margin-bottom:18px;color:#fff;position:relative;overflow:hidden">'
-      + '<div class="mono" style="font-size:.72rem;letter-spacing:.08em;color:#f3b0a8;font-weight:600;margin-bottom:9px">LIBRARY OF READINGS</div>'
-      + '<h1 style="font-size:2rem;line-height:1.12;font-weight:600;margin:0 0 9px">Open every source online.</h1>'
-      + '<p style="font-size:1rem;line-height:1.55;color:rgba(255,255,255,.85);margin:0;max-width:62ch">Click any reading to open the full text in a new tab, watch the scholars speak, and filter the collection by week or by topic.</p>'
-      + '<div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">'
-      + stats.map(function (st) { return '<div style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:10px 15px;text-align:center;min-width:82px"><div class="mono" style="font-size:1.5rem;font-weight:600;line-height:1;color:#fff">' + st[1] + '</div><div style="font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.7);margin-top:5px">' + st[0] + '</div></div>'; }).join('')
-      + '</div></section>';
+    var hero = '<section style="background:#fff;border:1px solid #DEE3EA;border-top:4px solid var(--red);border-radius:14px;padding:26px 30px;margin-bottom:18px;box-shadow:0 1px 2px rgba(21,23,28,.04)">'
+      + '<div style="display:flex;align-items:flex-start;gap:24px;flex-wrap:wrap;justify-content:space-between">'
+      + '<div style="flex:1;min-width:280px">'
+      + '<div class="mono" style="font-size:.75rem;letter-spacing:.06em;color:var(--red);font-weight:600;margin-bottom:10px">LIBRARY OF READINGS</div>'
+      + '<h1 style="font-size:2.125rem;line-height:1.14;font-weight:600;margin:0 0 10px;color:var(--ink)">Open every source online.</h1>'
+      + '<p style="font-size:1rem;line-height:1.6;color:#474C57;margin:0;max-width:62ch">Click any reading to open the full text in a new tab, watch the scholars speak, and filter the collection by week or by topic.</p></div>'
+      + '<div style="display:flex;gap:10px;flex:none">'
+      + stats.map(function (st) { return '<div style="background:#EEF1F5;border:1px solid #DEE3EA;border-radius:12px;padding:12px 16px;text-align:center;min-width:82px"><div class="mono" style="font-size:1.75rem;font-weight:600;line-height:1;color:var(--red)">' + st[1] + '</div><div style="font-size:.6875rem;text-transform:uppercase;letter-spacing:.06em;color:#474C57;margin-top:5px">' + st[0] + '</div></div>'; }).join('')
+      + '</div></div></section>';
     function pill(active, label, onclick, accent) {
       accent = accent || '#DA291C';
       return '<button onclick="' + onclick + '" aria-pressed="' + active + '" style="flex:none;border:1px solid ' + (active ? accent : '#DEE3EA') + ';background:' + (active ? accent : '#fff') + ';color:' + (active ? '#fff' : '#474C57') + ';font-size:.8125rem;font-weight:' + (active ? '600' : '500') + ';padding:7px 13px;border-radius:999px;white-space:nowrap;cursor:pointer">' + label + '</button>';
@@ -392,14 +394,14 @@
       + weeks.map(function (w) { return pill(s.galWeek === w, '<span class="mono" style="opacity:.7">W' + w + '</span> ' + esc(weekTitle(w)), 'SOC.galWeek(' + w + ')'); }).join('')
       + '</div>';
     var topicRail = '<div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:4px">'
-      + pill(s.galTopic == null, 'All topics', 'SOC.galTopic(null)', '#3a47a8')
-      + topics.map(function (t) { return pill(s.galTopic === t, esc(topicLabel(t)), 'SOC.galTopic(\'' + t + '\')', '#3a47a8'); }).join('')
+      + pill(s.galTopic == null, 'All topics', 'SOC.galTopic(null)', '#15171C')
+      + topics.map(function (t) { return pill(s.galTopic === t, esc(topicLabel(t)), 'SOC.galTopic(\'' + t + '\')', '#15171C'); }).join('')
       + '</div>';
     var anyFilter = (s.galWeek != null) || s.galTopic;
     var filterBar = '<section style="background:#fff;border:1px solid #DEE3EA;border-radius:14px;padding:14px 16px;margin-bottom:16px;box-shadow:0 1px 2px rgba(21,23,28,.04);position:sticky;top:0;z-index:5">'
-      + '<div style="display:flex;align-items:center;gap:7px;margin-bottom:7px"><span style="display:flex;color:#8a909c">' + ic('calendar', 15) + '</span><span style="font-size:.7rem;font-weight:600;letter-spacing:.05em;color:#8a909c;text-transform:uppercase">By week</span></div>'
+      + '<div style="display:flex;align-items:center;gap:7px;margin-bottom:7px"><span style="display:flex;color:#8a909c">' + ic('calendar', 15) + '</span><span style="font-size:.7rem;font-weight:600;letter-spacing:.05em;color:#8a909c;text-transform:uppercase">Filter by week</span></div>'
       + weekRail
-      + '<div style="display:flex;align-items:center;gap:7px;margin:13px 0 7px"><span style="display:flex;color:#8a909c">' + ic('sparkle', 15) + '</span><span style="font-size:.7rem;font-weight:600;letter-spacing:.05em;color:#8a909c;text-transform:uppercase">By topic</span></div>'
+      + '<div style="display:flex;align-items:center;gap:7px;margin:13px 0 7px"><span style="display:flex;color:#8a909c">' + ic('sparkle', 15) + '</span><span style="font-size:.7rem;font-weight:600;letter-spacing:.05em;color:#8a909c;text-transform:uppercase">Filter by topic</span></div>'
       + topicRail
       + '<div style="display:flex;align-items:center;gap:11px;margin-top:13px;padding-top:12px;border-top:1px solid #EEF1F5"><span style="font-size:.8125rem;font-weight:500;color:#474C57">' + list.length + ' of ' + D.records.length + ' readings</span>' + (anyFilter ? '<button onclick="SOC.galClear()" style="background:none;border:none;color:var(--red);font-size:.8125rem;font-weight:600;cursor:pointer">Clear filters</button>' : '') + '</div>'
       + '</section>';
