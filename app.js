@@ -10,7 +10,7 @@
 
   var SKEY = 'soc122corpus.v2';
   function load() { try { var o = JSON.parse(localStorage.getItem(SKEY) || '{}'); return o && typeof o === 'object' ? o : {}; } catch (e) { return {}; } }
-  function persist() { try { localStorage.setItem(SKEY, JSON.stringify({ saved: state.saved, compareIds: state.compareIds, layout: state.layout, introOpen: state.introOpen, cmpNotes: state.cmpNotes, lens: state.lens })); } catch (e) {} }
+  function persist() { try { localStorage.setItem(SKEY, JSON.stringify({ saved: state.saved, compareIds: state.compareIds, layout: state.layout, introOpen: state.introOpen, cmpNotes: state.cmpNotes, lens: state.lens, rcReading: state.rcReading, rcNotes: state.rcNotes })); } catch (e) {} }
   var saved0 = load();
 
   var state = {
@@ -30,6 +30,8 @@
     cmpNotes: (saved0.cmpNotes && typeof saved0.cmpNotes === 'object') ? saved0.cmpNotes : {},
     showModel: false,
     exampleOpen: false,
+    rcReading: saved0.rcReading || null,
+    rcNotes: (saved0.rcNotes && typeof saved0.rcNotes === 'object') ? saved0.rcNotes : {},
     libScroll: 0,
     toast: null,
     cardWeek: null,
@@ -204,21 +206,14 @@
 
   /* ---------- chrome ---------- */
   function header() {
-    var n = state.compareIds.length;
-    var cmpStyle = 'display:inline-flex;align-items:center;gap:7px;border-radius:6px;padding:7px 13px;font-size:.875rem;font-weight:600;' + (n ? 'border:none;background:var(--red);color:#fff' : 'border:1.5px solid #DEE3EA;background:#fff;color:#474C57');
-    return '<header style="position:sticky;top:0;z-index:40;height:62px;background:#fff;border-bottom:2px solid var(--red);display:flex;align-items:center;padding:0 22px;gap:18px;flex:none">'
+    return '<header style="position:sticky;top:0;z-index:40;height:62px;background:#fff;border-bottom:2px solid var(--red);display:flex;align-items:center;padding:0 22px;gap:14px;flex:none">'
       + '<div style="display:flex;align-items:center;gap:10px;flex:none"><img src="./seneca-logo.png" alt="Seneca Polytechnic" style="height:34px;width:auto;display:block"><span style="font-weight:600;font-size:1.0625rem;color:var(--ink);letter-spacing:-.01em">SOC122 Corpus</span></div>'
-      + '<div style="width:1px;height:26px;background:#DEE3EA;flex:none"></div>'
-      + '<div style="display:flex;align-items:center;gap:9px;min-width:0"><span style="font-size:.9375rem;font-weight:500;color:#474C57">Source library</span><span class="mono" style="font-size:.8125rem;color:#474C57;background:#EEF1F5;padding:3px 9px;border-radius:999px">' + D.records.length + ' readings</span></div>'
-      + '<div style="margin-left:auto;display:flex;align-items:center;gap:10px;flex:none">'
-      + '<a href="./walkthroughs/" style="display:inline-flex;align-items:center;gap:7px;border:1.5px solid #DEE3EA;background:#fff;color:#474C57;text-decoration:none;border-radius:6px;padding:7px 13px;font-size:.875rem;font-weight:600">' + ic('book', 16) + 'Weekly Walkthroughs</a>'
-      + '<button onclick="SOC.go(\'compare\')" style="' + cmpStyle + '">' + ic('columns', 16) + 'Compare' + (n ? ' · ' + n : '') + '</button>'
-      + '<span class="mono" style="font-size:.75rem;font-weight:600;color:var(--red);background:#F6E3E1;padding:5px 10px;border-radius:6px">FALL 2026</span>'
-      + '</div></header>';
+      + '<span class="mono" style="margin-left:auto;font-size:.75rem;font-weight:600;color:var(--red);background:#F6E3E1;padding:5px 10px;border-radius:6px;flex:none">FALL 2026</span>'
+      + '</header>';
   }
   function sidebar() {
     var s = state;
-    var navDefs = [['library', 'Home', 'grid'], ['compare', 'Build Your Reading Comprehension', 'columns'], ['glossary', 'Glossary & Thinkers', 'book'], ['cards', 'Self-check', 'clipboard']];
+    var navDefs = [['library', 'Home', 'grid'], ['compare', 'Compare', 'columns'], ['reading', 'Build Your Reading Comprehension', 'book'], ['glossary', 'Glossary & Thinkers', 'book'], ['cards', 'Self-check', 'clipboard']];
     var btns = navDefs.map(function (d) {
       var key = d[0], active = (key === 'library' && (s.screen === 'library' || s.screen === 'detail')) || s.screen === key;
       var badge = '';
@@ -409,6 +404,40 @@
       + (state.showModel ? model : '')
       + '</div>';
   }
+  var RC_QUESTIONS = {
+    thematic: ['What is the main idea or argument of this reading? Put it in one sentence.', 'What evidence or examples does the author use to support it?', 'What is the author really saying about the larger topic or theme?', 'How does this reading change or add to how you understand the topic?'],
+    stylistic: ['What is the author tone (for example plain, urgent, careful, personal)?', 'How is the reading organized, and how does that shape its argument?', 'Which words, images, or moments stood out, and what effect did they have?', 'Who does the writing seem to be for?'],
+    contextual: ['Who wrote this, and from what background or position?', 'How might the time, place, or community shape what the author says?', 'Whose perspective is centred here, and whose is missing?', 'What would someone need to know about the context to read this fairly?'],
+    theoretical: ['Read this through one lens, for example power, or whose knowledge counts. What does that lens reveal?', 'Who benefits from the way this is framed, and who is left out?', 'What does the author assume that a critical reader should question?', 'What would change if you read it through a different lens?']
+  };
+  function rcChips() {
+    return Object.keys(LENSES).map(function (k) {
+      var on = state.lens === k;
+      return '<button onclick="SOC.setLens(\'' + k + '\')" style="border:1px solid ' + (on ? '#15171C' : '#DEE3EA') + ';background:' + (on ? '#15171C' : '#fff') + ';color:' + (on ? '#fff' : '#15171C') + ';border-radius:999px;padding:7px 15px;font-size:.85rem;font-weight:600">' + LENSES[k].label + '</button>';
+    }).join(' ');
+  }
+  function readingComp() {
+    var r = state.rcReading ? rec(state.rcReading) : null;
+    if (!r) {
+      var picks = D.records.map(function (rd) {
+        var tm = typeMeta(rd.type);
+        return '<button onclick="SOC.rcPick(\'' + rd.id + '\')" style="display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:#fff;border:1px solid #DEE3EA;border-radius:10px;padding:12px 14px;margin-bottom:8px;color:#15171C"><span style="width:9px;height:9px;border-radius:50%;background:' + tm.color + ';flex:none"></span><span style="flex:1;min-width:0"><span style="display:block;font-weight:600;font-size:.95rem">' + esc(rd.title) + '</span><span style="font-size:.8125rem;color:#474C57">Week ' + rd.week + ' · ' + esc(rd.authors) + '</span></span><span style="color:#8a909c">' + ic('book', 16) + '</span></button>';
+      }).join('');
+      return '<div class="rise"><h1 style="font-size:1.75rem;margin:0 0 6px">Build Your Reading Comprehension</h1><p class="lede" style="max-width:72ch;margin:0 0 18px">Pick one reading. You will work through questions that build your understanding of it. Switch the lens to change the kind of questions you answer. Your answers save to your notes.</p>' + picks + '</div>';
+    }
+    var lens = LENSES[state.lens] || LENSES.thematic;
+    var qs = RC_QUESTIONS[state.lens] || RC_QUESTIONS.thematic;
+    var zones = qs.map(function (q, i) {
+      var key = r.id + '|' + state.lens + '|' + i;
+      var v = esc((state.rcNotes && state.rcNotes[key]) || '');
+      return '<div style="background:#fff;border:1px solid #DEE3EA;border-radius:12px;padding:15px 17px;margin-bottom:11px"><div style="display:flex;align-items:baseline;gap:10px;margin-bottom:7px"><span style="display:inline-flex;width:24px;height:24px;align-items:center;justify-content:center;background:#15171C;color:#fff;border-radius:50%;font-size:.8rem;font-weight:700;flex:none">' + (i + 1) + '</span><p style="margin:0;font-size:.95rem;color:#15171C">' + esc(q) + '</p></div><textarea oninput="SOC.rcNote(\'' + key + '\',this.value)" placeholder="Your answer" style="width:100%;min-height:68px;font:inherit;font-size:.9rem;line-height:1.5;padding:10px 12px;border:1px solid #DEE3EA;border-radius:8px;color:#15171C;background:#fff;resize:vertical">' + v + '</textarea></div>';
+    }).join('');
+    return '<div class="rise"><div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px"><h1 style="font-size:1.5rem;margin:0">Build Your Reading Comprehension</h1><button onclick="SOC.rcClear()" style="margin-left:auto;background:none;border:none;color:var(--red);font-size:.875rem;font-weight:600">Choose a different reading</button></div>'
+      + '<div style="background:#15171C;color:#fff;border-radius:12px;padding:15px 18px;margin:8px 0 16px"><div class="mono" style="font-size:.6875rem;letter-spacing:.04em;color:#9aa3b2;margin-bottom:3px">YOUR READING</div><div style="font-size:1.0625rem;font-weight:600">' + esc(r.title) + '</div><div style="font-size:.875rem;color:rgba(255,255,255,.85)">Week ' + r.week + ' · ' + esc(r.authors) + ' · ' + esc(r.year) + '</div><button onclick="SOC.read(\'' + r.id + '\')" style="margin-top:10px;background:rgba(255,255,255,.14);border:none;color:#fff;border-radius:7px;padding:7px 13px;font-size:.85rem;font-weight:600">Open the reading ↗</button></div>'
+      + '<div style="font-size:.8125rem;font-weight:600;color:#15171C;margin-bottom:7px">Choose a lens (this changes the questions)</div><div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:6px">' + rcChips() + '</div><p style="font-size:.82rem;color:#8a909c;margin:0 0 16px">' + esc(lens.label) + ': ' + esc(lens.hint) + '.</p>'
+      + zones
+      + '<button onclick="SOC.saveReadingNotes()" style="background:var(--red);border:none;color:#fff;border-radius:9px;padding:10px 18px;font-size:.9rem;font-weight:600;margin-top:4px">Save my notes</button></div>';
+  }
   function compare() {
     var recs = state.compareIds.map(rec).filter(Boolean);
     var html = '<div class="rise"><div style="display:flex;align-items:baseline;gap:12px;margin-bottom:6px;flex-wrap:wrap"><h1 style="font-size:1.75rem;font-weight:600;margin:0">Hold them side by side</h1><span style="font-size:.9375rem;color:#474C57">' + (recs.length ? recs.length + ' of 3 selected' : 'choose 2 or 3') + '</span>'
@@ -424,7 +453,18 @@
         return '<div style="flex:none;width:280px;background:#fff;border:1px solid #DEE3EA;border-radius:14px;overflow:hidden;box-shadow:0 1px 2px rgba(21,23,28,.04);display:flex;flex-direction:column"><div style="height:5px;background:' + tm.color + '"></div><div style="padding:16px 17px 14px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:11px"><span style="display:inline-flex;align-items:center;gap:6px;background:' + tm.soft + ';color:' + tm.color + ';font-size:.6875rem;font-weight:600;padding:4px 9px;border-radius:999px">' + ic(tm.icon, 13) + esc(r.type) + '</span><button onclick="SOC.compare(\'' + r.id + '\')" class="removebtn" aria-label="Remove" style="margin-left:auto;background:none;border:none;color:#6b7280;display:flex;padding:6px">' + ic('x', 16) + '</button></div><button onclick="SOC.open(\'' + r.id + '\')" style="text-align:left;background:none;border:none;padding:0;display:block;margin-bottom:4px"><h3 style="font-size:1.0625rem;line-height:1.3;font-weight:600;margin:0;color:#15171C">' + esc(r.title) + '</h3></button><div style="font-size:.8125rem;color:#474C57">' + esc(r.authors) + '</div></div>' + rows + '</div>';
       }).join('');
       var hint = recs.length < 2 ? '<p style="font-size:.875rem;color:#8a909c;margin:0 0 12px">Pick one more reading on the right to compare it against this one.</p>' : '';
-      var synthBlock = recs.length >= 2 ? comparativeStudio(recs) : '';
+      var synthBlock = '';
+      if (recs.length >= 2) {
+        if (state.showSynthesis) {
+          var syn = buildSynthesis(recs);
+          synthBlock = '<div style="background:#15171C;color:#fff;border-radius:14px;padding:20px 22px;margin-bottom:18px">'
+            + '<div style="display:flex;align-items:center;gap:9px;margin-bottom:12px"><span style="display:flex;color:#fff">' + ic('sparkle', 17) + '</span><span class="mono" style="font-size:.75rem;letter-spacing:.04em;color:#fff">HOW THESE CONNECT</span><button onclick="SOC.hideSynthesis()" aria-label="Hide" style="margin-left:auto;background:rgba(255,255,255,.12);border:none;border-radius:7px;color:#fff;width:26px;height:26px;display:flex;align-items:center;justify-content:center">' + ic('x', 15) + '</button></div>'
+            + syn.paras.map(function (p) { return '<p style="font-size:1rem;line-height:1.6;margin:0 0 12px;color:rgba(255,255,255,.92)">' + esc(p) + '</p>'; }).join('')
+            + '</div>';
+        } else {
+          synthBlock = '<button onclick="SOC.synthesize()" style="display:inline-flex;align-items:center;gap:8px;border:none;border-radius:9px;padding:12px 22px;font-size:1rem;font-weight:600;color:#fff;background:#15171C;margin-bottom:18px">' + ic('sparkle', 16) + 'Synthesize their relationship</button>';
+        }
+      }
       left = hint + synthBlock + '<div class="hshelf" style="display:flex;gap:16px;align-items:stretch;overflow-x:auto;padding-bottom:10px">' + cols + '</div>';
     } else {
       left = '<div style="background:#fff;border:1px dashed #DEE3EA;border-radius:14px;padding:48px 26px;text-align:center;color:#474C57"><div style="display:inline-flex;color:#C9D1DC;margin-bottom:12px">' + ic('columns', 40, 1.4) + '</div><div style="font-size:1.0625rem;font-weight:600;color:#15171C;margin-bottom:6px">Nothing selected yet.</div><p style="font-size:.9375rem;margin:0">Choose two or three readings from the list on the right.</p></div>';
@@ -515,6 +555,7 @@
   function body() {
     if (state.screen === 'detail') return detail();
     if (state.screen === 'compare') return compare();
+    if (state.screen === 'reading') return readingComp();
     if (state.screen === 'glossary') return glossaryScreen();
     if (state.screen === 'cards') return cardsScreen();
     return library();
@@ -541,6 +582,16 @@
 
   /* ---------- actions ---------- */
   function flash(msg) { clearTimeout(toastTimer); var lr = document.getElementById('soc-live'); if (lr) { lr.textContent = ''; setTimeout(function () { lr.textContent = msg; }, 30); } state.toast = msg; render(); toastTimer = setTimeout(function () { state.toast = null; render(); }, 2200); }
+  function senecaDoc(course, title, sub, body, fn) {
+    var html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>' + esc(title) + '</title><style>'
+      + '@page{margin:1in} body{font-family:"IBM Plex Sans",Calibri,Arial,sans-serif;color:#15171C;font-size:11pt;line-height:1.5}'
+      + '.eyebrow{color:#DA291C;font-weight:bold;letter-spacing:1pt;font-size:9pt;margin:0} h1{color:#DA291C;font-size:18pt;margin:2pt 0 2pt} .sub{color:#474C57;margin:0 0 12pt;font-size:10pt;border-bottom:1pt solid #DEE3EA;padding-bottom:8pt}'
+      + '</style></head><body><p class="eyebrow">SENECA POLYTECHNIC &middot; ' + esc(course) + '</p><h1>' + esc(title) + '</h1><p class="sub">' + sub + '</p>' + body + '</body></html>';
+    var blob = new Blob(['﻿' + html], { type: 'application/msword' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = fn + '.doc';
+    document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);
+    flash('Saved to your device (Seneca template).');
+  }
   window.SOC = {
     go: function (s) { if (s === 'library') { state.savedView = false; } state.screen = s; focusTarget = 'soc-main'; render(); topScroll(); },
     back: function () { state.screen = 'library'; focusTarget = 'soc-main'; render(); var m = document.getElementById('soc-main'); if (m) m.scrollTop = state.libScroll || 0; },
@@ -558,12 +609,16 @@
     clearCompare: function () { state.compareIds = []; state.showSynthesis = false; render(); },
     synthesize: function () { state.showSynthesis = true; render(); },
     hideSynthesis: function () { state.showSynthesis = false; render(); },
-    setLens: function (l) { state.lens = l; persist(); render(); },
-    revealModel: function () { state.showModel = true; render(); },
-    hideModel: function () { state.showModel = false; render(); },
-    toggleExample: function () { state.exampleOpen = !state.exampleOpen; render(); },
-    cmpNote: function (k, v) { state.cmpNotes[k] = v; persist(); },
-    saveComparison: function () { var recs = state.compareIds.map(rec).filter(Boolean); if (recs.length < 2) { flash('Pick two readings first.'); return; } var L = (LENSES[state.lens] || LENSES.thematic).label; var n = state.cmpNotes || {}; var t = ['My Comparative Reading (SOC122)', '', 'Readings: ' + recs.map(function (r) { return r.title + ' by ' + r.authors; }).join('  |  '), 'Lens: ' + L, '', '1. SIMILARITIES', (n.sim || '(not written yet)'), '', '2. DIFFERENCES', (n.diff || '(not written yet)'), '', '3. WHY THE DIFFERENCES MATTER', (n.ins || '(not written yet)'), ''].join('\n'); var b = new Blob([t], { type: 'text/plain' }); var a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'SOC122_comparative_reading.txt'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href); flash('Saved to your device.'); },
+    setLens: function (l) { state.lens = l; render(); },
+    rcPick: function (id) { state.rcReading = id; persist(); render(); topScroll(); },
+    rcClear: function () { state.rcReading = null; render(); topScroll(); },
+    rcNote: function (k, v) { state.rcNotes[k] = v; persist(); },
+    saveReadingNotes: function () {
+      var r = state.rcReading && rec(state.rcReading); if (!r) { flash('Pick a reading first.'); return; }
+      var L = (LENSES[state.lens] || LENSES.thematic).label, qs = RC_QUESTIONS[state.lens] || RC_QUESTIONS.thematic;
+      var body = qs.map(function (q, i) { var a = (state.rcNotes[r.id + '|' + state.lens + '|' + i] || '').trim(); return '<p style="margin:14pt 0 2pt;font-weight:bold;color:#DA291C">' + esc(q) + '</p><p style="margin:0">' + (a ? esc(a).replace(/\n/g, '<br>') : '<i>(not written yet)</i>') + '</p>'; }).join('');
+      senecaDoc('SOC122', 'Build Your Reading Comprehension', 'Reading: ' + esc(r.title) + ' by ' + esc(r.authors) + '<br>Lens: ' + esc(L), body, 'SOC122_reading_comprehension');
+    },
     read: function (id) { var r = rec(id); var u = r && readUrl(r); if (u) { window.open(u, '_blank', 'noopener'); } else { flash('Find this in this week\'s Readings folder on Blackboard.'); } },
     openSaved: function () { state.screen = 'library'; state.activeTypes = []; state.activeWeek = null; state.search = ''; state.savedView = state.saved.length > 0; flash(state.saved.length ? 'Your saved shelf.' : 'Nothing saved yet. Tap the bookmark on any reading.'); topScroll(); },
     cardWeek: function (v) { state.cardWeek = (v === '' ? null : parseInt(v, 10)); render(); },
