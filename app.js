@@ -487,9 +487,11 @@
         var why = done ? '<div style="margin:9px 0 0;padding:10px 13px;border-radius:9px;background:' + (ok ? '#E9EFE7' : '#FBE9E7') + ';border:1px solid ' + (ok ? '#9CC4A8' : '#E5A9A2') + '"><span style="display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.9rem;color:' + (ok ? '#2c6b3f' : '#b23121') + '">' + (ok ? ic('check', 15, 2.4) + 'Correct' : ic('x', 15, 2.4) + 'Not quite') + '</span><div style="margin-top:4px;font-size:.85rem;line-height:1.5;color:#474C57">' + esc(m.why || '') + '</div></div>' : '';
         return '<div style="background:#fff;border:1px solid #DEE3EA;border-radius:12px;padding:15px 17px;margin-bottom:11px"><p style="margin:0 0 9px;font-size:.95rem;font-weight:600;color:#15171C">' + (mi + 1) + '. ' + esc(m.q) + '</p>' + opts + why + '</div>';
       }).join('');
-      var score = answered
-        ? '<div style="display:inline-block;background:#EEF1F5;border-radius:999px;padding:5px 13px;font-size:.85rem;font-weight:600;color:#15171C;margin-bottom:12px">Score: ' + correct + ' / ' + answered + ' answered' + (answered === mcItems.length ? '' : ' (' + mcItems.length + ' total)') + '</div>'
-        : '<p style="font-size:.82rem;color:#8a909c;margin:0 0 12px">Pick an answer to check it right away. You can change your choice.</p>';
+      var total = mcItems.length, pct = Math.round(100 * correct / total);
+      var score = '<div style="margin:2px 0 16px;max-width:460px">'
+        + '<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px"><span style="font-size:.9rem;font-weight:700;color:#15171C">' + (answered ? 'You got ' + correct + ' of ' + total : 'Answer to fill the meter') + '</span><span style="font-size:.78rem;color:#8a909c">' + answered + ' of ' + total + ' answered</span></div>'
+        + '<div style="height:11px;background:#EEF1F5;border-radius:999px;overflow:hidden"><div style="height:100%;width:' + pct + '%;background:linear-gradient(90deg,#50694C,#74a878);border-radius:999px;transition:width .35s ease"></div></div>'
+        + (answered ? '' : '<p style="font-size:.8rem;color:#8a909c;margin:8px 0 0">Pick an answer to check it right away. You can change your choice.</p>') + '</div>';
       mcHtml = '<div style="margin:24px 0 4px"><h2 style="font-size:1.15rem;margin:0 0 3px">Check your understanding</h2><p style="font-size:.85rem;color:#8a909c;margin:0 0 12px">Quick questions on this reading, with the answer right away.</p>' + score + rows + '</div>';
     }
     return '<div class="rise"><div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px"><h1 style="font-size:1.5rem;margin:0">Build Your Reading Comprehension</h1><button onclick="SOC.rcClear()" style="margin-left:auto;background:none;border:none;color:var(--red);font-size:.875rem;font-weight:600">Choose a different reading</button></div>'
@@ -652,7 +654,7 @@
   function dxEsc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]; }); }
   function dxRun(text, opt) { opt = opt || {}; var rpr = '<w:rPr>'; if (opt.bold) rpr += '<w:b/>'; if (opt.color) rpr += '<w:color w:val="' + opt.color + '"/>'; if (opt.size) rpr += '<w:sz w:val="' + opt.size + '"/><w:szCs w:val="' + opt.size + '"/>'; rpr += '<w:rFonts w:ascii="IBM Plex Sans" w:hAnsi="IBM Plex Sans" w:cs="IBM Plex Sans"/></w:rPr>'; var parts = String(text == null ? '' : text).split('\n'), t = ''; for (var i = 0; i < parts.length; i++) { if (i > 0) t += '<w:br/>'; t += '<w:t xml:space="preserve">' + dxEsc(parts[i]) + '</w:t>'; } return '<w:r>' + rpr + t + '</w:r>'; }
   function dxPara(runsXml, opt) { opt = opt || {}; var ppr = '<w:pPr><w:spacing w:before="' + (opt.before || 0) + '" w:after="' + (opt.after || 120) + '"/>'; if (opt.border) ppr += '<w:pBdr><w:bottom w:val="single" w:sz="6" w:space="6" w:color="DEE3EA"/></w:pBdr>'; ppr += '</w:pPr>'; return '<w:p>' + ppr + runsXml + '</w:p>'; }
-  function dxDoc(course, title, subLines, sections) { var body = ''; body += dxPara(dxRun('SENECA POLYTECHNIC · ' + course, { bold: true, color: 'DA291C', size: 18 }), { after: 40 }); body += dxPara(dxRun(title, { bold: true, color: 'DA291C', size: 36 }), { after: 60 }); (subLines || []).forEach(function (line, i) { body += dxPara(dxRun(line, { color: '474C57', size: 20 }), { after: (i === subLines.length - 1 ? 160 : 40), border: (i === subLines.length - 1) }); }); (sections || []).forEach(function (sec) { body += dxPara(dxRun(sec.h, { bold: true, color: 'DA291C', size: 22 }), { before: 160, after: 30 }); var t = (sec.t && String(sec.t).trim()) ? sec.t : '(not written yet)'; body += dxPara(dxRun(t, { color: '15171C', size: 22 }), { after: 80 }); }); return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>' + body + '<w:sectPr><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="720" w:footer="720" w:gutter="0"/></w:sectPr></w:body></w:document>'; }
+  function dxDoc(course, title, subLines, sections) { var body = ''; body += dxPara(dxRun('SENECA POLYTECHNIC · ' + course, { bold: true, color: 'DA291C', size: 18 }), { after: 40 }); body += dxPara(dxRun(title, { bold: true, color: 'DA291C', size: 36 }), { after: 60 }); (subLines || []).forEach(function (line, i) { body += dxPara(dxRun(line, { color: '474C57', size: 20 }), { after: (i === subLines.length - 1 ? 160 : 40), border: (i === subLines.length - 1) }); }); (sections || []).forEach(function (sec) { body += dxPara(dxRun(sec.h, { bold: true, color: 'DA291C', size: 22 }), { before: 160, after: 30 }); if (sec.t !== undefined && sec.t !== null) { var t = (String(sec.t).trim()) ? sec.t : '(not written yet)'; body += dxPara(dxRun(t, { color: '15171C', size: 22 }), { after: 80 }); } }); return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>' + body + '<w:sectPr><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="720" w:footer="720" w:gutter="0"/></w:sectPr></w:body></w:document>'; }
   var DX_CT = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>';
   var DX_RELS = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>';
   var dxCrcT = null;
@@ -696,6 +698,20 @@
       var cc = (D.course && D.course.code) || 'Course';
       var L = (LENSES[state.lens] || LENSES.thematic).label, qs = RC_QUESTIONS[state.lens] || RC_QUESTIONS.thematic;
       var sections = qs.map(function (q, i) { return { h: q, t: (state.rcNotes[r.id + '|' + state.lens + '|' + i] || '').trim() }; });
+      var mcItems = MC[r.id] || [];
+      if (mcItems.length) {
+        sections.push({ h: 'Check your understanding' });
+        mcItems.forEach(function (m, mi) {
+          var sel = state.mcSel[r.id + '|mc|' + mi];
+          var done = (sel !== undefined && sel !== null);
+          var chosen = done ? (m.options[sel] || '') : '(not answered)';
+          var verdict = !done ? 'Not answered.' : (sel === m.answer ? 'Correct.' : 'Not quite.');
+          var t = 'Your answer: ' + chosen + '\n' + verdict;
+          if (done && sel !== m.answer) t += ' The correct answer is: ' + (m.options[m.answer] || '') + '.';
+          if (m.why) t += '\n' + m.why;
+          sections.push({ h: (mi + 1) + '. ' + m.q, t: t });
+        });
+      }
       senecaDoc(cc, 'Build Your Reading Comprehension', ['Reading: ' + r.title + ' by ' + r.authors, 'Lens: ' + L], sections, cc + '_reading_comprehension');
     },
     read: function (id) { var r = rec(id); var u = r && readUrl(r); if (u) { window.open(u, '_blank', 'noopener'); } else { state.screen = 'detail'; state.detailId = id; focusTarget = 'soc-main'; render(); topScroll(); } },
