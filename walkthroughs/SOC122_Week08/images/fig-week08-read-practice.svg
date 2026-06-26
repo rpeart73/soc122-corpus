@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 440" role="img" aria-labelledby="title desc">
+<title id="title">SOC122 Week 8 reading to practice flow</title>
+<desc id="desc">Diagram showing weekly learning moving from reading to concepts, guided notes, practice, and reflection.</desc>
+<rect width="680" height="440" fill="#ffffff"/>
+<text x="340" y="48" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" fill="#15171C">From Reading to Practice</text>
+<rect x="40" y="130" width="135" height="130" rx="8" fill="#FFF6F5" stroke="#DA291C" stroke-width="3"/>
+<text x="107.5" y="164" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#15171C">Read</text>
+<text x="107.5" y="196" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#333333">Use the assigned sources</text>
+<text x="107.5" y="218" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#333333">on Blackboard</text>
+<rect x="200" y="130" width="135" height="130" rx="8" fill="#ffffff" stroke="#DA291C" stroke-width="3"/>
+<text x="267.5" y="164" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#15171C">Name</text>
+<text x="267.5" y="196" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#333333">Put key concepts in your</text>
+<text x="267.5" y="218" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#333333">own words</text>
+<rect x="360" y="130" width="135" height="130" rx="8" fill="#F7F7F7" stroke="#DA291C" stroke-width="3"/>
+<text x="427.5" y="164" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#15171C">Apply</text>
+<text x="427.5" y="196" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#333333">Students write two</text>
+<text x="427.5" y="218" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#333333">sentences: one naming a</text>
+<text x="427.5" y="240" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#333333">personal trouble in</text>
+<rect x="520" y="130" width="120" height="130" rx="8" fill="#ffffff" stroke="#DA291C" stroke-width="3"/>
+<text x="580.0" y="164" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#15171C">Reflect</text>
+<text x="580.0" y="196" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#333333">A question to keep, not</text>
+<text x="580.0" y="218" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#333333">to answer: how much of</text>
+<text x="580.0" y="240" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="500" fill="#333333">what.</text>
+<line x1="175" y1="195" x2="200" y2="195" stroke="#DA291C" stroke-width="5"/>
+<line x1="335" y1="195" x2="360" y2="195" stroke="#DA291C" stroke-width="5"/>
+<line x1="495" y1="195" x2="520" y2="195" stroke="#DA291C" stroke-width="5"/>
+<text x="340" y="340" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="600" fill="#333333">The walkthrough supports the same path as the weekly bundle.</text>
+</svg>

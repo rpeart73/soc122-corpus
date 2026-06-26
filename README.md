@@ -4,6 +4,8 @@ The reading room for **SOC122: Introduction to the Social Sciences** at Seneca P
 
 A student-facing source library: search and filter the course readings, move through the course by week, drill into one source, hold up to three readings side by side, and synthesize comparisons through the stationary compare picker. The current data set has 22 readings and 231 pair-synthesis cards.
 
+The repo also serves the SOC122 weekly walkthrough decks at `/walkthroughs/`. Those decks are generated from the shared walkthrough YAML source in `projects/Seneca Polytechnic/walkthrough/content/SOC122/`.
+
 It is a **companion to Blackboard**, not a replacement. Official records, discussion, grades, and submission live in Blackboard. The public app has no accounts, no grading, no student-to-student interaction, no analytics, no PDFs, and no reproduced reading text. Free readings link out to OpenStax or open-access pages; copyrighted or library readings are not linked here and are reached through the Blackboard weekly Readings folders or the Seneca Library.
 
 Every Indigenous reading is authored by an Indigenous scholar (a compulsory course rule, applied 2026-06-24).

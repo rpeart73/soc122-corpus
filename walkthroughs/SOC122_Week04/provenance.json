@@ -1,0 +1,15 @@
+{
+  "course": "SOC122",
+  "week": 4,
+  "title": "Truth and Reconciliation",
+  "term": "Fall 2026",
+  "slides": 17,
+  "content_pairs": 4,
+  "images_present": 3,
+  "images_missing": 1,
+  "source_yaml": "../content/SOC122/week04.yaml",
+  "logo_embedded": true,
+  "rel": "SOC122_Week04/index.html",
+  "generated": "2026-06-25T20:21:09",
+  "generator": "web_builder.py (Reveal.js 5.1.0)"
+}

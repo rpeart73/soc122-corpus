@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>SOC122 Weekly Walkthroughs</title>
+<link rel="stylesheet" href="assets/seneca-deck.css?v=20260625202111">
+<style>
+  body { font-family: "IBM Plex Sans", system-ui, sans-serif; color: #333; margin: 0; background: #fff; }
+  .bar { height: 10px; background: var(--seneca-red); }
+  header { padding: 34px 48px 8px; }
+  header .eyebrow { color: var(--seneca-red); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: 14px; }
+  header h1 { font-size: 38px; margin: 6px 0 4px; color: #1a1a1a; }
+  header p { color: #666; max-width: 70ch; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 18px 48px 60px; }
+  a.card { display: block; text-decoration: none; color: inherit; border: 1px solid #e3e3e3; border-left: 6px solid var(--seneca-red); border-radius: 10px; padding: 20px 22px; transition: box-shadow .15s, transform .15s; }
+  a.card:hover, a.card:focus-visible { box-shadow: 0 8px 26px rgba(0,0,0,.12); transform: translateY(-2px); outline: none; }
+  a.card .course { color: var(--seneca-red); font-weight: 700; font-size: 14px; letter-spacing: .03em; }
+  a.card h2 { font-size: 20px; margin: 4px 0 10px; color: #1a1a1a; }
+  a.card .meta { font-size: 13px; color: #666; }
+</style>
+</head>
+<body>
+<div class="bar"></div>
+<header>
+  <div class="eyebrow">Seneca Polytechnic &middot; SOC122</div>
+  <h1>Weekly Walkthroughs</h1>
+  <p>Self-paced walkthroughs for this course. Open a week, then use the arrow keys or swipe to move, click cards to flip, and use Save my notes to keep your answers.</p>
+</header>
+<div class="grid">
+  <a class="card" href="SOC122_Week02/index.html">
+    <div class="course">Week 2</div>
+    <h2>Two-Eyed Seeing Frame</h2>
+    <div class="meta">Fall 2026 &nbsp;|&nbsp; 17 slides</div>
+  </a>
+  <a class="card" href="SOC122_Week03/index.html">
+    <div class="course">Week 3</div>
+    <h2>Indigenous Canada: The Foundation</h2>
+    <div class="meta">Fall 2026 &nbsp;|&nbsp; 17 slides</div>
+  </a>
+  <a class="card" href="SOC122_Week04/index.html">
+    <div class="course">Week 4</div>
+    <h2>Truth and Reconciliation</h2>
+    <div class="meta">Fall 2026 &nbsp;|&nbsp; 17 slides</div>
+  </a>
+  <a class="card" href="SOC122_Week05/index.html">
+    <div class="course">Week 5</div>
+    <h2>Research Methods</h2>
+    <div class="meta">Fall 2026 &nbsp;|&nbsp; 17 slides</div>
+  </a>
+  <a class="card" href="SOC122_Week06/index.html">
+    <div class="course">Week 6</div>
+    <h2>Anthropology</h2>
+    <div class="meta">Fall 2026 &nbsp;|&nbsp; 17 slides</div>
+  </a>
+  <a class="card" href="SOC122_Week07/index.html">
+    <div class="course">Week 7</div>
+    <h2>Knowledge Check Week and Cumulative Review</h2>
+    <div class="meta">Fall 2026 &nbsp;|&nbsp; 17 slides</div>
+  </a>
+  <a class="card" href="SOC122_Week08/index.html">
+    <div class="course">Week 8</div>
+    <h2>Sociology Part 1</h2>
+    <div class="meta">Fall 2026 &nbsp;|&nbsp; 17 slides</div>
+  </a>
+  <a class="card" href="SOC122_Week09/index.html">
+    <div class="course">Week 9</div>
+    <h2>Sociology Part 2</h2>
+    <div class="meta">Fall 2026 &nbsp;|&nbsp; 17 slides</div>
+  </a>
+  <a class="card" href="SOC122_Week10/index.html">
+    <div class="course">Week 10</div>
+    <h2>Psychology Part 1</h2>
+    <div class="meta">Fall 2026 &nbsp;|&nbsp; 17 slides</div>
+  </a>
+  <a class="card" href="SOC122_Week11/index.html">
+    <div class="course">Week 11</div>
+    <h2>Psychology Part 2</h2>
+    <div class="meta">Fall 2026 &nbsp;|&nbsp; 17 slides</div>
+  </a>
+  <a class="card" href="SOC122_Week12/index.html">
+    <div class="course">Week 12</div>
+    <h2>The Family: Structure, Kinship, and Social Change</h2>
+    <div class="meta">Fall 2026 &nbsp;|&nbsp; 17 slides</div>
+  </a>
+</div>
+<script>
+  var GV = "20260625202111";
+  fetch("version.json?cb=" + Math.random()).then(function (r) { return r.json(); }).then(function (j) {
+    if (j && j.v && j.v !== GV && location.search.indexOf("v=" + j.v) < 0) location.replace(location.pathname + "?v=" + j.v);
+  }).catch(function () {});
+</script>
+</body>
+</html>

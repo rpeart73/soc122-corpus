@@ -207,6 +207,7 @@
       + '<div style="width:1px;height:26px;background:#DEE3EA;flex:none"></div>'
       + '<div style="display:flex;align-items:center;gap:9px;min-width:0"><span style="font-size:.9375rem;font-weight:500;color:#474C57">Source library</span><span class="mono" style="font-size:.8125rem;color:#474C57;background:#EEF1F5;padding:3px 9px;border-radius:999px">' + D.records.length + ' readings</span></div>'
       + '<div style="margin-left:auto;display:flex;align-items:center;gap:10px;flex:none">'
+      + '<a href="./walkthroughs/" style="display:inline-flex;align-items:center;gap:7px;border:1.5px solid #DEE3EA;background:#fff;color:#474C57;text-decoration:none;border-radius:6px;padding:7px 13px;font-size:.875rem;font-weight:600">' + ic('book', 16) + 'Weekly Walkthroughs</a>'
       + '<button onclick="SOC.go(\'compare\')" style="' + cmpStyle + '">' + ic('columns', 16) + 'Compare' + (n ? ' · ' + n : '') + '</button>'
       + '<span class="mono" style="font-size:.75rem;font-weight:600;color:var(--red);background:#F6E3E1;padding:5px 10px;border-radius:6px">FALL 2026</span>'
       + '</div></header>';
