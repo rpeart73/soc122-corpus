@@ -446,6 +446,16 @@
     }).join(' ');
   }
   function numList(arr) { if (!arr.length) return ''; if (arr.length === 1) return 'question ' + arr[0]; if (arr.length === 2) return 'questions ' + arr[0] + ' and ' + arr[1]; return 'questions ' + arr.slice(0, -1).join(', ') + ', and ' + arr[arr.length - 1]; }
+  function listJoin(arr) { if (!arr.length) return ''; if (arr.length === 1) return arr[0]; if (arr.length === 2) return arr[0] + ' and ' + arr[1]; return arr.slice(0, -1).join(', ') + ', and ' + arr[arr.length - 1]; }
+  var RC_SKILLS = { argument: 'the main argument', concepts: 'the key concepts', context: 'the context and who is speaking', significance: 'why the reading matters' };
+  var RC_SKILL_ORDER = ['argument', 'concepts', 'context', 'significance'];
+  function rcSkillProfile(rid, items) {
+    var stat = {};
+    items.forEach(function (m, mi) { var sk = m.skill; if (!sk) return; var sel = state.mcSel[rid + '|mc|' + mi]; if (sel === undefined || sel === null) return; if (!stat[sk]) stat[sk] = { right: 0, total: 0 }; stat[sk].total++; if (sel === m.answer) stat[sk].right++; });
+    var strengths = [], opps = [];
+    RC_SKILL_ORDER.forEach(function (sk) { var s = stat[sk]; if (!s) return; (s.right === s.total ? strengths : opps).push(RC_SKILLS[sk]); });
+    return { strengths: strengths, opps: opps, has: (strengths.length + opps.length) > 0 };
+  }
   function rcBand(correct, total) {
     if (correct === total) return { label: 'Strong grasp', color: '#2c6b3f', bg: '#E9EFE7', icon: 'check', msg: 'You have this reading down. Try a different lens, or hold it next to another reading in Compare.' };
     var pct = correct / total;
@@ -503,13 +513,23 @@
         + (answered ? '' : '<p style="font-size:.8rem;color:#8a909c;margin:8px 0 0">Pick an answer to check it right away. You can change your choice.</p>') + '</div>';
       var band = (answered === total && total) ? rcBand(correct, total) : null;
       var pctLabel = band ? Math.round(100 * correct / total) + '%' : '';
-      var missedLine = (band && missed.length) ? '<p style="margin:7px 0 0;font-size:.9rem;line-height:1.5;color:#15171C"><span style="font-weight:600">Look again at ' + numList(missed) + '.</span> Those are the ideas to firm up before you move on.</p>' : (band ? '<p style="margin:7px 0 0;font-size:.9rem;color:#15171C"><span style="font-weight:600">You answered every question correctly.</span> Nothing to revisit here.</p>' : '');
+      var diagLine = '';
+      if (band) {
+        var prof = rcSkillProfile(r.id, mcItems);
+        if (prof.has) {
+          if (prof.strengths.length) diagLine += '<div style="margin-top:12px"><span class="mono" style="font-size:.66rem;letter-spacing:.05em;color:#2c6b3f">YOUR STRENGTHS</span><div style="font-size:.9rem;line-height:1.5;color:#15171C;margin-top:2px">Your answers show you read ' + listJoin(prof.strengths) + ' well.</div></div>';
+          if (prof.opps.length) diagLine += '<div style="margin-top:9px"><span class="mono" style="font-size:.66rem;letter-spacing:.05em;color:#8F5E0F">AREAS OF OPPORTUNITY</span><div style="font-size:.9rem;line-height:1.5;color:#15171C;margin-top:2px">Give a little more attention to ' + listJoin(prof.opps) + '.</div></div>';
+          else diagLine += '<div style="margin-top:9px;font-size:.85rem;color:#2c6b3f">No gaps stood out. You handled all four kinds of question here.</div>';
+        } else {
+          diagLine = (missed.length) ? '<p style="margin:7px 0 0;font-size:.9rem;line-height:1.5;color:#15171C"><span style="font-weight:600">Look again at ' + numList(missed) + '.</span> Those are the ideas to firm up before you move on.</p>' : '<p style="margin:7px 0 0;font-size:.9rem;color:#15171C"><span style="font-weight:600">You answered every question correctly.</span> Nothing to revisit here.</p>';
+        }
+      }
       var bandHtml = band ? '<div style="margin:18px 0 4px;background:' + band.bg + ';border:1.5px solid ' + band.color + ';border-radius:13px;padding:17px 19px">'
         + '<div class="mono" style="font-size:.68rem;letter-spacing:.06em;color:' + band.color + ';margin-bottom:7px">WHERE YOU ARE IN THIS READING</div>'
         + '<div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap"><span style="display:flex;color:' + band.color + '">' + ic(band.icon, 24, 2.2) + '</span><span style="font-size:1.35rem;font-weight:700;color:' + band.color + '">' + band.label + '</span><span style="margin-left:auto;text-align:right"><span style="display:block;font-size:1.05rem;font-weight:700;color:' + band.color + '">' + correct + ' of ' + total + '</span><span style="font-size:.72rem;color:#474C57">correct (' + pctLabel + ')</span></span></div>'
         + '<div style="height:8px;background:#fff;border-radius:999px;overflow:hidden;margin:11px 0 2px"><div style="height:100%;width:' + Math.round(100 * correct / total) + '%;background:' + band.color + ';border-radius:999px"></div></div>'
         + '<p style="margin:11px 0 0;font-size:.92rem;line-height:1.55;color:#15171C">' + band.msg + '</p>'
-        + missedLine
+        + diagLine
         + '<div style="margin-top:14px;display:flex;gap:9px;flex-wrap:wrap"><button onclick="SOC.read(\'' + r.id + '\')" style="background:' + band.color + ';border:none;color:#fff;border-radius:9px;padding:8px 15px;font-size:.875rem;font-weight:600">Open the reading &#8599;</button><button onclick="SOC.mcReset(\'' + r.id + '\')" style="background:#fff;border:1px solid ' + band.color + ';color:' + band.color + ';border-radius:9px;padding:8px 15px;font-size:.875rem;font-weight:600">Try these questions again</button></div></div>' : '';
       mcHtml = '<div style="margin:24px 0 4px"><h2 style="font-size:1.15rem;margin:0 0 3px">Check your understanding</h2><p style="font-size:.85rem;color:#8a909c;margin:0 0 12px">Quick questions on this reading, with the answer right away.</p>' + score + rows + bandHtml + '</div>';
     }
@@ -723,7 +743,14 @@
         var ans = 0, cor = 0, miss = [];
         mcItems.forEach(function (m, mi) { var s = state.mcSel[r.id + '|mc|' + mi]; if (s !== undefined && s !== null) { ans++; if (s === m.answer) cor++; else miss.push(mi + 1); } });
         var head = 'Score: ' + cor + ' of ' + mcItems.length + ' correct' + (ans < mcItems.length ? ' (' + ans + ' of ' + mcItems.length + ' answered).' : '.');
-        if (ans === mcItems.length) { var b = rcBand(cor, mcItems.length); head += '\nWhere you are: ' + b.label + '. ' + b.msg; if (miss.length) head += '\nLook again at ' + numList(miss) + '.'; }
+        if (ans === mcItems.length) {
+          var b = rcBand(cor, mcItems.length); head += '\nWhere you are: ' + b.label + '. ' + b.msg;
+          var prof = rcSkillProfile(r.id, mcItems);
+          if (prof.has) {
+            if (prof.strengths.length) head += '\nYour strengths: you read ' + listJoin(prof.strengths) + ' well.';
+            if (prof.opps.length) head += '\nAreas of opportunity: give a little more attention to ' + listJoin(prof.opps) + '.';
+          } else if (miss.length) head += '\nLook again at ' + numList(miss) + '.';
+        }
         sections.push({ h: 'Check your understanding', t: head });
         mcItems.forEach(function (m, mi) {
           var sel = state.mcSel[r.id + '|mc|' + mi];
