@@ -51,6 +51,21 @@
   .addtile:hover{border-color:var(--navy)!important;color:var(--navy)!important}
   .pickchip:hover{border-color:var(--navy)!important}
   .removebtn:hover{color:var(--red)!important}
+  /* immersive journey shell */
+  .jhero{position:relative;overflow:hidden;border-radius:18px;color:#fff;padding:48px 42px 44px;background:linear-gradient(135deg,#10182B 0%,#1B2A4A 48%,#3A2230 100%)}
+  .jhero-art{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+  .jhero-cta{display:inline-flex;align-items:center;gap:8px;background:var(--red);color:#fff;border:none;border-radius:11px;padding:13px 22px;font-size:1rem;font-weight:600;box-shadow:0 8px 22px rgba(218,41,28,.32);transition:transform .15s ease,box-shadow .15s ease}
+  .jhero-cta:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(218,41,28,.44)}
+  .jstation{position:relative;display:block;width:100%;text-align:left;border:1px solid var(--border);background:#fff;border-radius:14px;padding:16px 18px;cursor:pointer;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease}
+  .jstation:hover{transform:translateX(3px);box-shadow:0 8px 22px rgba(27,42,74,.13);border-color:var(--border-hover)}
+  .jstation.cur{border-color:var(--red);box-shadow:0 0 0 1px var(--red)}
+  .jdot{transition:transform .16s ease}
+  .jstation:hover .jdot{transform:scale(1.07)}
+  .jtile{display:flex;flex-direction:column;gap:8px;border:1px solid var(--border);background:#fff;border-radius:16px;padding:20px;text-align:left;cursor:pointer;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease}
+  .jtile:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(27,42,74,.14);border-color:var(--border-hover)}
+  @keyframes heroFloat{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  .jfade{animation:heroFloat .5s cubic-bezier(.2,.7,.2,1) both}
+  @media (max-width:760px){ .jhero{padding:34px 22px 30px} }
   @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
   @media (max-width:760px){
     .soc-sidebar{display:none!important}
@@ -70,6 +85,6 @@
 <div id="soc-live" role="status" aria-live="polite" class="skip"></div>
 <script src="./data/corpus-data.js?v=25"></script>
 <script src="./data/soc122-mc.js?v=4"></script>
-<script src="./app.js?v=49"></script>
+<script src="./app.js?v=50"></script>
 </body>
 </html>

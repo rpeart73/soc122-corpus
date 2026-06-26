@@ -12,11 +12,13 @@
 
   var SKEY = 'soc122corpus.v2';
   function load() { try { var o = JSON.parse(localStorage.getItem(SKEY) || '{}'); return o && typeof o === 'object' ? o : {}; } catch (e) { return {}; } }
-  function persist() { try { localStorage.setItem(SKEY, JSON.stringify({ saved: state.saved, layout: state.layout, introOpen: state.introOpen, cmpNotes: state.cmpNotes, rcNotes: state.rcNotes, mapNotes: state.mapNotes, mapLayer: state.mapLayer, mapRegion: state.mapRegion })); } catch (e) {} }
+  function persist() { try { localStorage.setItem(SKEY, JSON.stringify({ saved: state.saved, layout: state.layout, introOpen: state.introOpen, cmpNotes: state.cmpNotes, rcNotes: state.rcNotes, mapNotes: state.mapNotes, mapLayer: state.mapLayer, mapRegion: state.mapRegion, journeyWeek: state.journeyWeek })); } catch (e) {} }
   var saved0 = load();
 
   var state = {
-    screen: 'library',
+    screen: 'journey',
+    journeyWeek: saved0.journeyWeek || null,
+    stationWeek: null,
     layout: saved0.layout || 'byweek',
     search: '',
     activeTypes: [],
@@ -221,10 +223,9 @@
   }
   function sidebar() {
     var s = state;
-    var navDefs = [['library', 'Home', 'grid'], ['readings', 'Library of Readings', 'gallery'], ['compare', 'Compare Reading Concepts', 'columns'], ['reading', 'Build Your Reading Comprehension', 'book'], ['glossary', 'Glossary & Thinkers', 'book'], ['cards', 'Self-check', 'clipboard']];
-    if (D.course && D.course.frame) navDefs.push(['map', 'Personal Cartography', 'globe']);
+    var navDefs = [['journey', 'Home', 'gauge'], ['readings', 'Readings', 'gallery'], ['explore', 'Explore', 'sparkle'], ['glossary', 'Glossary', 'book']];
     var btns = navDefs.map(function (d) {
-      var key = d[0], active = (key === 'library' && (s.screen === 'library' || s.screen === 'detail')) || s.screen === key;
+      var key = d[0], active = (key === 'journey' && (s.screen === 'journey' || s.screen === 'library' || s.screen === 'station' || s.screen === 'detail')) || (key === 'explore' && (s.screen === 'explore' || s.screen === 'compare' || s.screen === 'reading' || s.screen === 'cards' || s.screen === 'map')) || s.screen === key;
       var badge = '';
       if (key === 'compare' && s.compareIds.length) badge = '<span class="mono" style="font-size:.6875rem;font-weight:600;color:#1552D8;background:#E7EEFB;padding:1px 7px;border-radius:999px">' + s.compareIds.length + '</span>';
       var click = "SOC.go('" + key + "')";
@@ -243,7 +244,7 @@
     }).join('');
     return '<nav class="soc-sidebar" aria-label="Primary" style="width:240px;flex:none;border-right:1px solid #DEE3EA;background:#fff;padding:18px 14px;display:flex;flex-direction:column;gap:4px;position:sticky;top:62px;align-self:flex-start;height:calc(100vh - 62px);overflow:auto">'
       + nav
-      + '<div style="margin-top:14px;padding-top:14px;border-top:1px solid #EEF1F5"><div class="mono" style="font-size:.6875rem;letter-spacing:.04em;color:#8a909c;padding:0 12px 8px">WEEKS</div>' + weekNav + '</div>'
+      + ''
       + '<div style="margin-top:auto;padding:13px 12px;border-radius:12px;background:#EEF1F5"><div class="mono" style="font-size:.75rem;color:#474C57;margin-bottom:4px">SOC122</div><div style="font-size:.8125rem;color:#15171C;line-height:1.45">A living collection, week by week. A companion to Blackboard.</div></div>'
       + '</nav>';
   }
@@ -965,11 +966,142 @@
       + '<div class="soc-cardgrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px">' + list.map(card).join('') + '</div></div>';
   }
 
+  /* ---------- immersive journey shell ---------- */
+  var JOURNEY_Q = {
+    SOC122: {
+      1: 'What makes a private trouble a public, patterned question, and who gets to decide what counts as knowledge?',
+      2: 'What becomes possible when Indigenous and Western knowledges are held together, each kept whole?',
+      3: 'Who decides what counts as knowledge in a classroom, and what would real change ask of the institution?',
+      4: 'When the data itself fails Indigenous peoples, what does honest, accountable evidence look like?',
+      5: 'What turns an assertion about people into a claim you can defend, and who gets to set the method?',
+      6: 'If culture is just what a group learns and shares, how do we understand difference without ranking it, or borrow ideas without erasing people?',
+      8: 'How much of who we are is made in relationship, and how much is decided by law?',
+      9: 'Is inequality random, or is it engineered and then kept in place?',
+      10: 'When we explain the mind, what do we miss if we forget history and colonization?',
+      11: 'How much of identity and behaviour is shaped between people, and carried across generations?',
+      12: 'What is a family: a structure, a set of relationships, or the ongoing work of keeping a home?'
+    }
+  };
+  function journeyQ(w) { var c = (D.course && D.course.code) || ''; return (JOURNEY_Q[c] && JOURNEY_Q[c][w]) || 'What is this week asking you to see?'; }
+  function journeyWeeks() { return weeksWithReadings(); }
+  function currentJourneyWeek() { var ws = journeyWeeks(); if (!ws.length) return null; if (state.journeyWeek && ws.indexOf(state.journeyWeek) >= 0) return state.journeyWeek; return ws[0]; }
+  function heroArt() {
+    return '<svg class="jhero-art" viewBox="0 0 800 320" preserveAspectRatio="xMidYMid slice" aria-hidden="true">'
+      + '<defs><linearGradient id="ha" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity="0"/><stop offset="1" stop-color="#ffffff" stop-opacity=".10"/></linearGradient></defs>'
+      + '<path d="M0,250 C160,210 300,300 460,250 C620,200 720,260 800,230 L800,320 L0,320 Z" fill="url(#ha)"/>'
+      + '<path d="M0,285 C180,250 320,320 500,280 C660,245 740,295 800,275 L800,320 L0,320 Z" fill="#ffffff" fill-opacity=".06"/>'
+      + '<g stroke="#ffffff" stroke-opacity=".15" fill="none" stroke-width="1.2"><path d="M-20,150 C200,90 380,180 560,120 C680,80 760,120 820,100"/><path d="M-20,185 C200,130 380,215 560,160 C680,120 760,160 820,140"/></g>'
+      + '<g fill="#F2A900" fill-opacity=".55"><circle cx="120" cy="92" r="2.4"/><circle cx="330" cy="70" r="1.8"/><circle cx="540" cy="104" r="2.2"/><circle cx="680" cy="78" r="1.6"/></g>'
+      + '</svg>';
+  }
+  function journeyIntro() {
+    var fr = (D.course && D.course.frame);
+    if (fr) return 'One question runs through this course: how do we understand people and society, and whose knowledge counts? You follow it week by week, with two ways of seeing held side by side, ' + fr + '. Start at the top, or pick up where you left off.';
+    return 'Follow one question through the whole course, week by week. Each week sets up what to read, why it matters, and one thing to do with it. Start at the top, or pick up where you left off.';
+  }
+  function journeyHome() {
+    var ws = journeyWeeks(), cur = currentJourneyWeek(), started = !!state.journeyWeek;
+    var title = (D.course && (D.course.name || D.course.code)) || 'Your course';
+    var ctaLabel = started ? ('Resume Week ' + cur) : ('Start Week ' + (ws[0] || 1));
+    var hero = '<section class="jhero jfade" style="margin-bottom:26px">' + heroArt()
+      + '<div style="position:relative;max-width:64ch">'
+      + '<div class="mono" style="font-size:.75rem;letter-spacing:.08em;color:rgba(255,255,255,.72);font-weight:600;margin-bottom:12px">SENECA POLYTECHNIC &middot; FALL 2026</div>'
+      + '<h1 style="font-size:2.5rem;line-height:1.1;font-weight:600;margin:0 0 14px;letter-spacing:-.01em">' + esc(title) + '</h1>'
+      + '<p style="font-size:1.0625rem;line-height:1.6;color:rgba(255,255,255,.86);margin:0 0 24px;max-width:54ch">' + esc(journeyIntro()) + '</p>'
+      + '<button class="jhero-cta" onclick="SOC.station(' + (cur || (ws[0] || 1)) + ')">' + ctaLabel + ic('chevron', 18, 2.4) + '</button>'
+      + (started ? '' : '<div style="margin-top:14px;font-size:.8125rem;color:rgba(255,255,255,.62)">' + ws.length + ' weeks &middot; two ways of seeing each one</div>')
+      + '</div></section>';
+    var spineHead = '<div style="display:flex;align-items:baseline;gap:12px;margin:0 0 16px;flex-wrap:wrap"><h2 style="font-size:1.375rem;font-weight:600;margin:0;color:var(--ink)">Your journey</h2><span style="font-size:.875rem;color:var(--ink-faint)">' + ws.length + ' weeks, in course order</span></div>';
+    return '<div class="rise">' + hero + spineHead + journeyStations(cur) + '</div>';
+  }
+  function journeyStations(cur) {
+    var ws = journeyWeeks();
+    return '<div style="display:flex;flex-direction:column;gap:12px">' + ws.map(function (w) {
+      var recs = recordsForWeek(w), n = recs.length, isCur = (w === cur), eyes = {};
+      recs.forEach(function (r) { if (r.eye) eyes[r.eye] = 1; });
+      var eyeNote = (eyes.western && eyes.indigenous) ? 'Western and Indigenous readings' : (eyes.indigenous ? 'Indigenous reading' + (n > 1 ? 's' : '') : (n + (n === 1 ? ' reading' : ' readings')));
+      return '<button class="jstation' + (isCur ? ' cur' : '') + '" onclick="SOC.station(' + w + ')">'
+        + '<div style="display:flex;align-items:flex-start;gap:16px">'
+        + '<span class="jdot" style="display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;flex:none;border-radius:12px;background:' + (isCur ? 'var(--red)' : '#1B2A4A') + ';color:#fff;font-family:var(--mono);font-size:1.0625rem;font-weight:600">' + w + '</span>'
+        + '<div style="flex:1;min-width:0">'
+        + '<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:3px">' + (isCur ? '<span class="mono" style="font-size:.625rem;font-weight:700;letter-spacing:.06em;color:var(--red);background:#F6E3E1;padding:2px 8px;border-radius:999px">YOU ARE HERE</span>' : '') + '<h3 style="font-size:1.0625rem;font-weight:600;margin:0;color:var(--ink)">' + esc(weekTitle(w)) + '</h3></div>'
+        + '<p style="font-size:.9375rem;line-height:1.5;color:var(--ink-dim);margin:0 0 8px">' + esc(journeyQ(w)) + '</p>'
+        + '<div style="display:flex;align-items:center;gap:7px;font-size:.75rem;color:var(--ink-faint)"><span style="display:inline-flex;color:#8a909c">' + ic('book', 13) + '</span>' + esc(eyeNote) + '<span style="margin:0 4px">&middot;</span><span style="color:var(--red);font-weight:600">Open &rarr;</span></div>'
+        + '</div></div></button>';
+    }).join('') + '</div>';
+  }
+  function stationFraming(w, west, ind) {
+    if (west && ind.length) return 'This week sets two readings side by side. ' + west.authors + ' brings the disciplinary view, and ' + ind[0].authors + ' brings an Indigenous one. They are not the same argument, and that is the point.';
+    if (ind.length) return 'This week centres an Indigenous reading. Read it on its own terms before you reach for a frame from elsewhere.';
+    if (west) return 'This week builds the disciplinary groundwork you carry forward into the rest of the course.';
+    return '';
+  }
+  function stationReading(r, kicker) {
+    var u = readUrl(r), eye = r.eye === 'indigenous' ? 'INDIGENOUS' : (r.eye === 'western' ? 'WESTERN' : ''), accent = r.eye === 'indigenous' ? '#1f4d38' : '#3a47a8';
+    var look = r.assigned ? ('<div style="margin-top:10px;background:#F7F8FA;border-left:3px solid ' + accent + ';padding:8px 12px;border-radius:0 8px 8px 0;font-size:.8125rem;line-height:1.5;color:var(--ink-dim)"><span style="font-weight:600;color:var(--ink)">Read:</span> ' + esc(r.assigned) + '</div>') : '';
+    return '<div style="border:1px solid var(--border);border-top:4px solid ' + accent + ';background:#fff;border-radius:13px;padding:17px 19px">'
+      + '<div style="display:flex;align-items:center;gap:9px;margin-bottom:7px"><span class="mono" style="font-size:.625rem;font-weight:700;letter-spacing:.04em;color:' + accent + '">' + esc(kicker) + '</span>' + (eye ? '<span class="mono" style="font-size:.625rem;color:#8a909c">' + eye + ' EYE</span>' : '') + '</div>'
+      + '<h3 style="font-size:1.1875rem;line-height:1.3;font-weight:600;margin:0 0 3px;color:var(--ink)">' + esc(r.title) + '</h3>'
+      + '<div style="font-size:.8125rem;color:var(--ink-dim);margin-bottom:9px">' + esc(r.authors) + ' &middot; ' + esc(String(r.year)) + '</div>'
+      + '<p style="font-size:.9375rem;line-height:1.55;color:var(--ink-dim);margin:0">' + esc(r.coreIdea) + '</p>'
+      + look
+      + '<div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">'
+      + (u ? '<button onclick="SOC.read(\'' + r.id + '\')" style="display:inline-flex;align-items:center;gap:7px;background:var(--red);border:none;color:#fff;border-radius:9px;padding:9px 16px;font-size:.875rem;font-weight:600;cursor:pointer">Open the reading' + ic('external', 14, 2.2) + '</button>' : '')
+      + '<button onclick="SOC.open(\'' + r.id + '\')" style="background:#fff;border:1px solid var(--border);color:var(--ink);border-radius:9px;padding:9px 16px;font-size:.875rem;font-weight:600;cursor:pointer">Details</button>'
+      + '</div></div>';
+  }
+  function stationDo(w) {
+    var tiles = [['See it for yourself', 'Work this week\'s readings in the Self-Check Studio.', 'clipboard', 'SOC.goWeek(\'cards\',' + w + ')']];
+    if (D.course && D.course.frame) tiles.push(['Locate it on your map', 'Add this week to your Personal Cartography.', 'globe', 'SOC.go(\'map\')']);
+    tiles.push(['Hold two readings together', 'Compare any two readings, side by side.', 'columns', 'SOC.go(\'compare\')']);
+    var th = tiles.map(function (t) {
+      return '<button class="jtile" onclick="' + t[3] + '"><span style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:11px;background:#F6E3E1;color:var(--red)">' + ic(t[2], 19) + '</span><h4 style="font-size:1rem;font-weight:600;margin:4px 0 0;color:var(--ink)">' + t[0] + '</h4><p style="font-size:.84rem;line-height:1.5;color:var(--ink-dim);margin:0">' + t[1] + '</p></button>';
+    }).join('');
+    return '<div style="margin-top:8px"><div class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:var(--ink-faint);margin:0 0 12px">NOW DO SOMETHING WITH IT</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px">' + th + '</div></div>';
+  }
+  function weekStation(w) {
+    var ws = journeyWeeks(), idx = ws.indexOf(w), recs = recordsForWeek(w);
+    if (idx < 0 || !recs.length) return '<div style="padding:40px 0;color:var(--ink-dim);font-size:1rem">This week has no readings posted yet. <button onclick="SOC.go(\'journey\')" style="background:none;border:none;color:var(--red);font-weight:600;cursor:pointer">Back to your journey</button></div>';
+    var west = null, ind = [];
+    recs.forEach(function (r) { if (r.eye === 'western') { west = west || r; } else { ind.push(r); } });
+    var hero = '<section class="jfade" style="position:relative;overflow:hidden;border-radius:16px;color:#fff;padding:30px 30px 28px;margin-bottom:22px;background:linear-gradient(135deg,#16213B 0%,#1B2A4A 55%,#34202C 100%)">' + heroArt()
+      + '<div style="position:relative">'
+      + '<div class="mono" style="font-size:.6875rem;letter-spacing:.06em;color:rgba(255,255,255,.72);font-weight:600;margin-bottom:9px">WEEK ' + w + ' OF YOUR JOURNEY</div>'
+      + '<h1 style="font-size:1.875rem;line-height:1.16;font-weight:600;margin:0 0 12px">' + esc(weekTitle(w)) + '</h1>'
+      + '<p style="font-size:1.0625rem;line-height:1.5;color:#fff;font-weight:500;margin:0;max-width:60ch">' + esc(journeyQ(w)) + '</p>'
+      + '</div></section>';
+    var framing = '<p style="font-size:1rem;line-height:1.65;color:var(--ink-dim);margin:0 0 22px;max-width:72ch">' + esc(stationFraming(w, west, ind)) + '</p>';
+    var readBlocks = '<div style="display:flex;flex-direction:column;gap:14px;margin-bottom:24px">';
+    if (west) readBlocks += stationReading(west, 'Start here, the disciplinary view');
+    ind.forEach(function (r) { readBlocks += stationReading(r, west ? 'Then, the Indigenous view' : 'Indigenous reading'); });
+    readBlocks += '</div>';
+    var prev = idx > 0 ? ws[idx - 1] : null, next = idx < ws.length - 1 ? ws[idx + 1] : null;
+    var navRow = '<div style="display:flex;gap:12px;margin-top:26px;flex-wrap:wrap">'
+      + (prev != null ? '<button onclick="SOC.station(' + prev + ')" style="flex:1;min-width:190px;text-align:left;border:1px solid var(--border);background:#fff;border-radius:12px;padding:13px 16px;cursor:pointer"><div class="mono" style="font-size:.6875rem;color:var(--ink-faint)">&larr; PREVIOUS</div><div style="font-size:.9375rem;font-weight:600;color:var(--ink);margin-top:2px">Week ' + prev + ': ' + esc(weekTitle(prev)) + '</div></button>' : '')
+      + (next != null ? '<button onclick="SOC.station(' + next + ')" style="flex:1;min-width:190px;text-align:right;border:1px solid var(--border);background:#fff;border-radius:12px;padding:13px 16px;cursor:pointer"><div class="mono" style="font-size:.6875rem;color:var(--red)">NEXT &rarr;</div><div style="font-size:.9375rem;font-weight:600;color:var(--ink);margin-top:2px">Week ' + next + ': ' + esc(weekTitle(next)) + '</div></button>' : '')
+      + '</div>';
+    return '<div class="rise">' + hero + framing + '<div class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:var(--ink-faint);margin:0 0 12px">WHAT YOU ARE READING</div>' + readBlocks + stationDo(w) + navRow + '</div>';
+  }
+  function exploreHub() {
+    var tiles = [];
+    if (D.course && D.course.frame) tiles.push(['Personal Cartography', 'Place each week on a map of scholars, nations, and ideas, and keep your own notes.', 'globe', 'SOC.go(\'map\')']);
+    tiles.push(['Self-Check Studio', 'Practise with a week\'s readings and save your work.', 'clipboard', 'SOC.go(\'cards\')']);
+    tiles.push(['Compare readings', 'Hold any two readings side by side and see where they meet.', 'columns', 'SOC.go(\'compare\')']);
+    tiles.push(['Build reading comprehension', 'Read closely with guided questions, then check yourself.', 'book', 'SOC.go(\'reading\')']);
+    var th = tiles.map(function (t) {
+      return '<button class="jtile" onclick="' + t[3] + '" style="min-height:172px"><span style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;background:#F6E3E1;color:var(--red)">' + ic(t[2], 22) + '</span><h3 style="font-size:1.1875rem;font-weight:600;margin:6px 0 0;color:var(--ink)">' + t[0] + '</h3><p style="font-size:.9rem;line-height:1.55;color:var(--ink-dim);margin:0">' + t[1] + '</p><span style="margin-top:auto;color:var(--red);font-weight:600;font-size:.875rem">Open &rarr;</span></button>';
+    }).join('');
+    return '<div class="rise"><div class="mono" style="font-size:.75rem;letter-spacing:.06em;color:var(--red);font-weight:600;margin-bottom:8px">EXPLORE</div><h1 style="font-size:1.75rem;font-weight:600;margin:0 0 8px;color:var(--ink)">Ways to go deeper</h1><p style="font-size:.9375rem;color:var(--ink-dim);margin:0 0 22px;max-width:62ch">Beyond the week-by-week path, here are the hands-on tools. Use them whenever you like.</p><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">' + th + '</div></div>';
+  }
+
   /* ---------- render ---------- */
   function homeBar() {
-    return '<button onclick="SOC.go(\'library\')" style="display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid #DEE3EA;border-radius:8px;padding:8px 14px;font-size:.875rem;font-weight:600;color:#15171C;margin-bottom:18px;cursor:pointer">&#8592; Return to Home</button>';
+    return '<button onclick="SOC.go(\'journey\')" style="display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid #DEE3EA;border-radius:8px;padding:8px 14px;font-size:.875rem;font-weight:600;color:#15171C;margin-bottom:18px;cursor:pointer">&#8592; Back to your journey</button>';
   }
   function body() {
+    if (state.screen === 'journey' || state.screen === 'library') return journeyHome();
+    if (state.screen === 'station') return homeBar() + weekStation(state.stationWeek || currentJourneyWeek());
+    if (state.screen === 'explore') return homeBar() + exploreHub();
     if (state.screen === 'detail') return homeBar() + detail();
     if (state.screen === 'readings') return homeBar() + readingsGallery();
     if (state.screen === 'compare') return homeBar() + compare();
@@ -977,7 +1109,7 @@
     if (state.screen === 'glossary') return homeBar() + glossaryScreen();
     if (state.screen === 'cards') return homeBar() + cardsScreen();
     if (state.screen === 'map' && D.course && D.course.frame) return homeBar() + mapScreen();
-    return library();
+    return journeyHome();
   }
   function render() {
     if (state.screen !== 'compare' && render._prev !== undefined && render._prev !== state.screen && (state.compareIds.length || state.showSynthesis)) { state.compareIds = []; state.showSynthesis = false; }
@@ -1025,6 +1157,8 @@
   }
   window.SOC = {
     go: function (s) { if (s === 'library') { state.savedView = false; } if (s === 'reading') { state.rcReading = null; state.lens = 'thematic'; } if (s === 'readings') { state.galWeek = null; state.galTopic = null; } state.screen = s; focusTarget = 'soc-main'; render(); topScroll(); },
+    station: function (w) { state.stationWeek = w; state.journeyWeek = w; state.screen = 'station'; persist(); focusTarget = 'soc-main'; render(); topScroll(); },
+    goWeek: function (s, w) { state.cardWeek = w; state.screen = s; focusTarget = 'soc-main'; render(); topScroll(); },
     galWeek: function (w) { var m = document.getElementById('soc-main'); var y = m ? m.scrollTop : 0; state.galWeek = (state.galWeek === w) ? null : w; render(); var m2 = document.getElementById('soc-main'); if (m2) m2.scrollTop = y; },
     galTopic: function (t) { var m = document.getElementById('soc-main'); var y = m ? m.scrollTop : 0; state.galTopic = (state.galTopic === t) ? null : t; render(); var m2 = document.getElementById('soc-main'); if (m2) m2.scrollTop = y; },
     galClear: function () { state.galWeek = null; state.galTopic = null; render(); },
