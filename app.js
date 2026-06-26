@@ -862,14 +862,14 @@
 
   var MAP_CAVEAT = 'This layer is a teaching aid, not a legal or definitive boundary. Regions are anchored in the self-identified nations of the Indigenous scholars assigned this term. For authoritative representations of territories and treaties, consult the Nations themselves and sources such as Native-Land.ca.';
   var MAP_REGIONS = [
-    { id: 'mikmaki-lawrence', region: "Mi'kma'ki (Atlantic)", admin: 'NS / NB / PEI / NL', nation: "Mi'kmaw", scholar: 'Bonita Lawrence', records: ['lawrence2003'], concept: 'regulation of Native identity; social structure', x: 82, y: 38, check: "Lawrence's account of identity regulation: law turns belonging into a bureaucratic category with gendered and racial effects." },
-    { id: 'mikmaki-learning', region: "Mi'kma'ki (Atlantic)", admin: 'NS', nation: "Mi'kmaw", scholar: 'Marie Battiste; Albert Marshall', records: ['battiste', 'amarshall'], concept: 'learning spirit; Two-Eyed Seeing (Etuaptmumk)', x: 90, y: 50, check: "Battiste and Marshall's account of learning spirit and Two-Eyed Seeing as a whole-person, two-knowledge practice." },
-    { id: 'mikmaki-palmater', region: "Mi'kma'ki (Atlantic)", admin: 'NB', nation: "Mi'kmaw, Eel River Bar", scholar: 'Pamela Palmater', records: ['palmater'], concept: 'poverty produced by law and policy', x: 84, y: 63, check: "Palmater's structural claim that poverty is produced by law and policy, not by culture or individual failure." },
-    { id: 'blackfoot', region: 'Niitsitapi / Blackfoot', admin: 'southern Alberta', nation: 'Blackfoot, Kainai', scholar: 'Leroy Little Bear', records: ['littlebear'], concept: 'worldview difference at the root', x: 31, y: 60, check: "Little Bear's worldview claim: colonial mapping can hide the deeper clash between imposed Western categories and Indigenous worldviews." },
-    { id: 'redriver', region: 'Red River / Metis homeland', admin: 'Manitoba / prairies', nation: 'Red River Metis; Cree-Metis; Metis', scholar: 'Zoe Todd; Kim Anderson; Janet Smylie', records: ['todd2016', 'anderson2019', 'smylie'], concept: 'place and ontology; kinship as work; centring Indigenous knowledge', x: 47, y: 54, check: 'Todd, Anderson, and Smylie keep place, kinship, and Indigenous health tied to relationships and knowledge control.' },
-    { id: 'cree', region: 'Cree territory', admin: 'Sturgeon Lake / prairies-north', nation: 'Cree', scholar: 'Willie Ermine', records: ['ermine'], concept: 'ethical space', x: 49, y: 36, check: "Ermine's ethical space: the meeting place has to be negotiated, not governed by one side's rules." },
-    { id: 'anishinaabe', region: 'Anishinaabe', admin: 'Great Lakes', nation: 'Anishinaabe', scholar: 'Amy Bombay', records: ['bombay2014'], concept: 'historical trauma across generations', x: 61, y: 65, check: "Bombay and colleagues' account of historical trauma and community connection across generations." },
-    { id: 'aaniiih', region: 'Aaniiih', admin: 'Montana / medicine-line', nation: 'Aaniiih', scholar: 'Joseph P. Gone', records: ['gone2023'], concept: 'trauma as postcolonial, not individual', x: 36, y: 75, check: "Gone's warning that trauma and health inequities are postcolonial and community-defined, not only individual symptoms." }
+    { id: 'mikmaki-lawrence', region: "Mi'kma'ki (Atlantic)", admin: 'NS / NB / PEI / NL', nation: "Mi'kmaw", scholar: 'Bonita Lawrence', records: ['lawrence2003'], concept: 'regulation of Native identity; social structure', lat: 45.4, lng: -63.0, check: "Lawrence's account of identity regulation: law turns belonging into a bureaucratic category with gendered and racial effects." },
+    { id: 'mikmaki-learning', region: "Mi'kma'ki (Atlantic)", admin: 'NS', nation: "Mi'kmaw", scholar: 'Marie Battiste; Albert Marshall', records: ['battiste', 'amarshall'], concept: 'learning spirit; Two-Eyed Seeing (Etuaptmumk)', lat: 45.95, lng: -60.65, check: "Battiste and Marshall's account of learning spirit and Two-Eyed Seeing as a whole-person, two-knowledge practice." },
+    { id: 'mikmaki-palmater', region: "Mi'kma'ki (Atlantic)", admin: 'NB', nation: "Mi'kmaw, Eel River Bar", scholar: 'Pamela Palmater', records: ['palmater'], concept: 'poverty produced by law and policy', lat: 47.9, lng: -65.6, check: "Palmater's structural claim that poverty is produced by law and policy, not by culture or individual failure." },
+    { id: 'blackfoot', region: 'Niitsitapi / Blackfoot', admin: 'southern Alberta', nation: 'Blackfoot, Kainai', scholar: 'Leroy Little Bear', records: ['littlebear'], concept: 'worldview difference at the root', lat: 49.6, lng: -113.1, check: "Little Bear's worldview claim: colonial mapping can hide the deeper clash between imposed Western categories and Indigenous worldviews." },
+    { id: 'redriver', region: 'Red River / Metis homeland', admin: 'Manitoba / prairies', nation: 'Red River Metis; Cree-Metis; Metis', scholar: 'Zoe Todd; Kim Anderson; Janet Smylie', records: ['todd2016', 'anderson2019', 'smylie'], concept: 'place and ontology; kinship as work; centring Indigenous knowledge', lat: 49.9, lng: -97.1, check: 'Todd, Anderson, and Smylie keep place, kinship, and Indigenous health tied to relationships and knowledge control.' },
+    { id: 'cree', region: 'Cree territory', admin: 'Sturgeon Lake / prairies-north', nation: 'Cree', scholar: 'Willie Ermine', records: ['ermine'], concept: 'ethical space', lat: 53.0, lng: -106.5, check: "Ermine's ethical space: the meeting place has to be negotiated, not governed by one side's rules." },
+    { id: 'anishinaabe', region: 'Anishinaabe', admin: 'Great Lakes', nation: 'Anishinaabe', scholar: 'Amy Bombay', records: ['bombay2014'], concept: 'historical trauma across generations', lat: 48.7, lng: -94.2, check: "Bombay and colleagues' account of historical trauma and community connection across generations." },
+    { id: 'aaniiih', region: 'Aaniiih', admin: 'Montana / medicine-line', nation: 'Aaniiih', scholar: 'Joseph P. Gone', records: ['gone2023'], concept: 'trauma as postcolonial, not individual', lat: 48.1, lng: -108.7, check: "Gone's warning that trauma and health inequities are postcolonial and community-defined, not only individual symptoms." }
   ];
   function mapActive() {
     return firstWhere(MAP_REGIONS, function (m) { return m.id === state.mapRegion; }) || MAP_REGIONS[0];
@@ -936,19 +936,77 @@
   }
   function mapFallbackTable() {
     var rows = MAP_REGIONS.map(function (m) {
-      return '<tr><td style="padding:10px 12px;border-top:1px solid #EEF1F5">' + esc(m.region) + '</td><td style="padding:10px 12px;border-top:1px solid #EEF1F5">' + esc(m.admin) + '</td><td style="padding:10px 12px;border-top:1px solid #EEF1F5">' + esc(m.scholar + ' (' + m.nation + ')') + '</td><td style="padding:10px 12px;border-top:1px solid #EEF1F5">' + esc(m.concept) + '</td><td style="padding:10px 12px;border-top:1px solid #EEF1F5"><button onclick="SOC.mapPick(\'' + m.id + '\')" style="background:#fff;border:1px solid #DEE3EA;color:#15171C;border-radius:8px;padding:6px 10px;font-size:.8125rem;font-weight:700">Choose</button></td></tr>';
+      return '<tr><td style="padding:10px 12px;border-top:1px solid #EEF1F5">' + esc(m.region) + '</td><td style="padding:10px 12px;border-top:1px solid #EEF1F5">' + esc(m.admin) + '</td><td style="padding:10px 12px;border-top:1px solid #EEF1F5">' + esc(m.scholar + ' (' + m.nation + ')') + '</td><td style="padding:10px 12px;border-top:1px solid #EEF1F5">' + esc(m.concept) + '</td><td style="padding:10px 12px;border-top:1px solid #EEF1F5"><button onclick="SOC.mapSelect(\'' + m.id + '\')" style="background:#fff;border:1px solid #DEE3EA;color:#15171C;border-radius:8px;padding:6px 10px;font-size:.8125rem;font-weight:700">Show on map</button></td></tr>';
     }).join('');
     return '<section style="background:#fff;border:1px solid #DEE3EA;border-radius:14px;margin-top:18px;overflow:hidden;box-shadow:0 1px 2px rgba(21,23,28,.04)"><div style="padding:14px 16px;border-bottom:1px solid #EEF1F5"><div class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:#8a909c;margin-bottom:4px">ACCESSIBLE TABLE</div><h2 style="font-size:1.0625rem;margin:0;color:#15171C">Same anchors without the visual</h2></div><div style="overflow:auto"><table style="width:100%;min-width:820px;border-collapse:collapse;font-size:.84rem;color:#15171C"><thead><tr style="text-align:left;background:#F7F8FA"><th style="padding:10px 12px">Indigenous layer</th><th style="padding:10px 12px">Administrative layer</th><th style="padding:10px 12px">Scholar anchor</th><th style="padding:10px 12px">Concept</th><th style="padding:10px 12px">Action</th></tr></thead><tbody>' + rows + '</tbody></table></div></section>';
   }
+  function mapById(id) { return firstWhere(MAP_REGIONS, function (m) { return m.id === id; }) || MAP_REGIONS[0]; }
+  var _leafletMap = null, _leafletMarkers = {};
+  function ensureLeaflet(cb) {
+    if (window.L) { cb(); return; }
+    if (!document.getElementById('leaflet-css')) { var lk = document.createElement('link'); lk.id = 'leaflet-css'; lk.rel = 'stylesheet'; lk.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'; document.head.appendChild(lk); }
+    if (document.getElementById('leaflet-js')) return;
+    var sc = document.createElement('script'); sc.id = 'leaflet-js'; sc.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+    sc.onload = cb;
+    sc.onerror = function () { var h = document.getElementById('soc-leaflet'); if (h) h.innerHTML = '<div style="padding:26px;color:#6b7280;font-size:.9rem;line-height:1.5">The interactive map could not load (you may be offline). The table below has the same anchors, scholars, and readings.</div>'; };
+    document.head.appendChild(sc);
+  }
+  function initCartography() {
+    var host = document.getElementById('soc-leaflet');
+    if (!host || !window.L || host.getAttribute('data-init') === '1') return;
+    host.setAttribute('data-init', '1');
+    _leafletMap = L.map(host, { scrollWheelZoom: false, attributionControl: true });
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; OpenStreetMap contributors &copy; CARTO', subdomains: 'abcd', minZoom: 3, maxZoom: 11 }).addTo(_leafletMap);
+    _leafletMarkers = {};
+    var pts = [];
+    MAP_REGIONS.forEach(function (m) {
+      if (m.lat == null) return;
+      pts.push([m.lat, m.lng]);
+      var icon = L.divIcon({ className: '', html: '<div class="soc-pin"></div>', iconSize: [20, 20], iconAnchor: [10, 10], popupAnchor: [0, -11] });
+      var mk = L.marker([m.lat, m.lng], { icon: icon, keyboard: true, title: m.scholar + ' (' + m.nation + ')', alt: m.scholar + ', ' + m.nation }).addTo(_leafletMap);
+      mk.bindPopup(mapPopupHTML(m), { maxWidth: 260 });
+      mk.on('click', function () { state.mapRegion = m.id; var el = document.getElementById('soc-mapdetail'); if (el) el.innerHTML = mapDetailInner(m); persist(); });
+      _leafletMarkers[m.id] = mk;
+    });
+    if (pts.length) _leafletMap.fitBounds(L.latLngBounds(pts).pad(0.25));
+  }
+  function mapPopupHTML(m) {
+    var r = mapRecords(m)[0];
+    return '<div style="min-width:178px"><div style="font-size:.62rem;font-weight:700;letter-spacing:.04em;color:#1f4d38;text-transform:uppercase">' + esc(m.nation) + '</div>'
+      + '<div style="font-size:.95rem;font-weight:700;color:#15171C;margin:2px 0 4px">' + esc(m.scholar) + '</div>'
+      + (r ? '<div style="font-size:.8rem;color:#474C57;line-height:1.4">' + esc(r.title) + '</div><button onclick="SOC.read(\'' + r.id + '\')" style="margin-top:7px;background:#DA291C;border:none;color:#fff;border-radius:7px;padding:6px 11px;font-size:.78rem;font-weight:600;cursor:pointer">Open the reading</button>' : '')
+      + '<div style="margin-top:6px;font-size:.7rem;color:#8a909c">Approximate anchor, not a boundary.</div></div>';
+  }
+  function mapDetailInner(m) {
+    return '<section id="map-detail" style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px 18px;box-shadow:0 1px 2px rgba(21,23,28,.04)">'
+      + '<div class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:var(--red);font-weight:600;margin-bottom:6px">SELECTED ANCHOR</div>'
+      + '<h2 style="font-size:1.25rem;line-height:1.25;margin:0 0 8px;color:#15171C">' + esc(m.scholar) + '</h2>'
+      + '<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px"><span style="font-size:.75rem;font-weight:700;background:#E4F0E9;color:#1f4d38;border-radius:999px;padding:5px 9px">' + esc(m.nation) + '</span><span style="font-size:.75rem;font-weight:600;background:#EEF1F5;color:#474C57;border-radius:999px;padding:5px 9px">' + esc(m.region) + '</span></div>'
+      + '<div style="font-size:.84rem;line-height:1.5;color:#474C57;margin-bottom:12px"><strong style="color:#15171C">Concept:</strong> ' + esc(m.concept) + '</div>'
+      + mapReadingRows(m)
+      + '</section>';
+  }
+  function mapNotesSaveBlock() {
+    return '<section style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-top:18px;box-shadow:0 1px 2px rgba(21,23,28,.04)">'
+      + '<div class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:#8a909c;margin-bottom:6px">YOUR CARTOGRAPHY NOTES</div>'
+      + '<label style="display:block"><span style="display:block;font-size:.875rem;line-height:1.5;color:#15171C;margin-bottom:8px">Pick an anchor on the map, open its reading, then note what reading this place through the scholar and the concept makes visible that an administrative map leaves out.</span>'
+      + '<textarea oninput="SOC.mapNote(\'apply\',this.value)" style="width:100%;min-height:96px;font:inherit;font-size:.9rem;line-height:1.5;padding:10px 12px;border:1px solid var(--border);border-radius:8px;color:#15171C;background:#fff;resize:vertical">' + esc(state.mapNotes.apply || '') + '</textarea></label>'
+      + '<div style="margin-top:14px"><button onclick="SOC.saveMap()" style="background:var(--red);border:none;color:#fff;border-radius:9px;padding:9px 16px;font-size:.875rem;font-weight:600;cursor:pointer">Save to Personal Cartography (.docx)</button></div>'
+      + '</section>';
+  }
   function mapScreen() {
+    var m = mapActive();
     return '<div class="rise">'
       + '<div class="mono" style="font-size:.75rem;letter-spacing:.06em;color:var(--red);font-weight:600;margin-bottom:8px">PERSONAL CARTOGRAPHY</div>'
-      + '<h1 style="font-size:1.75rem;line-height:1.2;font-weight:600;margin:0 0 8px;color:#15171C">Map the reading, then map your responsibility.</h1>'
-      + '<p style="font-size:.9375rem;line-height:1.55;color:#474C57;margin:0 0 14px;max-width:78ch">Switch between administrative naming and Indigenous scholar anchors. Choose a region, open the reading, answer the quick check, and save your notes into the Personal Cartography file.</p>'
+      + '<h1 style="font-size:1.75rem;line-height:1.2;font-weight:600;margin:0 0 8px;color:#15171C">Travel the country through the readings.</h1>'
+      + '<p style="font-size:.9375rem;line-height:1.55;color:#474C57;margin:0 0 14px;max-width:78ch">Each pin marks where an Indigenous scholar assigned this term locates their own nation. Tap a pin to meet the scholar, the place, and the reading. Then note what each place makes visible.</p>'
       + '<div style="display:flex;align-items:flex-start;gap:10px;background:#FCEFD2;border:1px solid #E6C878;border-radius:12px;padding:12px 15px;margin:0 0 18px;color:#59410B;font-size:.85rem;line-height:1.5"><span style="display:flex;flex:none;color:#8F5E0F;margin-top:1px">' + ic('layers', 16) + '</span><span>' + esc(MAP_CAVEAT) + '</span></div>'
-      + '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;align-items:start">'
-      + '<aside>' + mapNoteBox('predict', 'PREDICT', 'Before toggling, name one thing you expect the administrative map to leave out.') + mapNoteBox('apply', 'APPLY', 'After choosing an anchor, what changes when you read this place through the scholar and concept, not only through the administrative label?') + '</aside>'
-      + '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;align-items:start">' + mapVisual() + mapDetail() + '</div></div>'
+      + '<div class="soc-mapgrid">'
+      + '<div><div id="soc-leaflet" style="height:540px;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#EEF1F5" role="application" aria-label="Interactive map of approximate Indigenous scholar reading anchors across Canada"></div>'
+      + '<p style="font-size:.78rem;line-height:1.5;color:#6b7280;margin:10px 0 0">Pins are approximate anchors at each scholar\'s self-identified nation. They do not draw, define, or replace territory or treaty boundaries.</p></div>'
+      + '<aside id="soc-mapdetail">' + mapDetailInner(m) + '</aside>'
+      + '</div>'
+      + mapNotesSaveBlock()
       + mapFallbackTable()
       + '</div>';
   }
@@ -1130,6 +1188,7 @@
       if (ft) { if (!ft.hasAttribute('tabindex')) ft.setAttribute('tabindex', '-1'); ft.focus(); }
       focusTarget = null;
     }
+    if (state.screen === 'map' && D.course && D.course.frame) ensureLeaflet(initCartography);
   }
   function topScroll() { var m = document.getElementById('soc-main'); if (m) m.scrollTop = 0; }
 
@@ -1261,22 +1320,22 @@
       state.mapNotes[k] = v;
       persist();
     },
+    mapSelect: function (id) {
+      state.mapRegion = id; persist();
+      var m = mapById(id), el = document.getElementById('soc-mapdetail'); if (el) el.innerHTML = mapDetailInner(m);
+      if (_leafletMap && m.lat != null) { _leafletMap.setView([m.lat, m.lng], 5); var mk = _leafletMarkers[id]; if (mk) mk.openPopup(); }
+      var d = document.getElementById('soc-leaflet'); if (d && d.scrollIntoView) d.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    },
     saveMap: function () {
-      var m = mapActive(), rs = mapRecords(m), key = 'SOC122|map|' + m.id, check = mapCheck(m), sel = state.mcSel[key];
-      var quick = 'Not answered yet.';
-      if (sel !== undefined && sel !== null) {
-        quick = 'Q: ' + check.q + '\nYour answer: ' + (check.options[sel] || '') + '\n' + (sel === check.answer ? 'Correct.' : 'Not quite. The grounded answer is: ' + (check.options[check.answer] || '') + '.') + '\n' + check.why;
-      }
+      var m = mapActive(), rs = mapRecords(m);
       var readings = rs.map(function (r) { return 'Week ' + r.week + ': ' + r.title + ' by ' + r.authors + ' (' + r.year + ')\n' + r.coreIdea; }).join('\n\n');
       var sections = [
         { h: 'Caveat', t: MAP_CAVEAT },
-        { h: 'Prediction before toggling', t: (state.mapNotes.predict || '').trim() },
-        { h: 'Selected anchor', t: 'Indigenous layer: ' + m.region + '\nAdministrative layer: ' + m.admin + '\nScholar anchor: ' + m.scholar + ' (' + m.nation + ')\nConcept: ' + m.concept },
+        { h: 'Selected anchor', t: 'Scholar: ' + m.scholar + ' (' + m.nation + ')\nRegion: ' + m.region + '\nConcept: ' + m.concept },
         { h: 'Readings connected to this anchor', t: readings },
-        { h: 'Quick check', t: quick },
-        { h: 'Personal Cartography application', t: (state.mapNotes.apply || '').trim() }
+        { h: 'What this place makes visible', t: (state.mapNotes.apply || '').trim() }
       ];
-      senecaDoc('SOC122', 'Personal Cartography Workspace', ['SOC122 Introduction to the Social Sciences', 'Selected anchor: ' + m.region], sections, 'SOC122_personal_cartography_workspace');
+      senecaDoc('SOC122', 'Personal Cartography Workspace', ['SOC122 Introduction to the Social Sciences', 'Selected anchor: ' + m.scholar + ' (' + m.nation + ')'], sections, 'SOC122_personal_cartography_workspace');
     },
     read: function (id) { var r = rec(id); var u = r && readUrl(r); if (u) { window.open(u, '_blank', 'noopener'); } else { state.screen = 'detail'; state.detailId = id; focusTarget = 'soc-main'; render(); topScroll(); } },
     openSaved: function () { state.screen = 'library'; state.activeTypes = []; state.activeWeek = null; state.search = ''; state.savedView = state.saved.length > 0; flash(state.saved.length ? 'Your saved shelf.' : 'Nothing saved yet. Tap the bookmark on any reading.'); topScroll(); },
