@@ -223,9 +223,10 @@
   }
   function sidebar() {
     var s = state;
-    var navDefs = [['journey', 'Home', 'gauge'], ['readings', 'Readings', 'gallery'], ['explore', 'Explore', 'sparkle'], ['glossary', 'Glossary', 'book']];
+    var navDefs = [['journey', 'Home', 'gauge'], ['readings', 'Library of Readings', 'gallery'], ['compare', 'Compare Reading Concepts', 'columns'], ['reading', 'Build Your Reading Comprehension', 'book'], ['glossary', 'Glossary & Thinkers', 'book'], ['cards', 'Self-check', 'clipboard']];
+    if (D.course && D.course.frame) navDefs.push(['map', 'Personal Cartography', 'globe']);
     var btns = navDefs.map(function (d) {
-      var key = d[0], active = (key === 'journey' && (s.screen === 'journey' || s.screen === 'library' || s.screen === 'station' || s.screen === 'detail')) || (key === 'explore' && (s.screen === 'explore' || s.screen === 'compare' || s.screen === 'reading' || s.screen === 'cards' || s.screen === 'map')) || s.screen === key;
+      var key = d[0], active = (key === 'journey' && (s.screen === 'journey' || s.screen === 'library' || s.screen === 'station' || s.screen === 'detail')) || s.screen === key;
       var badge = '';
       if (key === 'compare' && s.compareIds.length) badge = '<span class="mono" style="font-size:.6875rem;font-weight:600;color:#1552D8;background:#E7EEFB;padding:1px 7px;border-radius:999px">' + s.compareIds.length + '</span>';
       var click = "SOC.go('" + key + "')";
@@ -244,7 +245,7 @@
     }).join('');
     return '<nav class="soc-sidebar" aria-label="Primary" style="width:240px;flex:none;border-right:1px solid #DEE3EA;background:#fff;padding:18px 14px;display:flex;flex-direction:column;gap:4px;position:sticky;top:62px;align-self:flex-start;height:calc(100vh - 62px);overflow:auto">'
       + nav
-      + ''
+      + '<div style="margin-top:14px;padding-top:14px;border-top:1px solid #EEF1F5"><div class="mono" style="font-size:.6875rem;letter-spacing:.04em;color:#8a909c;padding:0 12px 8px">WEEKS</div>' + weekNav + '</div>'
       + '<div style="margin-top:auto;padding:13px 12px;border-radius:12px;background:#EEF1F5"><div class="mono" style="font-size:.75rem;color:#474C57;margin-bottom:4px">SOC122</div><div style="font-size:.8125rem;color:#15171C;line-height:1.45">A living collection, week by week. A companion to Blackboard.</div></div>'
       + '</nav>';
   }
@@ -987,11 +988,10 @@
   function currentJourneyWeek() { var ws = journeyWeeks(); if (!ws.length) return null; if (state.journeyWeek && ws.indexOf(state.journeyWeek) >= 0) return state.journeyWeek; return ws[0]; }
   function heroArt() {
     return '<svg class="jhero-art" viewBox="0 0 800 320" preserveAspectRatio="xMidYMid slice" aria-hidden="true">'
-      + '<defs><linearGradient id="ha" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity="0"/><stop offset="1" stop-color="#ffffff" stop-opacity=".10"/></linearGradient></defs>'
-      + '<path d="M0,250 C160,210 300,300 460,250 C620,200 720,260 800,230 L800,320 L0,320 Z" fill="url(#ha)"/>'
-      + '<path d="M0,285 C180,250 320,320 500,280 C660,245 740,295 800,275 L800,320 L0,320 Z" fill="#ffffff" fill-opacity=".06"/>'
-      + '<g stroke="#ffffff" stroke-opacity=".15" fill="none" stroke-width="1.2"><path d="M-20,150 C200,90 380,180 560,120 C680,80 760,120 820,100"/><path d="M-20,185 C200,130 380,215 560,160 C680,120 760,160 820,140"/></g>'
-      + '<g fill="#F2A900" fill-opacity=".55"><circle cx="120" cy="92" r="2.4"/><circle cx="330" cy="70" r="1.8"/><circle cx="540" cy="104" r="2.2"/><circle cx="680" cy="78" r="1.6"/></g>'
+      + '<path d="M0,250 C160,210 300,300 460,250 C620,200 720,260 800,230 L800,320 L0,320 Z" fill="#DA291C" fill-opacity=".05"/>'
+      + '<path d="M0,285 C180,250 320,320 500,280 C660,245 740,295 800,275 L800,320 L0,320 Z" fill="#1B2A4A" fill-opacity=".04"/>'
+      + '<g stroke="#DA291C" stroke-opacity=".10" fill="none" stroke-width="1.4"><path d="M360,150 C480,110 600,180 760,130 C800,116 810,120 830,112"/><path d="M360,185 C480,150 600,215 760,165 C800,150 810,156 830,148"/></g>'
+      + '<g fill="#DA291C" fill-opacity=".16"><circle cx="690" cy="70" r="2.6"/><circle cx="742" cy="118" r="1.8"/><circle cx="636" cy="52" r="1.6"/></g>'
       + '</svg>';
   }
   function journeyIntro() {
@@ -1005,11 +1005,11 @@
     var ctaLabel = started ? ('Resume Week ' + cur) : ('Start Week ' + (ws[0] || 1));
     var hero = '<section class="jhero jfade" style="margin-bottom:26px">' + heroArt()
       + '<div style="position:relative;max-width:64ch">'
-      + '<div class="mono" style="font-size:.75rem;letter-spacing:.08em;color:rgba(255,255,255,.72);font-weight:600;margin-bottom:12px">SENECA POLYTECHNIC &middot; FALL 2026</div>'
+      + '<div class="mono" style="font-size:.75rem;letter-spacing:.08em;color:var(--red);font-weight:600;margin-bottom:12px">SENECA POLYTECHNIC &middot; FALL 2026</div>'
       + '<h1 style="font-size:2.5rem;line-height:1.1;font-weight:600;margin:0 0 14px;letter-spacing:-.01em">' + esc(title) + '</h1>'
-      + '<p style="font-size:1.0625rem;line-height:1.6;color:rgba(255,255,255,.86);margin:0 0 24px;max-width:54ch">' + esc(journeyIntro()) + '</p>'
+      + '<p style="font-size:1.0625rem;line-height:1.6;color:var(--ink-dim);margin:0 0 24px;max-width:54ch">' + esc(journeyIntro()) + '</p>'
       + '<button class="jhero-cta" onclick="SOC.station(' + (cur || (ws[0] || 1)) + ')">' + ctaLabel + ic('chevron', 18, 2.4) + '</button>'
-      + (started ? '' : '<div style="margin-top:14px;font-size:.8125rem;color:rgba(255,255,255,.62)">' + ws.length + ' weeks &middot; two ways of seeing each one</div>')
+      + (started ? '' : '<div style="margin-top:14px;font-size:.8125rem;color:var(--ink-faint)">' + ws.length + ' weeks &middot; two ways of seeing each one</div>')
       + '</div></section>';
     var spineHead = '<div style="display:flex;align-items:baseline;gap:12px;margin:0 0 16px;flex-wrap:wrap"><h2 style="font-size:1.375rem;font-weight:600;margin:0;color:var(--ink)">Your journey</h2><span style="font-size:.875rem;color:var(--ink-faint)">' + ws.length + ' weeks, in course order</span></div>';
     return '<div class="rise">' + hero + spineHead + journeyStations(cur) + '</div>';
@@ -1064,11 +1064,11 @@
     if (idx < 0 || !recs.length) return '<div style="padding:40px 0;color:var(--ink-dim);font-size:1rem">This week has no readings posted yet. <button onclick="SOC.go(\'journey\')" style="background:none;border:none;color:var(--red);font-weight:600;cursor:pointer">Back to your journey</button></div>';
     var west = null, ind = [];
     recs.forEach(function (r) { if (r.eye === 'western') { west = west || r; } else { ind.push(r); } });
-    var hero = '<section class="jfade" style="position:relative;overflow:hidden;border-radius:16px;color:#fff;padding:30px 30px 28px;margin-bottom:22px;background:linear-gradient(135deg,#16213B 0%,#1B2A4A 55%,#34202C 100%)">' + heroArt()
+    var hero = '<section class="jfade jhero" style="margin-bottom:22px;padding:30px 32px 28px">' + heroArt()
       + '<div style="position:relative">'
-      + '<div class="mono" style="font-size:.6875rem;letter-spacing:.06em;color:rgba(255,255,255,.72);font-weight:600;margin-bottom:9px">WEEK ' + w + ' OF YOUR JOURNEY</div>'
+      + '<div class="mono" style="font-size:.6875rem;letter-spacing:.06em;color:var(--red);font-weight:600;margin-bottom:9px">WEEK ' + w + ' OF YOUR JOURNEY</div>'
       + '<h1 style="font-size:1.875rem;line-height:1.16;font-weight:600;margin:0 0 12px">' + esc(weekTitle(w)) + '</h1>'
-      + '<p style="font-size:1.0625rem;line-height:1.5;color:#fff;font-weight:500;margin:0;max-width:60ch">' + esc(journeyQ(w)) + '</p>'
+      + '<p style="font-size:1.0625rem;line-height:1.5;color:var(--ink);font-weight:500;margin:0;max-width:60ch">' + esc(journeyQ(w)) + '</p>'
       + '</div></section>';
     var framing = '<p style="font-size:1rem;line-height:1.65;color:var(--ink-dim);margin:0 0 22px;max-width:72ch">' + esc(stationFraming(w, west, ind)) + '</p>';
     var readBlocks = '<div style="display:flex;flex-direction:column;gap:14px;margin-bottom:24px">';
