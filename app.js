@@ -445,6 +445,13 @@
       return '<button onclick="SOC.setLens(\'' + k + '\')" style="border:1px solid ' + (on ? '#15171C' : '#DEE3EA') + ';background:' + (on ? '#15171C' : '#fff') + ';color:' + (on ? '#fff' : '#15171C') + ';border-radius:999px;padding:7px 15px;font-size:.85rem;font-weight:600">' + LENSES[k].label + '</button>';
     }).join(' ');
   }
+  function rcBand(correct, total) {
+    if (correct === total) return { label: 'Strong grasp', color: '#2c6b3f', bg: '#E9EFE7', icon: 'check', msg: 'You have this reading down. Try a different lens, or hold it next to another reading in Compare.' };
+    var pct = correct / total;
+    if (pct >= 0.6) return { label: 'On your way', color: '#1552D8', bg: '#E7EEFB', icon: 'book', msg: 'You understand the core of this reading. Look back at the questions you missed, then run the check again.' };
+    if (pct >= 0.4) return { label: 'Building', color: '#8F5E0F', bg: '#F3ECE0', icon: 'book', msg: 'Some of this is landing. Go back to the reading for the parts you missed and try the check again.' };
+    return { label: 'Worth another read', color: '#b23121', bg: '#FBE9E7', icon: 'book', msg: 'This one needs another pass. Open the reading, work through it again, then retry the check.' };
+  }
   function readingComp() {
     var r = state.rcReading ? rec(state.rcReading) : null;
     if (!r) {
@@ -493,7 +500,9 @@
         + '<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px"><span style="font-size:.9rem;font-weight:700;color:#15171C">' + (answered ? 'You got ' + correct + ' of ' + total : 'Answer to fill the meter') + '</span><span style="font-size:.78rem;color:#8a909c">' + answered + ' of ' + total + ' answered</span></div>'
         + '<div style="height:11px;background:#EEF1F5;border-radius:999px;overflow:hidden"><div style="height:100%;width:' + pct + '%;background:linear-gradient(90deg,#50694C,#74a878);border-radius:999px;transition:width .35s ease"></div></div>'
         + (answered ? '' : '<p style="font-size:.8rem;color:#8a909c;margin:8px 0 0">Pick an answer to check it right away. You can change your choice.</p>') + '</div>';
-      mcHtml = '<div style="margin:24px 0 4px"><h2 style="font-size:1.15rem;margin:0 0 3px">Check your understanding</h2><p style="font-size:.85rem;color:#8a909c;margin:0 0 12px">Quick questions on this reading, with the answer right away.</p>' + score + rows + '</div>';
+      var band = (answered === total && total) ? rcBand(correct, total) : null;
+      var bandHtml = band ? '<div style="margin:18px 0 4px;background:' + band.bg + ';border:1.5px solid ' + band.color + ';border-radius:13px;padding:17px 19px"><div class="mono" style="font-size:.68rem;letter-spacing:.06em;color:' + band.color + ';margin-bottom:7px">WHERE YOU ARE IN THIS READING</div><div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap"><span style="display:flex;color:' + band.color + '">' + ic(band.icon, 24, 2.2) + '</span><span style="font-size:1.35rem;font-weight:700;color:' + band.color + '">' + band.label + '</span><span style="font-size:.9rem;font-weight:600;color:#474C57;margin-left:auto">' + correct + ' of ' + total + ' correct</span></div><p style="margin:10px 0 0;font-size:.92rem;line-height:1.55;color:#15171C">' + band.msg + '</p><button onclick="SOC.mcReset(\'' + r.id + '\')" style="margin-top:13px;background:#fff;border:1px solid ' + band.color + ';color:' + band.color + ';border-radius:9px;padding:8px 15px;font-size:.875rem;font-weight:600">Try these questions again</button></div>' : '';
+      mcHtml = '<div style="margin:24px 0 4px"><h2 style="font-size:1.15rem;margin:0 0 3px">Check your understanding</h2><p style="font-size:.85rem;color:#8a909c;margin:0 0 12px">Quick questions on this reading, with the answer right away.</p>' + score + rows + bandHtml + '</div>';
     }
     return '<div class="rise"><div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px"><h1 style="font-size:1.5rem;margin:0">Build Your Reading Comprehension</h1><button onclick="SOC.rcClear()" style="margin-left:auto;background:none;border:none;color:var(--red);font-size:.875rem;font-weight:600">Choose a different reading</button></div>'
       + '<div style="background:#15171C;color:#fff;border-radius:12px;padding:15px 18px;margin:8px 0 16px"><div class="mono" style="font-size:.6875rem;letter-spacing:.04em;color:#9aa3b2;margin-bottom:3px">YOUR READING</div><div style="font-size:1.0625rem;font-weight:600">' + esc(r.title) + '</div><div style="font-size:.875rem;color:rgba(255,255,255,.85)">Week ' + r.week + ' · ' + esc(r.authors) + ' · ' + esc(r.year) + '</div><button onclick="SOC.read(\'' + r.id + '\')" style="margin-top:10px;background:rgba(255,255,255,.14);border:none;color:#fff;border-radius:7px;padding:7px 13px;font-size:.85rem;font-weight:600">Open the reading ↗</button></div>'
@@ -694,6 +703,7 @@
     rcNote: function (k, v) { state.rcNotes[k] = v; persist(); },
     rcReveal: function (k) { var m = document.getElementById('soc-main'); var top = m ? m.scrollTop : 0; state.revealed[k] = !state.revealed[k]; render(); var m2 = document.getElementById('soc-main'); if (m2) m2.scrollTop = top; },
     mcPick: function (k, i) { var m = document.getElementById('soc-main'); var top = m ? m.scrollTop : 0; state.mcSel[k] = i; render(); var m2 = document.getElementById('soc-main'); if (m2) m2.scrollTop = top; },
+    mcReset: function (id) { var m = document.getElementById('soc-main'); var top = m ? m.scrollTop : 0; var keep = {}; Object.keys(state.mcSel).forEach(function (k) { if (k.indexOf(id + '|mc|') !== 0) keep[k] = state.mcSel[k]; }); state.mcSel = keep; render(); var m2 = document.getElementById('soc-main'); if (m2) m2.scrollTop = top; },
     saveReadingNotes: function () {
       var r = state.rcReading && rec(state.rcReading); if (!r) { flash('Pick a reading first.'); return; }
       var cc = (D.course && D.course.code) || 'Course';
@@ -701,7 +711,11 @@
       var sections = qs.map(function (q, i) { return { h: q, t: (state.rcNotes[r.id + '|' + state.lens + '|' + i] || '').trim() }; });
       var mcItems = MC[r.id] || [];
       if (mcItems.length) {
-        sections.push({ h: 'Check your understanding' });
+        var ans = 0, cor = 0;
+        mcItems.forEach(function (m, mi) { var s = state.mcSel[r.id + '|mc|' + mi]; if (s !== undefined && s !== null) { ans++; if (s === m.answer) cor++; } });
+        var head = 'Score: ' + cor + ' of ' + mcItems.length + ' correct' + (ans < mcItems.length ? ' (' + ans + ' of ' + mcItems.length + ' answered).' : '.');
+        if (ans === mcItems.length) { var b = rcBand(cor, mcItems.length); head += '\nWhere you are: ' + b.label + '. ' + b.msg; }
+        sections.push({ h: 'Check your understanding', t: head });
         mcItems.forEach(function (m, mi) {
           var sel = state.mcSel[r.id + '|mc|' + mi];
           var done = (sel !== undefined && sel !== null);
