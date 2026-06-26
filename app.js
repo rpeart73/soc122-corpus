@@ -11,7 +11,7 @@
 
   var SKEY = 'soc122corpus.v2';
   function load() { try { var o = JSON.parse(localStorage.getItem(SKEY) || '{}'); return o && typeof o === 'object' ? o : {}; } catch (e) { return {}; } }
-  function persist() { try { localStorage.setItem(SKEY, JSON.stringify({ saved: state.saved, layout: state.layout, introOpen: state.introOpen, cmpNotes: state.cmpNotes, lens: state.lens, rcNotes: state.rcNotes })); } catch (e) {} }
+  function persist() { try { localStorage.setItem(SKEY, JSON.stringify({ saved: state.saved, layout: state.layout, introOpen: state.introOpen, cmpNotes: state.cmpNotes, rcNotes: state.rcNotes })); } catch (e) {} }
   var saved0 = load();
 
   var state = {
@@ -27,7 +27,7 @@
     introOpen: saved0.introOpen !== false,
     savedView: false,
     showSynthesis: false,
-    lens: saved0.lens || 'thematic',
+    lens: 'thematic',
     cmpNotes: (saved0.cmpNotes && typeof saved0.cmpNotes === 'object') ? saved0.cmpNotes : {},
     showModel: false,
     exampleOpen: false,
@@ -658,7 +658,7 @@
     flash('Saved to your device (Seneca template).');
   }
   window.SOC = {
-    go: function (s) { if (s === 'library') { state.savedView = false; } if (s === 'reading') { state.rcReading = null; } state.screen = s; focusTarget = 'soc-main'; render(); topScroll(); },
+    go: function (s) { if (s === 'library') { state.savedView = false; } if (s === 'reading') { state.rcReading = null; state.lens = 'thematic'; } state.screen = s; focusTarget = 'soc-main'; render(); topScroll(); },
     back: function () { state.screen = 'library'; focusTarget = 'soc-main'; render(); var m = document.getElementById('soc-main'); if (m) m.scrollTop = state.libScroll || 0; },
     open: function (id) { var m = document.getElementById('soc-main'); if (m) state.libScroll = m.scrollTop; state.screen = 'detail'; state.detailId = id; focusTarget = 'soc-main'; render(); topScroll(); },
     layout: function (l) { state.layout = l; persist(); render(); },
@@ -675,11 +675,11 @@
     synthesize: function () { state.showSynthesis = true; render(); },
     hideSynthesis: function () { state.showSynthesis = false; render(); },
     setLens: function (l) { state.lens = l; render(); },
-    rcPick: function (id) { state.rcReading = id; persist(); render(); topScroll(); },
+    rcPick: function (id) { state.rcReading = id; state.lens = 'thematic'; persist(); render(); topScroll(); },
     rcClear: function () { state.rcReading = null; render(); topScroll(); },
     rcNote: function (k, v) { state.rcNotes[k] = v; persist(); },
-    rcReveal: function (k) { state.revealed[k] = !state.revealed[k]; render(); },
-    mcPick: function (k, i) { state.mcSel[k] = i; render(); },
+    rcReveal: function (k) { var m = document.getElementById('soc-main'); var top = m ? m.scrollTop : 0; state.revealed[k] = !state.revealed[k]; render(); var m2 = document.getElementById('soc-main'); if (m2) m2.scrollTop = top; },
+    mcPick: function (k, i) { var m = document.getElementById('soc-main'); var top = m ? m.scrollTop : 0; state.mcSel[k] = i; render(); var m2 = document.getElementById('soc-main'); if (m2) m2.scrollTop = top; },
     saveReadingNotes: function () {
       var r = state.rcReading && rec(state.rcReading); if (!r) { flash('Pick a reading first.'); return; }
       var L = (LENSES[state.lens] || LENSES.thematic).label, qs = RC_QUESTIONS[state.lens] || RC_QUESTIONS.thematic;
