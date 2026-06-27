@@ -155,15 +155,15 @@
   }
 
   /* ---------- style builders ---------- */
-  function saveBtnStyle(on) { return 'display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;border:1px solid ' + (on ? '#f0d89a' : '#DEE3EA') + ';background:' + (on ? '#FCEFD2' : '#fff') + ';color:' + (on ? '#B7791F' : '#8a909c') + ';flex:none'; }
-  function cmpBtnStyle(on) { return 'display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;border:1px solid ' + (on ? '#bcd0f2' : '#DEE3EA') + ';background:' + (on ? '#E7EEFB' : '#fff') + ';color:' + (on ? '#1552D8' : '#8a909c') + ';flex:none'; }
+  function saveBtnStyle(on) { return 'display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;border:1px solid ' + (on ? '#f0d89a' : '#DEE3EA') + ';background:' + (on ? '#FCEFD2' : '#fff') + ';color:' + (on ? '#B7791F' : '#6B7280') + ';flex:none'; }
+  function cmpBtnStyle(on) { return 'display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;border:1px solid ' + (on ? '#bcd0f2' : '#DEE3EA') + ';background:' + (on ? '#E7EEFB' : '#fff') + ';color:' + (on ? '#1552D8' : '#6B7280') + ';flex:none'; }
   function chipStyle(active, accent) { return 'display:inline-flex;align-items:center;gap:6px;border:1px solid ' + (active ? accent : '#DEE3EA') + ';background:' + (active ? accent + '22' : '#fff') + ';color:' + (active ? '#15171C' : '#474C57') + ';font-size:.8125rem;font-weight:' + (active ? '600' : '500') + ';padding:6px 11px;border-radius:999px'; }
   function segStyle(active) { return 'border:none;border-radius:7px;padding:6px 12px;font-size:.8125rem;font-weight:' + (active ? '600' : '500') + ';background:' + (active ? '#fff' : 'transparent') + ';color:' + (active ? '#15171C' : '#474C57') + ';box-shadow:' + (active ? '0 1px 2px rgba(21,23,28,.12)' : 'none') + ';display:flex;align-items:center;gap:6px'; }
   function eyePill(r) {
     var ind = r.eye === 'indigenous';
     return '<span title="' + esc(eyeLabel(r)) + '" style="display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:.625rem;font-weight:600;letter-spacing:.04em;color:' + (ind ? '#1f4d38' : '#3a47a8') + ';background:' + (ind ? '#E4F0E9' : '#E7E9FB') + ';padding:3px 8px;border-radius:999px">' + (ind ? 'INDIGENOUS' : 'WESTERN') + '</span>';
   }
-  function weekTag(r) { return '<span class="mono" style="font-size:.6875rem;color:#8a909c;background:#EEF1F5;padding:3px 8px;border-radius:6px">Week ' + r.week + '</span>'; }
+  function weekTag(r) { return '<span class="mono" style="font-size:.6875rem;color:#6B7280;background:#EEF1F5;padding:3px 8px;border-radius:6px">Week ' + r.week + '</span>'; }
 
   /* ---------- cards ---------- */
   function tileCard(r) {
@@ -175,14 +175,14 @@
       + '<div style="display:flex;align-items:center;gap:8px;margin-bottom:11px;flex-wrap:wrap">'
       + '<span style="display:inline-flex;align-items:center;gap:6px;background:' + tm.soft + ';color:' + tm.color + ';font-size:.6875rem;font-weight:600;letter-spacing:.03em;padding:4px 9px;border-radius:999px">' + ic(tm.icon, 13) + esc(r.type) + '</span>'
       + eyePill(r)
-      + '<span class="mono" style="font-size:.75rem;color:#8a909c;margin-left:auto">' + esc(String(r.year)) + '</span></div>'
+      + '<span class="mono" style="font-size:.75rem;color:#6B7280;margin-left:auto">' + esc(String(r.year)) + '</span></div>'
       + '<h3 style="font-size:1.125rem;line-height:1.28;font-weight:600;margin:0 0 4px;color:#15171C">' + esc(r.title) + '</h3>'
       + '<div style="font-size:.8125rem;color:#474C57;margin-bottom:11px">' + esc(r.authors) + '</div>'
       + '<p style="font-size:.875rem;line-height:1.5;color:#474C57;margin:0 0 13px">' + esc(r.abstract) + '</p>'
       + '<div style="margin-top:auto">' + weekTag(r) + '</div>'
       + '</div></button>'
       + '<div style="display:flex;align-items:center;gap:8px;padding:11px 17px;border-top:1px solid #EEF1F5;background:#FBFCFD">'
-      + '<span class="mono" style="font-size:.75rem;color:#8a909c">' + esc(r.len) + '</span>'
+      + '<span class="mono" style="font-size:.75rem;color:#6B7280">' + esc(r.len) + '</span>'
       + '<button onclick="SOC.compare(\'' + r.id + '\')" aria-label="' + (inC ? 'In compare' : 'Add to compare') + '" title="' + (inC ? 'In compare' : 'Add to compare') + '" style="' + cmpBtnStyle(inC) + ';margin-left:auto">' + ic('columns', 15) + '</button>'
       + '</div></div>';
   }
@@ -192,9 +192,9 @@
       + '<span style="display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:' + tm.soft + ';color:' + tm.color + ';flex:none">' + ic(tm.icon, 18) + '</span>'
       + '<button onclick="SOC.open(\'' + r.id + '\')" style="flex:1;min-width:0;text-align:left;background:none;border:none;padding:0">'
       + '<div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap"><span style="font-size:1rem;font-weight:600;color:#15171C">' + esc(r.title) + '</span><span style="font-size:.8125rem;color:#474C57">' + esc(r.authors) + ' · ' + esc(String(r.year)) + '</span></div>'
-      + '<div style="font-size:.8125rem;color:#8a909c;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:64ch">' + esc(r.abstract) + '</div></button>'
+      + '<div style="font-size:.8125rem;color:#6B7280;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:64ch">' + esc(r.abstract) + '</div></button>'
       + eyePill(r)
-      + '<span class="mono" style="font-size:.75rem;color:#8a909c;flex:none;width:64px;text-align:right">Week ' + r.week + '</span>'
+      + '<span class="mono" style="font-size:.75rem;color:#6B7280;flex:none;width:64px;text-align:right">Week ' + r.week + '</span>'
       + '<button onclick="SOC.compare(\'' + r.id + '\')" aria-label="' + (inC ? 'In compare' : 'Add to compare') + '" style="' + cmpBtnStyle(inC) + '">' + ic('columns', 15) + '</button>'
       + '</div>';
   }
@@ -216,21 +216,21 @@
       if (key === 'compare' && s.compareIds.length) badge = '<span class="mono" style="font-size:.6875rem;font-weight:600;color:#1552D8;background:#E7EEFB;padding:1px 7px;border-radius:999px">' + s.compareIds.length + '</span>';
       var click = "SOC.go('" + key + "')";
       return '<button onclick="' + click + '" aria-current="' + (active ? 'page' : 'false') + '" style="display:flex;align-items:center;gap:11px;width:100%;border:none;border-radius:10px;padding:10px 12px;font-size:.9375rem;font-weight:' + (active ? '600' : '500') + ';background:' + (active ? '#EEF1F5' : 'transparent') + ';color:' + (active ? '#15171C' : '#474C57') + ';text-align:left">'
-        + '<span style="display:flex;align-items:center;justify-content:center;width:22px;height:22px;flex:none;color:' + (active ? 'var(--red)' : '#8a909c') + '">' + ic(d[2], 19) + '</span><span style="flex:1;text-align:left">' + d[1] + '</span>' + badge + '</button>';
+        + '<span style="display:flex;align-items:center;justify-content:center;width:22px;height:22px;flex:none;color:' + (active ? 'var(--red)' : '#6B7280') + '">' + ic(d[2], 19) + '</span><span style="flex:1;text-align:left">' + d[1] + '</span>' + badge + '</button>';
     });
-    var walk = '<a href="https://rpeart73.github.io/soc122-corpus/walkthroughs/" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:11px;width:100%;border-radius:10px;padding:10px 12px;font-size:.9375rem;font-weight:500;color:#474C57;text-decoration:none"><span style="display:flex;align-items:center;justify-content:center;width:22px;height:22px;flex:none;color:#8a909c">' + ic('layers', 19) + '</span><span style="flex:1">Weekly Walkthrough</span><span style="color:#8a909c">↗</span></a>';
+    var walk = '<a href="https://rpeart73.github.io/soc122-corpus/walkthroughs/" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:11px;width:100%;border-radius:10px;padding:10px 12px;font-size:.9375rem;font-weight:500;color:#474C57;text-decoration:none"><span style="display:flex;align-items:center;justify-content:center;width:22px;height:22px;flex:none;color:#6B7280">' + ic('layers', 19) + '</span><span style="flex:1">Weekly Walkthrough</span><span style="color:#6B7280">↗</span></a>';
     var nav = btns[0] + walk + btns.slice(1).join('');
     var counts = {}; D.records.forEach(function (r) { counts[r.week] = (counts[r.week] || 0) + 1; });
     var weekNav = weeksWithReadings().map(function (w) {
       var active = s.activeWeek === w;
       return '<button onclick="SOC.week(' + w + ')" style="display:flex;align-items:center;gap:9px;width:100%;border:none;border-radius:9px;padding:7px 12px;font-size:.8125rem;font-weight:' + (active ? '600' : '500') + ';background:' + (active ? '#E6EAF1' : 'transparent') + ';color:' + (active ? '#1B2A4A' : '#474C57') + ';text-align:left">'
-        + '<span class="mono" style="font-size:.6875rem;color:' + (active ? '#1B2A4A' : '#8a909c') + ';flex:none;width:18px">' + w + '</span>'
+        + '<span class="mono" style="font-size:.6875rem;color:' + (active ? '#1B2A4A' : '#6B7280') + ';flex:none;width:18px">' + w + '</span>'
         + '<span style="flex:1;text-align:left;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(weekTitle(w)) + '</span>'
-        + '<span class="mono" style="font-size:.6875rem;color:#8a909c">' + counts[w] + '</span></button>';
+        + '<span class="mono" style="font-size:.6875rem;color:#6B7280">' + counts[w] + '</span></button>';
     }).join('');
     return '<nav class="soc-sidebar" aria-label="Primary" style="width:240px;flex:none;border-right:1px solid #DEE3EA;background:#fff;padding:18px 14px;display:flex;flex-direction:column;gap:4px;position:sticky;top:62px;align-self:flex-start;height:calc(100vh - 62px);overflow:auto">'
       + nav
-      + '<div style="margin-top:14px;padding-top:14px;border-top:1px solid #EEF1F5"><div class="mono" style="font-size:.6875rem;letter-spacing:.04em;color:#8a909c;padding:0 12px 8px">WEEKS</div>' + weekNav + '</div>'
+      + '<div style="margin-top:14px;padding-top:14px;border-top:1px solid #EEF1F5"><div class="mono" style="font-size:.6875rem;letter-spacing:.04em;color:#6B7280;padding:0 12px 8px">WEEKS</div>' + weekNav + '</div>'
       + '<div style="margin-top:auto;padding:13px 12px;border-radius:12px;background:#EEF1F5"><div class="mono" style="font-size:.75rem;color:#474C57;margin-bottom:4px">SOC122</div><div style="font-size:.8125rem;color:#15171C;line-height:1.45">A living collection, week by week. A companion to Blackboard.</div></div>'
       + '</nav>';
   }
@@ -265,9 +265,9 @@
 
     html += '<section style="background:#fff;border:1px solid #DEE3EA;border-radius:14px;padding:16px 18px;margin-bottom:18px;box-shadow:0 1px 2px rgba(21,23,28,.04)">'
       + '<div style="display:flex;align-items:center;gap:10px;background:#F7F8FA;border:1px solid #DEE3EA;border-radius:10px;padding:11px 14px">'
-      + '<span style="display:flex;color:#8a909c;flex:none">' + ic('search', 18) + '</span>'
+      + '<span style="display:flex;color:#6B7280;flex:none">' + ic('search', 18) + '</span>'
       + '<input id="soc-search" value="' + esc(s.search) + '" oninput="SOC.search(this.value)" placeholder="Search by title, author, idea, or week..." aria-label="Search readings" style="flex:1;border:none;background:none;outline:none;font-size:1rem;color:#15171C;min-width:0" />'
-      + (s.search ? '<button onclick="SOC.clearSearch()" aria-label="Clear search" style="background:none;border:none;color:#8a909c;display:flex;padding:2px">' + ic('x', 16) + '</button>' : '')
+      + (s.search ? '<button onclick="SOC.clearSearch()" aria-label="Clear search" style="background:none;border:none;color:#6B7280;display:flex;padding:2px">' + ic('x', 16) + '</button>' : '')
       + '</div>'
       + '<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid #EEF1F5">'
       + '<span style="font-size:.8125rem;color:#474C57">' + resultLabel + '</span>'
@@ -292,7 +292,7 @@
         return '<section><div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px">'
           + '<span style="display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:26px;padding:0 8px;border-radius:8px;background:#1B2A4A;color:#fff;font-family:var(--mono);font-size:.8125rem;font-weight:600;flex:none">' + w + '</span>'
           + '<h2 style="font-size:1.1875rem;font-weight:600;margin:0;color:#15171C">' + esc(weekTitle(w)) + '</h2>'
-          + '<span class="mono" style="font-size:.75rem;color:#8a909c">' + weeks[w].length + (weeks[w].length === 1 ? ' reading' : ' readings') + '</span>'
+          + '<span class="mono" style="font-size:.75rem;color:#6B7280">' + weeks[w].length + (weeks[w].length === 1 ? ' reading' : ' readings') + '</span>'
           + '<div style="flex:1;height:1px;background:#EEF1F5"></div></div>'
           + '<div class="soc-cardgrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(296px,1fr));gap:16px">' + cards + '</div></section>';
       }).join('') + '</div>';
@@ -348,7 +348,7 @@
       + '<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:10px">'
       + '<span style="display:inline-flex;align-items:center;gap:5px;background:' + tm.soft + ';color:' + tm.color + ';font-size:.6875rem;font-weight:600;padding:4px 9px;border-radius:999px">' + ic(tm.icon, 12) + esc(r.type) + '</span>'
       + rgAccessBadge(r)
-      + '<span class="mono" style="font-size:.75rem;color:#8a909c;margin-left:auto">' + esc(String(r.year)) + '</span>'
+      + '<span class="mono" style="font-size:.75rem;color:#6B7280;margin-left:auto">' + esc(String(r.year)) + '</span>'
       + '</div>'
       + '<h3 style="font-size:1.0625rem;line-height:1.3;font-weight:600;margin:0 0 4px;color:#15171C">' + esc(r.title) + '</h3>'
       + '<div style="font-size:.8125rem;color:#474C57;margin-bottom:9px">' + esc(r.authors) + '</div>'
@@ -393,9 +393,9 @@
       + '</div>';
     var anyFilter = (s.galWeek != null) || s.galTopic;
     var filterBar = '<section style="background:#fff;border:1px solid #DEE3EA;border-radius:14px;padding:14px 16px;margin-bottom:16px;box-shadow:0 1px 2px rgba(21,23,28,.04);position:sticky;top:0;z-index:5">'
-      + '<div style="display:flex;align-items:center;gap:7px;margin-bottom:7px"><span style="display:flex;color:#8a909c">' + ic('calendar', 15) + '</span><span style="font-size:.7rem;font-weight:600;letter-spacing:.05em;color:#8a909c;text-transform:uppercase">Filter by week</span></div>'
+      + '<div style="display:flex;align-items:center;gap:7px;margin-bottom:7px"><span style="display:flex;color:#6B7280">' + ic('calendar', 15) + '</span><span style="font-size:.7rem;font-weight:600;letter-spacing:.05em;color:#6B7280;text-transform:uppercase">Filter by week</span></div>'
       + weekRail
-      + '<div style="display:flex;align-items:center;gap:7px;margin:13px 0 7px"><span style="display:flex;color:#8a909c">' + ic('sparkle', 15) + '</span><span style="font-size:.7rem;font-weight:600;letter-spacing:.05em;color:#8a909c;text-transform:uppercase">Filter by topic</span></div>'
+      + '<div style="display:flex;align-items:center;gap:7px;margin:13px 0 7px"><span style="display:flex;color:#6B7280">' + ic('sparkle', 15) + '</span><span style="font-size:.7rem;font-weight:600;letter-spacing:.05em;color:#6B7280;text-transform:uppercase">Filter by topic</span></div>'
       + topicRail
       + '<div style="display:flex;align-items:center;gap:11px;margin-top:13px;padding-top:12px;border-top:1px solid #EEF1F5"><span style="font-size:.8125rem;font-weight:500;color:#474C57">' + list.length + ' of ' + D.records.length + ' readings</span>' + (anyFilter ? '<button onclick="SOC.galClear()" style="background:none;border:none;color:var(--red);font-size:.8125rem;font-weight:600;cursor:pointer">Clear filters</button>' : '') + '</div>'
       + '</section>';
@@ -422,7 +422,7 @@
       [ic('gauge', 16), 'Level', esc(D.levels[r.diff] || '')],
       [ic('unlock', 16), 'Access', esc((D.accessLabels && D.accessLabels[r.access]) || '')],
       [ic('globe', 16), 'Origin', esc(r.origin)],
-    ].map(function (f) { return '<div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #EEF1F5"><span style="display:flex;color:#8a909c;flex:none">' + f[0] + '</span><span style="font-size:.8125rem;color:#474C57;flex:none;width:84px">' + f[1] + '</span><span style="font-size:.875rem;font-weight:500;color:#15171C;text-align:right;flex:1">' + f[2] + '</span></div>'; }).join('');
+    ].map(function (f) { return '<div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #EEF1F5"><span style="display:flex;color:#6B7280;flex:none">' + f[0] + '</span><span style="font-size:.8125rem;color:#474C57;flex:none;width:84px">' + f[1] + '</span><span style="font-size:.875rem;font-weight:500;color:#15171C;text-align:right;flex:1">' + f[2] + '</span></div>'; }).join('');
     var hasLink = !!readUrl(r);
 
     return '<div class="rise"><button onclick="SOC.back()" style="background:none;border:none;color:#474C57;font-size:.875rem;font-weight:500;padding:0 0 16px;display:inline-flex;align-items:center;gap:6px">&larr; Back to the library</button>'
@@ -430,9 +430,9 @@
       + '<div style="display:flex;align-items:center;gap:10px;margin-bottom:13px;flex-wrap:wrap"><span style="display:inline-flex;align-items:center;gap:7px;background:' + tm.soft + ';color:' + tm.color + ';font-size:.8125rem;font-weight:600;padding:5px 12px;border-radius:999px">' + ic(tm.icon, 15) + esc(r.type) + '</span>' + eyePill(r) + '<button onclick="SOC.week(' + r.week + ')" class="mono" style="font-size:.8125rem;color:#1B2A4A;background:#E6EAF1;border:none;padding:4px 10px;border-radius:999px">Week ' + r.week + '</button><span class="mono" style="font-size:.8125rem;color:#474C57">' + esc(String(r.year)) + ' · ' + esc(r.origin) + '</span></div>'
       + '<h1 style="font-size:2.125rem;line-height:1.15;font-weight:600;margin:0 0 8px">' + esc(r.title) + '</h1>'
       + '<div style="font-size:1.0625rem;color:#474C57;margin-bottom:24px">' + esc(r.authors) + '</div>'
-      + '<div class="mono" style="font-size:.75rem;letter-spacing:.04em;color:#8a909c;margin-bottom:9px">ABSTRACT</div><p style="font-size:1.0625rem;line-height:1.62;color:#15171C;margin:0 0 26px;max-width:64ch">' + esc(r.abstract) + '</p>'
+      + '<div class="mono" style="font-size:.75rem;letter-spacing:.04em;color:#6B7280;margin-bottom:9px">ABSTRACT</div><p style="font-size:1.0625rem;line-height:1.62;color:#15171C;margin:0 0 26px;max-width:64ch">' + esc(r.abstract) + '</p>'
       + '<div style="background:' + tm.soft + ';border-radius:14px;padding:20px 22px;margin-bottom:26px;border:1px solid ' + tm.color + '33"><div style="display:flex;align-items:center;gap:9px;margin-bottom:9px"><span style="display:flex;color:' + tm.color + '">' + ic('sparkle', 17) + '</span><span style="font-size:.8125rem;font-weight:600;color:' + tm.color + ';letter-spacing:.02em">THE CORE IDEA</span></div><p style="font-size:1.1875rem;line-height:1.5;font-weight:500;color:#15171C;margin:0">' + esc(r.coreIdea) + '</p></div>'
-      + (related ? '<div class="mono" style="font-size:.75rem;letter-spacing:.04em;color:#8a909c;margin-bottom:12px">READ ALONGSIDE</div><div style="display:flex;flex-direction:column;gap:10px">' + related + '</div>' : '')
+      + (related ? '<div class="mono" style="font-size:.75rem;letter-spacing:.04em;color:#6B7280;margin-bottom:12px">READ ALONGSIDE</div><div style="display:flex;flex-direction:column;gap:10px">' + related + '</div>' : '')
       + '</div>'
       + '<aside class="soc-rail" style="position:sticky;top:84px;display:flex;flex-direction:column;gap:14px">'
       + '<div style="background:#fff;border:1px solid #DEE3EA;border-radius:14px;padding:18px;box-shadow:0 1px 2px rgba(21,23,28,.04)">'
@@ -452,7 +452,7 @@
       var tm = typeMeta(r.type), sel = state.compareIds.indexOf(r.id) >= 0;
       return '<button onclick="SOC.compare(\'' + r.id + '\')" class="mapsrc" style="display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:' + (sel ? '#E7EEFB' : 'none') + ';border:none;border-bottom:1px solid #EEF1F5;padding:10px 12px">'
         + '<span style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:7px;background:' + tm.soft + ';color:' + tm.color + ';flex:none">' + ic(tm.icon, 14) + '</span>'
-        + '<span style="flex:1;min-width:0"><span style="display:block;font-size:.8125rem;font-weight:600;color:#15171C;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(r.title) + '</span><span style="display:block;font-size:.6875rem;color:#8a909c">Week ' + r.week + ' · ' + (r.eye === 'indigenous' ? 'Indigenous' : 'Western') + '</span></span>'
+        + '<span style="flex:1;min-width:0"><span style="display:block;font-size:.8125rem;font-weight:600;color:#15171C;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(r.title) + '</span><span style="display:block;font-size:.6875rem;color:#6B7280">Week ' + r.week + ' · ' + (r.eye === 'indigenous' ? 'Indigenous' : 'Western') + '</span></span>'
         + (sel ? '<span style="display:flex;color:#1552D8;flex:none">' + ic('check', 16, 2.2) + '</span>' : '<span style="display:flex;color:#6b7280;flex:none">' + ic('plus', 16) + '</span>') + '</button>';
     }).join('');
   }
@@ -493,7 +493,7 @@
       + ex
       + '<div style="font-size:.8125rem;font-weight:600;color:#15171C;margin-bottom:7px">Read them through a lens</div>'
       + '<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:6px">' + chips + '</div>'
-      + '<p style="font-size:.82rem;color:#8a909c;margin:0 0 16px">' + esc(lens.label) + ': ' + esc(lens.hint) + '.</p>'
+      + '<p style="font-size:.82rem;color:#6B7280;margin:0 0 16px">' + esc(lens.label) + ': ' + esc(lens.hint) + '.</p>'
       + zone('1', 'Similarities', 'What do these readings share? Where do they agree, in facts, topic, or the same idea?', 'sim', 'They both...')
       + zone('2', 'Differences', esc(lens.diff), 'diff', 'The first... while the second...')
       + zone('3', 'Why the differences matter', 'Finish the thought: these differences matter because...', 'ins', 'These differences matter because...')
@@ -559,12 +559,12 @@
     return { label: 'Worth another read', color: '#b23121', bg: '#FBE9E7', icon: 'book', msg: 'This reading has not fully landed yet. The read-out below shows exactly where to focus your next pass.' };
   }
   function readingComp() {
-    var practiceNote = '<div style="display:flex;align-items:flex-start;gap:9px;background:#EEF1F5;border:1px solid #DEE3EA;border-radius:10px;padding:11px 14px;margin:0 0 16px;font-size:.85rem;line-height:1.5;color:#474C57"><span style="display:flex;color:#8a909c;flex:none;margin-top:1px">' + ic('book', 16) + '</span><span>This is a private space for practice and self-study. Nothing here is graded, recorded, or counted toward a mark. It is here to help you check your own understanding and see where to focus.</span></div>';
+    var practiceNote = '<div style="display:flex;align-items:flex-start;gap:9px;background:#EEF1F5;border:1px solid #DEE3EA;border-radius:10px;padding:11px 14px;margin:0 0 16px;font-size:.85rem;line-height:1.5;color:#474C57"><span style="display:flex;color:#6B7280;flex:none;margin-top:1px">' + ic('book', 16) + '</span><span>This is a private space for practice and self-study. Nothing here is graded, recorded, or counted toward a mark. It is here to help you check your own understanding and see where to focus.</span></div>';
     var r = state.rcReading ? rec(state.rcReading) : null;
     if (!r) {
       var picks = D.records.map(function (rd) {
         var tm = typeMeta(rd.type);
-        return '<button onclick="SOC.rcPick(\'' + rd.id + '\')" style="display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:#fff;border:1px solid #DEE3EA;border-radius:10px;padding:12px 14px;margin-bottom:8px;color:#15171C"><span style="width:9px;height:9px;border-radius:50%;background:' + tm.color + ';flex:none"></span><span style="flex:1;min-width:0"><span style="display:block;font-weight:600;font-size:.95rem">' + esc(rd.title) + '</span><span style="font-size:.8125rem;color:#474C57">Week ' + rd.week + ' · ' + esc(rd.authors) + '</span></span><span style="color:#8a909c">' + ic('book', 16) + '</span></button>';
+        return '<button onclick="SOC.rcPick(\'' + rd.id + '\')" style="display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:#fff;border:1px solid #DEE3EA;border-radius:10px;padding:12px 14px;margin-bottom:8px;color:#15171C"><span style="width:9px;height:9px;border-radius:50%;background:' + tm.color + ';flex:none"></span><span style="flex:1;min-width:0"><span style="display:block;font-weight:600;font-size:.95rem">' + esc(rd.title) + '</span><span style="font-size:.8125rem;color:#474C57">Week ' + rd.week + ' · ' + esc(rd.authors) + '</span></span><span style="color:#6B7280">' + ic('book', 16) + '</span></button>';
       }).join('');
       return '<div class="rise"><h1 style="font-size:1.75rem;margin:0 0 6px">Build Your Reading Comprehension</h1><p class="lede" style="max-width:72ch;margin:0 0 18px">Pick one reading. You will work through questions that build your understanding of it. Switch the lens to change the kind of questions you answer. Your answers save to your notes.</p>' + practiceNote + picks + '</div>';
     }
@@ -604,9 +604,9 @@
       }).join('');
       var total = mcItems.length, pct = Math.round(100 * correct / total);
       var score = '<div style="margin:2px 0 16px;max-width:460px">'
-        + '<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px"><span style="font-size:.9rem;font-weight:700;color:#15171C">' + (answered ? 'You got ' + correct + ' of ' + total : 'Answer to fill the meter') + '</span><span style="font-size:.78rem;color:#8a909c">' + answered + ' of ' + total + ' answered</span></div>'
+        + '<div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px"><span style="font-size:.9rem;font-weight:700;color:#15171C">' + (answered ? 'You got ' + correct + ' of ' + total : 'Answer to fill the meter') + '</span><span style="font-size:.78rem;color:#6B7280">' + answered + ' of ' + total + ' answered</span></div>'
         + '<div style="height:11px;background:#EEF1F5;border-radius:999px;overflow:hidden"><div style="height:100%;width:' + pct + '%;background:linear-gradient(90deg,#50694C,#74a878);border-radius:999px;transition:width .35s ease"></div></div>'
-        + (answered ? '' : '<p style="font-size:.8rem;color:#8a909c;margin:8px 0 0">Pick an answer to check it right away. You can change your choice.</p>') + '</div>';
+        + (answered ? '' : '<p style="font-size:.8rem;color:#6B7280;margin:8px 0 0">Pick an answer to check it right away. You can change your choice.</p>') + '</div>';
       var band = (answered === total && total) ? rcBand(correct, total) : null;
       var pctLabel = band ? Math.round(100 * correct / total) + '%' : '';
       var diagLine = '';
@@ -627,12 +627,12 @@
         + '<p style="margin:11px 0 0;font-size:.92rem;line-height:1.55;color:#15171C">' + band.msg + '</p>'
         + diagLine
         + '<div style="margin-top:14px;display:flex;gap:9px;flex-wrap:wrap"><button onclick="SOC.read(\'' + r.id + '\')" style="background:' + band.color + ';border:none;color:#fff;border-radius:9px;padding:8px 15px;font-size:.875rem;font-weight:600">' + readLabel(r) + ' &#8599;</button><button onclick="SOC.mcReset(\'' + r.id + '\')" style="background:#fff;border:1px solid ' + band.color + ';color:' + band.color + ';border-radius:9px;padding:8px 15px;font-size:.875rem;font-weight:600">Try these questions again</button></div></div>' : '';
-      mcHtml = '<div style="margin:24px 0 4px"><h2 style="font-size:1.15rem;margin:0 0 3px">Check your understanding</h2><p style="font-size:.85rem;color:#8a909c;margin:0 0 12px">Quick questions on this reading, with the answer right away.</p>' + score + rows + bandHtml + '</div>';
+      mcHtml = '<div style="margin:24px 0 4px"><h2 style="font-size:1.15rem;margin:0 0 3px">Check your understanding</h2><p style="font-size:.85rem;color:#6B7280;margin:0 0 12px">Quick questions on this reading, with the answer right away.</p>' + score + rows + bandHtml + '</div>';
     }
     return '<div class="rise"><div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px"><h1 style="font-size:1.5rem;margin:0">Build Your Reading Comprehension</h1><button onclick="SOC.rcClear()" style="margin-left:auto;background:none;border:none;color:var(--red);font-size:.875rem;font-weight:600">Choose a different reading</button></div>'
       + practiceNote
       + '<div style="background:#15171C;color:#fff;border-radius:12px;padding:15px 18px;margin:8px 0 16px"><div class="mono" style="font-size:.6875rem;letter-spacing:.04em;color:#9aa3b2;margin-bottom:3px">YOUR READING</div><div style="font-size:1.0625rem;font-weight:600">' + esc(r.title) + '</div><div style="font-size:.875rem;color:rgba(255,255,255,.85)">Week ' + r.week + ' · ' + esc(r.authors) + ' · ' + esc(r.year) + '</div><button onclick="SOC.read(\'' + r.id + '\')" style="margin-top:10px;background:rgba(255,255,255,.14);border:none;color:#fff;border-radius:7px;padding:7px 13px;font-size:.85rem;font-weight:600">' + readLabel(r) + ' ↗</button></div>'
-      + '<div style="font-size:.8125rem;font-weight:600;color:#15171C;margin-bottom:7px">Choose a lens (this changes the questions)</div><div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:6px">' + rcChips() + '</div><p style="font-size:.82rem;color:#8a909c;margin:0 0 16px">' + esc(lens.label) + ': ' + esc(lens.hint) + '.</p>'
+      + '<div style="font-size:.8125rem;font-weight:600;color:#15171C;margin-bottom:7px">Choose a lens (this changes the questions)</div><div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:6px">' + rcChips() + '</div><p style="font-size:.82rem;color:#6B7280;margin:0 0 16px">' + esc(lens.label) + ': ' + esc(lens.hint) + '.</p>'
       + zones
       + mcHtml
       + '<button onclick="SOC.saveReadingNotes()" style="background:var(--red);border:none;color:#fff;border-radius:9px;padding:10px 18px;font-size:.9rem;font-weight:600;margin-top:8px">Save my notes</button></div>';
@@ -648,10 +648,10 @@
       var cols = recs.map(function (r) {
         var tm = typeMeta(r.type);
         var rows = [['WEEK', 'Week ' + r.week + ': ' + weekTitle(r.week)], ['YEAR', String(r.year)], ['PERSPECTIVE', eyeLabel(r)], ['ORIGIN', r.origin], ['LENGTH', r.len], ['LEVEL', D.levels[r.diff] || ''], ['THE CORE IDEA', r.coreIdea]]
-          .map(function (row) { return '<div style="padding:11px 17px;border-top:1px solid #EEF1F5"><div class="mono" style="font-size:.625rem;letter-spacing:.05em;color:#8a909c;margin-bottom:4px">' + row[0] + '</div><div style="font-size:.875rem;line-height:1.45;color:#15171C">' + esc(row[1]) + '</div></div>'; }).join('');
+          .map(function (row) { return '<div style="padding:11px 17px;border-top:1px solid #EEF1F5"><div class="mono" style="font-size:.625rem;letter-spacing:.05em;color:#6B7280;margin-bottom:4px">' + row[0] + '</div><div style="font-size:.875rem;line-height:1.45;color:#15171C">' + esc(row[1]) + '</div></div>'; }).join('');
         return '<div style="flex:none;width:280px;background:#fff;border:1px solid #DEE3EA;border-radius:14px;overflow:hidden;box-shadow:0 1px 2px rgba(21,23,28,.04);display:flex;flex-direction:column"><div style="height:5px;background:' + tm.color + '"></div><div style="padding:16px 17px 14px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:11px"><span style="display:inline-flex;align-items:center;gap:6px;background:' + tm.soft + ';color:' + tm.color + ';font-size:.6875rem;font-weight:600;padding:4px 9px;border-radius:999px">' + ic(tm.icon, 13) + esc(r.type) + '</span><button onclick="SOC.compare(\'' + r.id + '\')" class="removebtn" aria-label="Remove" style="margin-left:auto;background:none;border:none;color:#6b7280;display:flex;padding:6px">' + ic('x', 16) + '</button></div><button onclick="SOC.open(\'' + r.id + '\')" style="text-align:left;background:none;border:none;padding:0;display:block;margin-bottom:4px"><h3 style="font-size:1.0625rem;line-height:1.3;font-weight:600;margin:0;color:#15171C">' + esc(r.title) + '</h3></button><div style="font-size:.8125rem;color:#474C57">' + esc(r.authors) + '</div></div>' + rows + '</div>';
       }).join('');
-      var hint = recs.length < 2 ? '<p style="font-size:.875rem;color:#8a909c;margin:0 0 12px">Pick one more reading on the right to compare it against this one.</p>' : '';
+      var hint = recs.length < 2 ? '<p style="font-size:.875rem;color:#6B7280;margin:0 0 12px">Pick one more reading on the right to compare it against this one.</p>' : '';
       var connectNote = recs.length >= 2 ? '<div style="background:#F7F8FA;border:1px solid #DEE3EA;border-radius:12px;padding:13px 16px;margin-bottom:16px;font-size:.875rem;line-height:1.55;color:#474C57">The readings are set side by side, each one attributed. Reading them together, what they share, where they differ, and why that matters, is your work to do. The app does not write the connection for you.</div>' : '';
       left = hint + connectNote + '<div class="hshelf" style="display:flex;gap:16px;align-items:stretch;overflow-x:auto;padding-bottom:10px">' + cols + '</div>';
     } else {
@@ -660,7 +660,7 @@
 
     var right = '<aside class="soc-rail" style="position:sticky;top:84px">'
       + '<div class="soc-pickbox" style="background:#fff;border:1px solid #DEE3EA;border-radius:14px;overflow:hidden;box-shadow:0 1px 2px rgba(21,23,28,.04);display:flex;flex-direction:column;max-height:calc(100vh - 110px)">'
-      + '<div style="padding:13px 14px;border-bottom:1px solid #EEF1F5;flex:none"><div style="font-size:.9375rem;font-weight:600;color:#15171C">Readings</div><div style="font-size:.75rem;color:#8a909c;margin-top:2px">' + recs.length + ' of 3 selected. Tap to add or remove.</div></div>'
+      + '<div style="padding:13px 14px;border-bottom:1px solid #EEF1F5;flex:none"><div style="font-size:.9375rem;font-weight:600;color:#15171C">Readings</div><div style="font-size:.75rem;color:#6B7280;margin-top:2px">' + recs.length + ' of 3 selected. Tap to add or remove.</div></div>'
       + '<div class="scrollarea" style="overflow:auto">' + comparePickList() + '</div>'
       + '</div></aside>';
 
@@ -676,28 +676,28 @@
     var weeks = (sel === 'all' || sel == null) ? weeksWithReadings() : [parseInt(sel, 10)];
     return weeks.map(function (w) {
       var cons = conceptsForWeek(w).map(function (g) {
-        return '<div style="margin:12px 0"><div style="font-size:.9375rem;font-weight:600;color:#15171C">' + esc(g.term) + '</div><div style="font-size:.875rem;line-height:1.55;color:#474C57;margin-top:3px">' + esc(g.def) + '</div>' + (g.cite ? '<div style="font-size:.75rem;color:#8a909c;border-left:3px solid #DEE3EA;padding-left:10px;margin-top:7px">' + esc(g.cite) + '</div>' : '') + '</div>';
+        return '<div style="margin:12px 0"><div style="font-size:.9375rem;font-weight:600;color:#15171C">' + esc(g.term) + '</div><div style="font-size:.875rem;line-height:1.55;color:#474C57;margin-top:3px">' + esc(g.def) + '</div>' + (g.cite ? '<div style="font-size:.75rem;color:#6B7280;border-left:3px solid #DEE3EA;padding-left:10px;margin-top:7px">' + esc(g.cite) + '</div>' : '') + '</div>';
       }).join('');
       var thinks = thinkersForWeek(w);
-      var tk = thinks.length ? '<div class="mono" style="font-size:.6875rem;letter-spacing:.04em;color:#8a909c;margin:14px 0 5px">SCHOLARS THIS WEEK</div>' + thinks.map(function (r) {
+      var tk = thinks.length ? '<div class="mono" style="font-size:.6875rem;letter-spacing:.04em;color:#6B7280;margin:14px 0 5px">SCHOLARS THIS WEEK</div>' + thinks.map(function (r) {
         return '<div style="margin:5px 0;font-size:.8125rem;color:#15171C;line-height:1.5">' + eyePill(r) + ' <button onclick="SOC.open(\'' + r.id + '\')" style="background:none;border:none;padding:0;color:#1552D8;font-weight:600;cursor:pointer">' + esc(r.authors) + '</button>. ' + esc(r.coreIdea) + '</div>';
       }).join('') : '';
-      return '<div style="border:1px solid #DEE3EA;border-radius:12px;padding:10px 16px 15px;margin-bottom:14px;background:#fff"><div class="mono" style="font-size:.6875rem;letter-spacing:.04em;color:#1B2A4A;margin:6px 0 2px">WEEK ' + w + ' &middot; ' + esc(weekTitle(w)) + '</div>' + (cons || '<p style="color:#8a909c;font-size:.875rem">No concepts listed.</p>') + tk + '</div>';
+      return '<div style="border:1px solid #DEE3EA;border-radius:12px;padding:10px 16px 15px;margin-bottom:14px;background:#fff"><div class="mono" style="font-size:.6875rem;letter-spacing:.04em;color:#1B2A4A;margin:6px 0 2px">WEEK ' + w + ' &middot; ' + esc(weekTitle(w)) + '</div>' + (cons || '<p style="color:#6B7280;font-size:.875rem">No concepts listed.</p>') + tk + '</div>';
     }).join('');
   }
   function glossarySearchHTML(q) {
     q = (q || '').toLowerCase().trim(); if (!q) return '';
     var hits = (D.glossary || []).filter(function (g) { return (g.term + ' ' + g.def).toLowerCase().indexOf(q) >= 0; });
-    if (!hits.length) return '<p style="color:#8a909c;font-size:.875rem">No matches. Try another word.</p>';
+    if (!hits.length) return '<p style="color:#6B7280;font-size:.875rem">No matches. Try another word.</p>';
     return '<div class="soc-cardgrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px">' + hits.map(function (g) {
-      return '<div style="background:#fff;border:1px solid #DEE3EA;border-radius:12px;padding:14px 16px"><div style="font-size:.9375rem;font-weight:600;color:#15171C">' + esc(g.term) + '</div><div style="font-size:.8125rem;line-height:1.55;color:#474C57;margin:4px 0 8px">' + esc(g.def) + '</div>' + (g.cite ? '<div style="font-size:.7rem;color:#8a909c;margin-bottom:8px">' + esc(g.cite) + '</div>' : '') + '<button onclick="SOC.glossWeekGo(' + g.week + ')" class="mono" style="font-size:.6875rem;color:#1B2A4A;background:#E6EAF1;border:none;padding:3px 8px;border-radius:6px;cursor:pointer">Week ' + g.week + '</button></div>';
+      return '<div style="background:#fff;border:1px solid #DEE3EA;border-radius:12px;padding:14px 16px"><div style="font-size:.9375rem;font-weight:600;color:#15171C">' + esc(g.term) + '</div><div style="font-size:.8125rem;line-height:1.55;color:#474C57;margin:4px 0 8px">' + esc(g.def) + '</div>' + (g.cite ? '<div style="font-size:.7rem;color:#6B7280;margin-bottom:8px">' + esc(g.cite) + '</div>' : '') + '<button onclick="SOC.glossWeekGo(' + g.week + ')" class="mono" style="font-size:.6875rem;color:#1B2A4A;background:#E6EAF1;border:none;padding:3px 8px;border-radius:6px;cursor:pointer">Week ' + g.week + '</button></div>';
     }).join('') + '</div>';
   }
   function glossaryScreen() {
     var sel = state.glossWeek;
     var weekOpts = '<option value="all"' + (sel === 'all' ? ' selected' : '') + '>All weeks</option>' + weeksWithReadings().map(function (w) { return '<option value="' + w + '"' + (String(w) === String(sel) ? ' selected' : '') + '>Week ' + w + ': ' + esc(weekTitle(w)) + '</option>'; }).join('');
     return '<div class="rise">'
-      + '<div class="mono" style="font-size:.75rem;letter-spacing:.06em;color:#8a909c;margin-bottom:8px">REFERENCE</div>'
+      + '<div class="mono" style="font-size:.75rem;letter-spacing:.06em;color:#6B7280;margin-bottom:8px">REFERENCE</div>'
       + '<h1 style="font-size:1.75rem;font-weight:600;margin:0 0 8px">Glossary and Thinkers</h1>'
       + '<p style="font-size:.9375rem;color:#474C57;margin:0 0 18px;max-width:72ch">The course concepts in plain words, week by week, and the scholars behind the readings. Built on the Two-Eyed Seeing frame: Indigenous and Western knowledge held side by side.</p>'
       + '<label for="soc-gsearch" style="font-size:.8125rem;font-weight:600;color:#474C57;display:block;margin-bottom:6px">Search every concept</label>'
@@ -713,7 +713,7 @@
     return '<button class="flip" onclick="SOC.flip(this)" aria-label="Self-check: ' + esc(g.term) + '. Activate to reveal the definition.">'
       + '<span class="flip-inner">'
       + '<span class="flip-face flip-front">'
-      + '<span style="display:flex;align-items:center;gap:8px;margin-bottom:11px"><span class="mono" style="font-size:.6875rem;color:#8a909c;margin-left:auto">WEEK ' + g.week + '</span></span>'
+      + '<span style="display:flex;align-items:center;gap:8px;margin-bottom:11px"><span class="mono" style="font-size:.6875rem;color:#6B7280;margin-left:auto">WEEK ' + g.week + '</span></span>'
       + '<span class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:#1B2A4A;margin-bottom:6px">RECALL</span>'
       + '<span style="font-size:1.0625rem;font-weight:600;line-height:1.3;color:#15171C">' + esc(g.term) + '</span>'
       + '<span style="margin-top:auto;padding-top:14px;font-size:.8125rem;color:#1552D8;font-weight:600">Reveal the definition &rarr;</span>'
@@ -735,7 +735,7 @@
   }
   function studioPanel(kicker, title, body, meta, icon, accent, r) {
     return '<div style="background:#fff;border:1px solid #DEE3EA;border-top:4px solid ' + accent + ';border-radius:12px;padding:15px 16px;display:flex;flex-direction:column;gap:8px;min-height:190px">'
-      + '<div class="mono" style="display:flex;align-items:center;gap:7px;font-size:.6875rem;letter-spacing:.05em;color:#8a909c">' + ic(icon || 'clipboard', 14) + esc(kicker) + '</div>'
+      + '<div class="mono" style="display:flex;align-items:center;gap:7px;font-size:.6875rem;letter-spacing:.05em;color:#6B7280">' + ic(icon || 'clipboard', 14) + esc(kicker) + '</div>'
       + '<h3 style="font-size:1.0625rem;line-height:1.3;margin:0;color:#15171C">' + esc(title) + '</h3>'
       + '<p style="font-size:.875rem;line-height:1.55;color:#474C57;margin:0">' + esc(body) + '</p>'
       + (meta ? '<div style="margin-top:auto;border-left:3px solid #DEE3EA;padding-left:10px;font-size:.75rem;line-height:1.45;color:#6b7280">' + esc(meta) + '</div>' : '')
@@ -752,7 +752,7 @@
       return '<button onclick="SOC.mcPick(\'' + key + '\',' + oi + ')" aria-pressed="' + (isSel ? 'true' : 'false') + '" style="display:block;width:100%;text-align:left;border:1px solid ' + bd + ';background:' + bg + ';color:' + col + ';border-radius:8px;padding:9px 12px;margin-bottom:7px;font-size:.875rem;font-weight:500;cursor:pointer">' + esc(o) + mark + '</button>';
     }).join('');
     var why = done ? '<div style="margin:8px 0 0;padding:10px 13px;border-radius:9px;background:' + (ok ? '#E9EFE7' : '#FBE9E7') + ';border:1px solid ' + (ok ? '#9CC4A8' : '#E5A9A2') + '"><span style="display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.875rem;color:' + (ok ? '#2c6b3f' : '#b23121') + '">' + (ok ? ic('check', 14, 2.4) + 'Correct' : ic('x', 14, 2.4) + 'Not quite') + '</span><div style="margin-top:4px;font-size:.84rem;line-height:1.5;color:#474C57">' + esc(check.why) + '</div></div>' : '';
-    return '<div role="group" style="background:#F7F8FA;border:1px solid #DEE3EA;border-radius:12px;padding:14px 16px;margin-top:14px"><div class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:#8a909c;margin-bottom:8px">QUICK CHECK</div><p style="margin:0 0 9px;font-size:.9rem;font-weight:600;color:#15171C">' + esc(check.q) + '</p>' + opts + why + '</div>';
+    return '<div role="group" style="background:#F7F8FA;border:1px solid #DEE3EA;border-radius:12px;padding:14px 16px;margin-top:14px"><div class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:#6B7280;margin-bottom:8px">QUICK CHECK</div><p style="margin:0 0 9px;font-size:.9rem;font-weight:600;color:#15171C">' + esc(check.q) + '</p>' + opts + why + '</div>';
   }
   function studioShell(title, intro, inner) {
     return '<section style="background:#fff;border:1px solid #DEE3EA;border-radius:14px;padding:18px 18px 20px;margin:0 0 22px;box-shadow:0 1px 2px rgba(21,23,28,.04)">'
@@ -772,7 +772,7 @@
     var prompts = west
       ? ['What does ' + ind.authors + '\'s reading let you see that ' + west.authors + '\'s does not?', 'What would be missed if this week were read with only the Western eye?', 'What responsibility does ' + ind.authors + ' ask you to keep visible?']
       : ['What does ' + ind.authors + '\'s reading let you see about this week\'s topic?', 'What responsibility does ' + ind.authors + ' ask you to keep visible?'];
-    var practice = '<div style="margin-top:14px;background:#F7F8FA;border:1px solid #DEE3EA;border-radius:12px;padding:14px 16px"><div class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:#8a909c;margin-bottom:7px">TWO-EYED SEEING PRACTICE</div><p style="font-size:.78rem;color:#6b7280;line-height:1.5;margin:0 0 9px">Two-Eyed Seeing (Etuaptmumk) was named by Mi\'kmaw Elder Albert Marshall: seeing with the strengths of Indigenous knowledge in one eye and Western knowledge in the other, both kept whole. It is a practice you bring, not a synthesis the app writes.</p>' + prompts.map(function (p) { return '<div style="display:flex;gap:9px;align-items:flex-start;font-size:.875rem;line-height:1.5;color:#15171C;margin:6px 0"><span style="color:var(--red);font-weight:700">+</span><span>' + esc(p) + '</span></div>'; }).join('') + '</div>';
+    var practice = '<div style="margin-top:14px;background:#F7F8FA;border:1px solid #DEE3EA;border-radius:12px;padding:14px 16px"><div class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:#6B7280;margin-bottom:7px">TWO-EYED SEEING PRACTICE</div><p style="font-size:.78rem;color:#6b7280;line-height:1.5;margin:0 0 9px">Two-Eyed Seeing (Etuaptmumk) was named by Mi\'kmaw Elder Albert Marshall: seeing with the strengths of Indigenous knowledge in one eye and Western knowledge in the other, both kept whole. It is a practice you bring, not a synthesis the app writes.</p>' + prompts.map(function (p) { return '<div style="display:flex;gap:9px;align-items:flex-start;font-size:.875rem;line-height:1.5;color:#15171C;margin:6px 0"><span style="color:var(--red);font-weight:700">+</span><span>' + esc(p) + '</span></div>'; }).join('') + '</div>';
     var check = west ? studioCheck('SOC122|studio|' + w, {
       q: 'What is most at risk if this week\'s topic is treated as only a Western research-methods question?',
       options: [firstSentence(ind.coreIdea), 'Nothing important; the Western frame already covers it', 'Only the choice of examples or the citation style'],
@@ -805,7 +805,7 @@
     var response = firstWhere(D.records, function (x) { return (x.themes || []).indexOf('resistance') >= 0 || /Benjamin|Costanza|Tanksley/i.test(x.authors + ' ' + x.title); }) || r;
     var rows = [['System or technology', 'Name the system, platform, model, database, policy, or technical process.'], ['Design, data, or default', 'Locate the design choice, data source, rule, threshold, category, or default setting.'], ['Racialized mechanism', 'Explain how the system sorts, exposes, excludes, predicts, surveils, or ranks people.'], ['Harm and accountability', 'Name the harm and the institutions responsible for changing the structure, not just one bad actor.'], ['Response', 'Ground the repair, refusal, abolitionist tool, or policy response in the course readings.']];
     var chain = rows.map(function (row, i) { return '<div style="display:grid;grid-template-columns:34px minmax(0,1fr);gap:11px;align-items:start;background:#fff;border:1px solid #DEE3EA;border-radius:12px;padding:12px 14px"><div class="mono" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:9px;background:#F6E3E1;color:var(--red);font-weight:700">' + (i + 1) + '</div><div><div style="font-size:.9375rem;font-weight:600;color:#15171C;margin-bottom:3px">' + esc(row[0]) + '</div><div style="font-size:.8125rem;line-height:1.5;color:#474C57">' + esc(row[1]) + '</div></div></div>'; }).join('');
-    var anchor = '<div style="margin-top:14px;background:#F7F8FA;border:1px solid #DEE3EA;border-radius:12px;padding:14px 16px"><div class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:#8a909c;margin-bottom:7px">SOURCE ANCHORS</div><p style="font-size:.875rem;line-height:1.55;color:#15171C;margin:0 0 8px"><strong>' + esc(r.authors) + ':</strong> ' + esc(r.coreIdea) + '</p><p style="font-size:.875rem;line-height:1.55;color:#15171C;margin:0"><strong>Response reading:</strong> ' + esc(response.coreIdea) + '</p></div>';
+    var anchor = '<div style="margin-top:14px;background:#F7F8FA;border:1px solid #DEE3EA;border-radius:12px;padding:14px 16px"><div class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:#6B7280;margin-bottom:7px">SOURCE ANCHORS</div><p style="font-size:.875rem;line-height:1.55;color:#15171C;margin:0 0 8px"><strong>' + esc(r.authors) + ':</strong> ' + esc(r.coreIdea) + '</p><p style="font-size:.875rem;line-height:1.55;color:#15171C;margin:0"><strong>Response reading:</strong> ' + esc(response.coreIdea) + '</p></div>';
     var check = studioCheck('BFS218|studio|' + w, {
       q: 'Which option names the racialized MECHANISM, not only the outcome or someone\'s intent?',
       options: [firstSentence(r.coreIdea), 'Someone built the system to be racist on purpose.', 'The unequal results just happened by chance.'],
@@ -813,7 +813,7 @@
       why: 'The mechanism sits in the design and data, not in intent or luck: ' + lcFirst(String(r.coreIdea).replace(/\s*\.?\s*$/, '')) + '. That is the New Jim Code, harm built into how the system is made.'
     });
     var save = '<div style="margin-top:14px"><button onclick="SOC.saveStudio()" style="background:var(--red);border:none;color:#fff;border-radius:9px;padding:9px 16px;font-size:.875rem;font-weight:600;cursor:pointer">Save my work to the Personal Cartography (.docx)</button></div>';
-    return studioShell('Accountability Chain Lab', 'Trace techno-racism through mechanism and responsibility. A strong answer names structure, not only intent.', '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px">' + chain + '</div>' + anchor + (g ? '<div style="font-size:.75rem;color:#8a909c;margin-top:10px">Concept anchor: ' + esc(g.term) + '</div>' : '') + check + save);
+    return studioShell('Accountability Chain Lab', 'Trace techno-racism through mechanism and responsibility. A strong answer names structure, not only intent.', '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px">' + chain + '</div>' + anchor + (g ? '<div style="font-size:.75rem;color:#6B7280;margin-top:10px">Concept anchor: ' + esc(g.term) + '</div>' : '') + check + save);
   }
   function selfCheckStudio(sel) {
     var code = courseCode();
@@ -865,24 +865,24 @@
       + '<button onclick="SOC.mapLayer(\'admin\')" aria-pressed="' + adminOn + '" style="' + segStyle(adminOn) + '">' + ic('grid', 15) + '<span>Administrative</span></button>'
       + '<button onclick="SOC.mapLayer(\'indigenous\')" aria-pressed="' + indOn + '" style="' + segStyle(indOn) + '">' + ic('eye', 15) + '<span>Indigenous scholar anchors</span></button></div>';
     return '<section style="background:#fff;border:1px solid #DEE3EA;border-radius:14px;padding:16px 18px;box-shadow:0 1px 2px rgba(21,23,28,.04)">'
-      + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px"><div><div class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:#8a909c;margin-bottom:4px">LAYER TOGGLE</div><h2 style="font-size:1.125rem;margin:0;color:#15171C">One land, two naming systems</h2></div>' + layerBtns + '</div>'
+      + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px"><div><div class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:#6B7280;margin-bottom:4px">LAYER TOGGLE</div><h2 style="font-size:1.125rem;margin:0;color:#15171C">One land, two naming systems</h2></div>' + layerBtns + '</div>'
       + '<div style="overflow:auto;border:1px solid #DEE3EA;border-radius:14px;background:#EEF1F5">'
       + '<div role="img" aria-label="Teaching map of Canada using approximate reading anchors, not territory boundaries." style="position:relative;min-width:720px;min-height:430px;background:linear-gradient(180deg,#F7FBFF,#EEF1F5);overflow:hidden">'
       + '<div style="position:absolute;left:4%;right:4%;top:20%;bottom:18%;border-radius:46% 42% 38% 40%;background:#fff;border:1px solid #D6DEE9;box-shadow:inset 0 0 0 1px rgba(255,255,255,.8)"></div>'
-      + '<div class="mono" style="position:absolute;left:20px;top:16px;font-size:.65rem;letter-spacing:.06em;color:#8a909c">PACIFIC</div>'
-      + '<div class="mono" style="position:absolute;right:20px;top:16px;font-size:.65rem;letter-spacing:.06em;color:#8a909c">ATLANTIC</div>'
-      + '<div class="mono" style="position:absolute;left:22px;bottom:17px;font-size:.65rem;letter-spacing:.06em;color:#8a909c">GENERAL READING ANCHORS ONLY</div>'
+      + '<div class="mono" style="position:absolute;left:20px;top:16px;font-size:.65rem;letter-spacing:.06em;color:#6B7280">PACIFIC</div>'
+      + '<div class="mono" style="position:absolute;right:20px;top:16px;font-size:.65rem;letter-spacing:.06em;color:#6B7280">ATLANTIC</div>'
+      + '<div class="mono" style="position:absolute;left:22px;bottom:17px;font-size:.65rem;letter-spacing:.06em;color:#6B7280">GENERAL READING ANCHORS ONLY</div>'
       + MAP_REGIONS.map(mapPoint).join('')
       + '</div></div>'
       + '<p style="font-size:.78rem;line-height:1.5;color:#6b7280;margin:10px 0 0">The visual marks general reading anchors only. It does not draw, define, or replace territory or treaty boundaries.</p>'
       + '</section>';
   }
   function mapNoteBox(k, label, prompt) {
-    return '<label style="display:block;background:#fff;border:1px solid #DEE3EA;border-radius:12px;padding:13px 15px;margin-bottom:12px"><span class="mono" style="display:block;font-size:.6875rem;letter-spacing:.05em;color:#8a909c;margin-bottom:6px">' + esc(label) + '</span><span style="display:block;font-size:.875rem;line-height:1.45;color:#15171C;margin-bottom:8px">' + esc(prompt) + '</span><textarea oninput="SOC.mapNote(\'' + k + '\',this.value)" style="width:100%;min-height:82px;font:inherit;font-size:.9rem;line-height:1.5;padding:10px 12px;border:1px solid #DEE3EA;border-radius:8px;color:#15171C;background:#fff;resize:vertical">' + esc(state.mapNotes[k] || '') + '</textarea></label>';
+    return '<label style="display:block;background:#fff;border:1px solid #DEE3EA;border-radius:12px;padding:13px 15px;margin-bottom:12px"><span class="mono" style="display:block;font-size:.6875rem;letter-spacing:.05em;color:#6B7280;margin-bottom:6px">' + esc(label) + '</span><span style="display:block;font-size:.875rem;line-height:1.45;color:#15171C;margin-bottom:8px">' + esc(prompt) + '</span><textarea oninput="SOC.mapNote(\'' + k + '\',this.value)" style="width:100%;min-height:82px;font:inherit;font-size:.9rem;line-height:1.5;padding:10px 12px;border:1px solid #DEE3EA;border-radius:8px;color:#15171C;background:#fff;resize:vertical">' + esc(state.mapNotes[k] || '') + '</textarea></label>';
   }
   function mapReadingRows(m) {
     return mapRecords(m).map(function (r) {
-      return '<div style="background:#fff;border:1px solid #DEE3EA;border-radius:10px;padding:12px 14px;margin-bottom:9px"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px">' + eyePill(r) + weekTag(r) + '<span class="mono" style="font-size:.6875rem;color:#8a909c">' + esc(String(r.year)) + '</span></div><div style="font-size:.95rem;font-weight:700;color:#15171C;line-height:1.25">' + esc(r.title) + '</div><div style="font-size:.8125rem;color:#474C57;margin:3px 0 7px">' + esc(r.authors) + '</div><p style="font-size:.84rem;line-height:1.5;color:#474C57;margin:0">' + esc(r.coreIdea) + '</p><button onclick="SOC.read(\'' + r.id + '\')" style="margin-top:9px;background:none;border:none;color:#1552D8;font-size:.8125rem;font-weight:700;padding:0">' + readLabel(r) + ' &#8599;</button></div>';
+      return '<div style="background:#fff;border:1px solid #DEE3EA;border-radius:10px;padding:12px 14px;margin-bottom:9px"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px">' + eyePill(r) + weekTag(r) + '<span class="mono" style="font-size:.6875rem;color:#6B7280">' + esc(String(r.year)) + '</span></div><div style="font-size:.95rem;font-weight:700;color:#15171C;line-height:1.25">' + esc(r.title) + '</div><div style="font-size:.8125rem;color:#474C57;margin:3px 0 7px">' + esc(r.authors) + '</div><p style="font-size:.84rem;line-height:1.5;color:#474C57;margin:0">' + esc(r.coreIdea) + '</p><button onclick="SOC.read(\'' + r.id + '\')" style="margin-top:9px;background:none;border:none;color:#1552D8;font-size:.8125rem;font-weight:700;padding:0">' + readLabel(r) + ' &#8599;</button></div>';
     }).join('');
   }
   function mapDetail() {
@@ -901,7 +901,7 @@
     var rows = MAP_REGIONS.map(function (m) {
       return '<tr><td style="padding:10px 12px;border-top:1px solid #EEF1F5">' + esc(m.region) + '</td><td style="padding:10px 12px;border-top:1px solid #EEF1F5">' + esc(m.admin) + '</td><td style="padding:10px 12px;border-top:1px solid #EEF1F5">' + esc(m.scholar + ' (' + m.nation + ')') + '</td><td style="padding:10px 12px;border-top:1px solid #EEF1F5">' + esc(m.concept) + '</td><td style="padding:10px 12px;border-top:1px solid #EEF1F5"><button onclick="SOC.mapSelect(\'' + m.id + '\')" style="background:#fff;border:1px solid #DEE3EA;color:#15171C;border-radius:8px;padding:6px 10px;font-size:.8125rem;font-weight:700">Show on map</button></td></tr>';
     }).join('');
-    return '<section style="background:#fff;border:1px solid #DEE3EA;border-radius:14px;margin-top:18px;overflow:hidden;box-shadow:0 1px 2px rgba(21,23,28,.04)"><div style="padding:14px 16px;border-bottom:1px solid #EEF1F5"><div class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:#8a909c;margin-bottom:4px">ACCESSIBLE TABLE</div><h2 style="font-size:1.0625rem;margin:0;color:#15171C">Same anchors without the visual</h2></div><div style="overflow:auto"><table style="width:100%;min-width:820px;border-collapse:collapse;font-size:.84rem;color:#15171C"><thead><tr style="text-align:left;background:#F7F8FA"><th style="padding:10px 12px">Indigenous layer</th><th style="padding:10px 12px">Administrative layer</th><th style="padding:10px 12px">Scholar anchor</th><th style="padding:10px 12px">Concept</th><th style="padding:10px 12px">Action</th></tr></thead><tbody>' + rows + '</tbody></table></div></section>';
+    return '<section style="background:#fff;border:1px solid #DEE3EA;border-radius:14px;margin-top:18px;overflow:hidden;box-shadow:0 1px 2px rgba(21,23,28,.04)"><div style="padding:14px 16px;border-bottom:1px solid #EEF1F5"><div class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:#6B7280;margin-bottom:4px">ACCESSIBLE TABLE</div><h2 style="font-size:1.0625rem;margin:0;color:#15171C">Same anchors without the visual</h2></div><div style="overflow:auto"><table style="width:100%;min-width:820px;border-collapse:collapse;font-size:.84rem;color:#15171C"><thead><tr style="text-align:left;background:#F7F8FA"><th style="padding:10px 12px">Indigenous layer</th><th style="padding:10px 12px">Administrative layer</th><th style="padding:10px 12px">Scholar anchor</th><th style="padding:10px 12px">Concept</th><th style="padding:10px 12px">Action</th></tr></thead><tbody>' + rows + '</tbody></table></div></section>';
   }
   function mapById(id) { return firstWhere(MAP_REGIONS, function (m) { return m.id === id; }) || MAP_REGIONS[0]; }
   var _leafletMap = null, _leafletMarkers = {};
@@ -938,7 +938,7 @@
     return '<div style="min-width:178px"><div style="font-size:.62rem;font-weight:700;letter-spacing:.04em;color:#1f4d38;text-transform:uppercase">' + esc(m.nation) + '</div>'
       + '<div style="font-size:.95rem;font-weight:700;color:#15171C;margin:2px 0 4px">' + esc(m.scholar) + '</div>'
       + (r ? '<div style="font-size:.8rem;color:#474C57;line-height:1.4">' + esc(r.title) + '</div><button onclick="SOC.read(\'' + r.id + '\')" style="margin-top:7px;background:#DA291C;border:none;color:#fff;border-radius:7px;padding:6px 11px;font-size:.78rem;font-weight:600;cursor:pointer">Open the reading</button>' : '')
-      + '<div style="margin-top:6px;font-size:.7rem;color:#8a909c">Approximate anchor, not a boundary.</div></div>';
+      + '<div style="margin-top:6px;font-size:.7rem;color:#6B7280">Approximate anchor, not a boundary.</div></div>';
   }
   function mapDetailInner(m) {
     return '<section id="map-detail" style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px 18px;box-shadow:0 1px 2px rgba(21,23,28,.04)">'
@@ -951,7 +951,7 @@
   }
   function mapNotesSaveBlock() {
     return '<section style="background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-top:18px;box-shadow:0 1px 2px rgba(21,23,28,.04)">'
-      + '<div class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:#8a909c;margin-bottom:6px">YOUR CARTOGRAPHY NOTES</div>'
+      + '<div class="mono" style="font-size:.6875rem;letter-spacing:.05em;color:#6B7280;margin-bottom:6px">YOUR CARTOGRAPHY NOTES</div>'
       + '<label style="display:block"><span style="display:block;font-size:.875rem;line-height:1.5;color:#15171C;margin-bottom:8px">Pick an anchor on the map, open its reading, then note what reading this place through the scholar and the concept makes visible that an administrative map leaves out.</span>'
       + '<textarea oninput="SOC.mapNote(\'apply\',this.value)" style="width:100%;min-height:96px;font:inherit;font-size:.9rem;line-height:1.5;padding:10px 12px;border:1px solid var(--border);border-radius:8px;color:#15171C;background:#fff;resize:vertical">' + esc(state.mapNotes.apply || '') + '</textarea></label>'
       + '<div style="margin-top:14px"><button onclick="SOC.saveMap()" style="background:var(--red);border:none;color:#fff;border-radius:9px;padding:9px 16px;font-size:.875rem;font-weight:600;cursor:pointer">Save to Personal Cartography (.docx)</button></div>'
@@ -979,7 +979,7 @@
     var list = (D.glossary || []).filter(function (g) { return sel == null || g.week === sel; });
     var opts = '<option value="">All weeks</option>' + weeks.map(function (w) { return '<option value="' + w + '"' + (sel === w ? ' selected' : '') + '>Week ' + w + ': ' + esc(weekTitle(w)) + '</option>'; }).join('');
     return '<div class="rise">'
-      + '<div class="mono" style="font-size:.75rem;letter-spacing:.06em;color:#8a909c;margin-bottom:8px">SELF-CHECK</div>'
+      + '<div class="mono" style="font-size:.75rem;letter-spacing:.06em;color:#6B7280;margin-bottom:8px">SELF-CHECK</div>'
       + '<h1 style="font-size:1.75rem;font-weight:600;margin:0 0 8px">Recall the concepts</h1>'
       + '<p style="font-size:.9375rem;color:#474C57;margin:0 0 18px;max-width:70ch">Read the concept, define it in your own words, then flip the card to check yourself. Each card is one concept. Private study, never a test.</p>'
       + '<label for="soc-cardweek" style="font-size:.8125rem;font-weight:600;color:#474C57;display:block;margin-bottom:6px">Show concepts for</label>'
@@ -1047,7 +1047,7 @@
         + '<div style="flex:1;min-width:0">'
         + '<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:3px">' + (isCur ? '<span class="mono" style="font-size:.625rem;font-weight:700;letter-spacing:.06em;color:var(--red);background:#F6E3E1;padding:2px 8px;border-radius:999px">YOU ARE HERE</span>' : '') + '<h3 style="font-size:1.0625rem;font-weight:600;margin:0;color:var(--ink)">' + esc(weekTitle(w)) + '</h3></div>'
         + '<p style="font-size:.9375rem;line-height:1.5;color:var(--ink-dim);margin:0 0 8px">' + esc(journeyQ(w)) + '</p>'
-        + '<div style="display:flex;align-items:center;gap:7px;font-size:.75rem;color:var(--ink-faint)"><span style="display:inline-flex;color:#8a909c">' + ic('book', 13) + '</span>' + esc(eyeNote) + '<span style="margin:0 4px">&middot;</span><span style="color:var(--red);font-weight:600">Open &rarr;</span></div>'
+        + '<div style="display:flex;align-items:center;gap:7px;font-size:.75rem;color:var(--ink-faint)"><span style="display:inline-flex;color:#6B7280">' + ic('book', 13) + '</span>' + esc(eyeNote) + '<span style="margin:0 4px">&middot;</span><span style="color:var(--red);font-weight:600">Open &rarr;</span></div>'
         + '</div></div></button>';
     }).join('') + '</div>';
   }
@@ -1061,7 +1061,7 @@
     var u = readUrl(r), eye = r.eye === 'indigenous' ? 'INDIGENOUS' : (r.eye === 'western' ? 'WESTERN' : ''), accent = r.eye === 'indigenous' ? '#1f4d38' : '#3a47a8';
     var look = r.assigned ? ('<div style="margin-top:10px;background:#F7F8FA;border-left:3px solid ' + accent + ';padding:8px 12px;border-radius:0 8px 8px 0;font-size:.8125rem;line-height:1.5;color:var(--ink-dim)"><span style="font-weight:600;color:var(--ink)">Read:</span> ' + esc(r.assigned) + '</div>') : '';
     return '<div style="border:1px solid var(--border);border-top:4px solid ' + accent + ';background:#fff;border-radius:13px;padding:17px 19px">'
-      + '<div style="display:flex;align-items:center;gap:9px;margin-bottom:7px"><span class="mono" style="font-size:.625rem;font-weight:700;letter-spacing:.04em;color:' + accent + '">' + esc(kicker) + '</span>' + (eye ? '<span class="mono" style="font-size:.625rem;color:#8a909c">' + eye + ' EYE</span>' : '') + '</div>'
+      + '<div style="display:flex;align-items:center;gap:9px;margin-bottom:7px"><span class="mono" style="font-size:.625rem;font-weight:700;letter-spacing:.04em;color:' + accent + '">' + esc(kicker) + '</span>' + (eye ? '<span class="mono" style="font-size:.625rem;color:#6B7280">' + eye + ' EYE</span>' : '') + '</div>'
       + '<h3 style="font-size:1.1875rem;line-height:1.3;font-weight:600;margin:0 0 3px;color:var(--ink)">' + esc(r.title) + '</h3>'
       + '<div style="font-size:.8125rem;color:var(--ink-dim);margin-bottom:9px">' + esc(r.authors) + ' &middot; ' + esc(String(r.year)) + '</div>'
       + '<p style="font-size:.9375rem;line-height:1.55;color:var(--ink-dim);margin:0">' + esc(r.coreIdea) + '</p>'
