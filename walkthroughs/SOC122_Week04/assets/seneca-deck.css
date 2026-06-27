@@ -157,15 +157,6 @@
 /* ---- references ---- */
 .refs p { font-size: .52em; line-height: 1.5; color: var(--body); margin: 0 0 .55em; padding-left: 1.4em; text-indent: -1.4em; }
 
-/* ---- reflection capture on Think prompts ---- */
-.cp .reflect, .cp.no-media .reflect {
-  display: block; width: 100%; margin-top: .5em; box-sizing: border-box;
-  font-family: inherit; font-size: .5em; line-height: 1.4; color: var(--body);
-  border: 1.5px solid var(--line); border-radius: 6px; padding: .5em .65em; resize: vertical;
-}
-.cp .reflect:focus-visible { outline: 3px solid var(--seneca-red); outline-offset: 1px; border-color: var(--seneca-red); }
-.cp .reflect::placeholder { color: #9a9a9a; }
-
 /* ---- shared option buttons (knowledge check) ---- */
 .opts { display: flex; flex-direction: column; gap: .4em; }
 .opt {
@@ -219,11 +210,6 @@
 .outcome-list li, .guiding-list li { position: relative; font-size: .6em; line-height: 1.45; color: var(--body); padding-left: 1.6em; }
 .outcome-list li::before { content: "\2713"; position: absolute; left: 0; color: #1a7f37; font-weight: 700; }
 .guiding-list li::before { content: "?"; position: absolute; left: 0; color: var(--seneca-red); font-weight: 700; }
-.reflect-prompt { font-size: .66em; line-height: 1.5; color: var(--ink); margin: 0 0 .6em; max-width: 62ch; }
-.reflection .reflect { display: block; width: 100%; max-width: 64ch; box-sizing: border-box; font-family: inherit; font-size: .56em; line-height: 1.45; color: var(--body); border: 1.5px solid var(--line); border-radius: 8px; padding: .6em .75em; resize: vertical; }
-.reflection .reflect:focus-visible { outline: 3px solid var(--seneca-red); outline-offset: 1px; border-color: var(--seneca-red); }
-.reflection .reflect-note { font-size: .5em; line-height: 1.45; color: var(--muted); margin: .7em 0 0; max-width: 66ch; }
-.reflection .reflect-note b { color: var(--seneca-red); font-weight: 600; }
 .readings-slide .subtitle { color: var(--muted); font-size: .6em; margin-bottom: .8em; }
 .readings-list { margin: .2em 0 1.1em; padding-left: 1.3em; display: flex; flex-direction: column; gap: .45em; max-width: 70ch; }
 .readings-list li { font-size: .56em; line-height: 1.45; color: var(--body); }
