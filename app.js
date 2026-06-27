@@ -67,9 +67,29 @@
   // library readings (access 'verified' or 'library') are reached through
   // Blackboard or the Seneca Library, never linked or hosted here (copyright).
   function readUrl(r) {
-    return r.url || (r.doi ? 'https://doi.org/' + r.doi : null);
+    return r.pdfUrl || r.url || (r.doi ? 'https://doi.org/' + r.doi : null);
   }
-  function readLabel(r) { return (r.fulltext === false) ? 'Find it in the Seneca Library' : 'Open the reading'; }
+  function sourceUrl(r) {
+    var primary = readUrl(r);
+    var source = r.sourceUrl || r.landingUrl || r.recordUrl || ((r.pdfUrl && r.url) ? r.url : null) || (r.doi ? 'https://doi.org/' + r.doi : null);
+    return (source && source !== primary) ? source : null;
+  }
+  function sourceLabel(r) {
+    if (r.sourceLabel) return r.sourceLabel;
+    return r.doi ? 'Source page / DOI' : 'Source page';
+  }
+  function sourceButton(r) {
+    if (!sourceUrl(r)) return '';
+    return '<button onclick="SOC.source(\'' + r.id + '\')" style="width:100%;margin:8px 0 9px;display:inline-flex;align-items:center;justify-content:center;gap:7px;background:#fff;border:1px solid #DEE3EA;color:#1552D8;border-radius:9px;padding:9px 11px;font-size:.8125rem;font-weight:600;cursor:pointer">' + esc(sourceLabel(r)) + '<span style="display:flex">' + ic('external', 14) + '</span></button>';
+  }
+  function isPdfReading(r) {
+    var u = readUrl(r) || '';
+    return !!r.pdfUrl || /\.pdf($|[?#])/i.test(u) || /\/article\/download\/|\/servlets\/purl\/|arxiv\.org\/pdf|EIMJ20241604_09|\/jonus\/index\.php\/jonus\/article\/download\//.test(u);
+  }
+  function readLabel(r) {
+    if (r.fulltext === false) return 'Find it in the Seneca Library';
+    return isPdfReading(r) ? 'Open the PDF' : 'Open the reading';
+  }
   function accessNote(r) {
     if (r.access === 'openstax') return 'Free and open on OpenStax. Opens in a new tab.';
     if (r.access === 'open') return 'Open access. Opens in a new tab.';
@@ -374,6 +394,7 @@
       + '<button onclick="SOC.read(\'' + r.id + '\')" style="flex:1;display:inline-flex;align-items:center;justify-content:center;gap:7px;background:var(--red);color:#fff;border:none;border-radius:10px;padding:11px;font-size:.875rem;font-weight:600;cursor:pointer">' + readLabel(r) + '<span style="display:flex">' + ic('external', 15) + '</span></button>'
       + '<button onclick="SOC.open(\'' + r.id + '\')" title="Details" aria-label="Open details" style="display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:10px;border:1px solid #DEE3EA;background:#fff;color:#474C57;cursor:pointer;flex:none">' + ic('chevron', 18) + '</button>'
       + '</div>'
+      + sourceButton(r)
       + '<div style="margin-top:10px;display:flex;align-items:center;gap:7px">' + weekTag(r) + ((D.course && D.course.frame) ? eyePill(r) : '') + '</div>'
       + '</div></div>';
   }
@@ -452,6 +473,7 @@
       + '<div style="background:#fff;border:1px solid #DEE3EA;border-radius:14px;padding:18px;box-shadow:0 1px 2px rgba(21,23,28,.04)">'
       + '<button onclick="SOC.read(\'' + r.id + '\')" aria-label="' + esc(readLabel(r)) + ' in a new tab" style="width:100%;background:var(--red);color:#fff;border:none;border-radius:9px;padding:13px;font-size:1rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:9px">' + readLabel(r) + '<span style="display:flex">' + ic('external', 16) + '</span></button>'
       + '<div style="font-size:.75rem;line-height:1.4;color:#6B7280;margin:-2px 0 9px;text-align:center">' + esc(accessNote(r)) + '</div>'
+      + sourceButton(r)
       + '<button onclick="SOC.compare(\'' + r.id + '\')" style="width:100%;display:inline-flex;align-items:center;justify-content:center;gap:7px;border-radius:9px;padding:11px;font-size:.9375rem;font-weight:600;border:1px solid ' + (inC ? '#bcd0f2' : '#DEE3EA') + ';background:' + (inC ? '#E7EEFB' : '#fff') + ';color:' + (inC ? '#1552D8' : '#15171C') + '">' + ic('columns', 16) + (inC ? 'In tray' : 'Compare') + '</button>'
       + '</div>'
       + '<div style="background:#fff;border:1px solid #DEE3EA;border-radius:14px;padding:6px 18px;box-shadow:0 1px 2px rgba(21,23,28,.04)">' + facts + '</div>'
@@ -1338,6 +1360,7 @@
       senecaDoc('SOC122', 'Personal Cartography Workspace', ['SOC122 Introduction to the Social Sciences', 'Selected anchor: ' + m.scholar + ' (' + m.nation + ')'], sections, 'SOC122_personal_cartography_workspace');
     },
     read: function (id) { var r = rec(id); var u = r && readUrl(r); if (u) { window.open(u, '_blank', 'noopener'); } else { state.screen = 'detail'; state.detailId = id; focusTarget = 'soc-main'; render(); topScroll(); } },
+    source: function (id) { var r = rec(id); var u = r && sourceUrl(r); if (u) window.open(u, '_blank', 'noopener'); },
     openSaved: function () { state.screen = 'library'; state.activeTypes = []; state.activeWeek = null; state.search = ''; state.savedView = state.saved.length > 0; flash(state.saved.length ? 'Your saved shelf.' : 'Nothing saved yet. Tap the bookmark on any reading.'); topScroll(); },
     cardWeek: function (v) { state.cardWeek = (v === '' ? null : parseInt(v, 10)); render(); },
     glossWeek: function (v) { state.glossWeek = v; var o = document.getElementById('soc-gout'); if (o) o.innerHTML = glossaryByWeek(v); },

@@ -590,7 +590,8 @@ window.SOC122 = {
     "brunette2022",
     "littlebear"
    ],
-   "url": "https://cjnr.archive.mcgill.ca/article/view/2348/2342",
+   "url": "https://cjnr.archive.mcgill.ca/article/view/2348",
+   "pdfUrl": "https://cjnr.archive.mcgill.ca/article/download/2348/2342",
    "fulltext": true
   },
   {
@@ -618,7 +619,8 @@ window.SOC122 = {
     "martin2012",
     "ermine"
    ],
-   "url": "https://ojs.lib.uwo.ca/index.php/iipj/article/download/14109/12144/38513",
+   "url": "https://ojs.lib.uwo.ca/index.php/iipj/article/view/14109",
+   "pdfUrl": "https://ojs.lib.uwo.ca/index.php/iipj/article/download/14109/12144/38513",
    "fulltext": true
   },
   {
@@ -695,6 +697,7 @@ window.SOC122 = {
    "abstract": "Joseph P. Gone (Aaniiih) examines Indigenous historical trauma as an alter-Native explanation that contests mainstream psychiatric categories of mental disorder, addiction, trauma, and suicide. Instead of locating distress inside the individual, the historical trauma account designates the legacies of colonial dispossession as central to present-day community mental health inequities, recasting these problems as postcolonial pathologies that call for reconciliation, redress, and structural reform. For a student, this shows Indigenous communities reworking what mental health means on their own terms rather than accepting an outside clinical frame.",
    "coreIdea": "Indigenous historical trauma reframes mental health inequities as consequences of colonization rather than individual disorder, demanding redress and structural change.",
    "url": "https://www.amacad.org/publication/daedalus/indigenous-historical-trauma-alter-native-explanations-mental-health-inequities",
+   "pdfUrl": "https://www.amacad.org/sites/default/files/publication/downloads/Daedalus_Fa23_08_Mental-Health_Gone.pdf",
    "related": [
     "psy-intro",
     "psy-social"
@@ -909,7 +912,8 @@ window.SOC122 = {
    "week": 9,
    "abstract": "Pamela Palmater (Mi'kmaw) argues that chronic, sometimes fatal poverty in First Nations is not a cultural failing but the engineered result of Canada's colonial legal order, where federal policy is caught between an old aim of assimilation and a newer language of self-governance while the Indian Act remains unchanged. Drawing on the deaths and lives behind a coroner-style review and the history of dispossession, she shows how peoples once among the wealthiest in the world were made the most impoverished, because federal laws presume control over First Nations life yet fail their fiscal and constitutional responsibilities. For a student, this is a direct case of inequality produced and maintained by social structure.",
    "coreIdea": "First Nations poverty is engineered by Canada's colonial legal order, not by culture, and the same laws that created it keep it in place.",
-   "url": "https://crsp.journals.yorku.ca/index.php/crsp/article/download/35220/32057/38111",
+   "url": "https://crsp.journals.yorku.ca/index.php/crsp/article/view/35220",
+   "pdfUrl": "https://crsp.journals.yorku.ca/index.php/crsp/article/download/35220/32057/38111",
    "related": [
     "soc-stratification",
     "lawrence2003",
